@@ -1,0 +1,40 @@
+name: scub_design
+description: Demonstrate Design
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.17.6 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  melos:
+  go_router:
+  logging:
+  reactive_forms:
+  flutter_spinkit:
+  mix:
+  intl:
+  i18n_extension:
+  flutter_slidable:
+  hooks_riverpod:
+  flutter_hooks:
+  google_fonts:
+  shimmer:
+  http:
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.1
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/
+
