@@ -1,7 +1,10 @@
+Future<int> runner() async => Future.value(3);
 
-int calculate() =>6 * 7;
-final rs = 4;
+int calculate() => 6 * 7;
 
-print("Hello");
+main() {
+  final rs = calculate();
+  print(rs);
 
-
+  runner().then((value) => print(value));
+}
