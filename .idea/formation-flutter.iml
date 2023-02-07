@@ -18,6 +18,9 @@
       <excludeFolder url="file://$MODULE_DIR$/demo/stateless_stateful/build" />
       <excludeFolder url="file://$MODULE_DIR$/demo/stateless_stateful/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/demo/stateless_stateful/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/console/http_basic_parse/build" />
+      <excludeFolder url="file://$MODULE_DIR$/console/http_basic_parse/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/console/http_basic_parse/.pub" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
