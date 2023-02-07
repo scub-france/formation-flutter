@@ -15,6 +15,9 @@
       <excludeFolder url="file://$MODULE_DIR$/demo/test_widget/build" />
       <excludeFolder url="file://$MODULE_DIR$/demo/test_widget/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/demo/test_widget/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/demo/stateless_stateful/build" />
+      <excludeFolder url="file://$MODULE_DIR$/demo/stateless_stateful/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/demo/stateless_stateful/.pub" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
