@@ -31,22 +31,18 @@ class Formula {
   const Formula(this.content, this.source, this.destination);
 
   Future<Object> estimate(Object value) async {
-    final jsFormula = content
-        .replaceAll('\$', value.toString())
-        .replaceAll('=', 'formulajs.');
+    final jsFormula = content.replaceAll('\$', value.toString()).replaceAll('=', 'formulajs.');
     final jsEstimation = js.context.callMethod('eval', [jsFormula]);
     return jsEstimation;
   }
 }
 
 final plutoConfProvider = StateProvider((ref) => const PlutoGridConfiguration(
-    enableMoveHorizontalInEditing: true,
-    enterKeyAction: PlutoGridEnterKeyAction.toggleEditing));
+    enableMoveHorizontalInEditing: true, enterKeyAction: PlutoGridEnterKeyAction.toggleEditing));
 
 final dataProvider = StateProvider((ref) => DataService(ref));
 
-final formulaProvider = StateNotifierProvider<FormulaNotifier, String>(
-    (ref) => FormulaNotifier(ref, "-"));
+final formulaProvider = StateNotifierProvider<FormulaNotifier, String>((ref) => FormulaNotifier(ref, "-"));
 
 class FormulaNotifier extends StateNotifier<String> {
   final Ref ref;
@@ -70,8 +66,7 @@ class FormulaNotifier extends StateNotifier<String> {
   }
 }
 
-final selectedCellProvider =
-    StateNotifierProvider<CellNotifier, String>((ref) => CellNotifier(":"));
+final selectedCellProvider = StateNotifierProvider<CellNotifier, String>((ref) => CellNotifier(":"));
 
 class CellNotifier extends StateNotifier<String> {
   CellNotifier(super.state);
@@ -113,9 +108,7 @@ class DataService {
 
      */
 
-    final products = await FirebaseFirestore.instance
-        .collection(Collection.products.name)
-        .get();
+    final products = await FirebaseFirestore.instance.collection(Collection.products.name).get();
 
     print("products ${products.docs.length} loaded");
 
@@ -130,31 +123,26 @@ class DataService {
             ))
         .toList();
 
-    final candidats =
-        await PlutoGridStateManager.initializeRowsAsync(columns, nrows);
+    final candidats = await PlutoGridStateManager.initializeRowsAsync(columns, nrows);
 
     _stateManager!
       ..refRows.addAll(FilteredList(initialList: candidats))
       ..notifyListenersOnPostFrame()
-      ..setOnSelected((event) {
+      ..onSelected!((PlutoGridOnSelectedEvent event) {
         // TODO Beware the wolf
         final fieldName = event.cell!.column.field;
-        final columnIdx =
-            _stateManager!.refColumns.indexWhere((c) => c.field == fieldName);
+        final columnIdx = _stateManager!.refColumns.indexWhere((c) => c.field == fieldName);
         final rowIdx = "${event.rowIdx}";
         final formulaKey = "$columnIdx:$rowIdx";
 
         // Select Cell
-        ref
-            .read(selectedCellProvider.notifier)
-            .select(columnIdx, event.rowIdx!);
+        ref.read(selectedCellProvider.notifier).select(columnIdx, event.rowIdx!);
 
-        final currentFormula =
-            formulasProvider.formulas[formulaKey]?.content ?? '-';
+        final currentFormula = formulasProvider.formulas[formulaKey]?.content ?? '-';
 
         ref.read(formulaProvider.notifier).displayFormula(currentFormula);
       })
-      ..setOnChanged((PlutoGridOnChangedEvent pe) {
+      ..OnChanged((PlutoGridOnChangedEvent pe) {
         //gridEventStream.add(GridEvent.rowAdded(pe.value));
 
         final eventCell = "${pe.columnIdx}:${pe.rowIdx}";
@@ -163,11 +151,9 @@ class DataService {
           final formula = formulasProvider.formulas[eventCell]!;
 
           formula.estimate(pe.value).then((rs) {
-            final destinationIdx = _stateManager!.refColumns
-                .indexWhere((c) => c.field == formula.destination.name);
+            final destinationIdx = _stateManager!.refColumns.indexWhere((c) => c.field == formula.destination.name);
 
-            final totalCell = _stateManager!.refRows[pe.rowIdx!].cells.values
-                .toList()[destinationIdx];
+            final totalCell = _stateManager!.refRows[pe.rowIdx!].cells.values.toList()[destinationIdx];
 
             _stateManager!
               ..changeCellValue(totalCell, rs.toString())
@@ -181,14 +167,10 @@ class DataService {
   }
 
   void _syncRemote(String did, String field, Object value) {
-    FirebaseFirestore.instance
-        .collection(Collection.products.name)
-        .doc(did)
-        .update({field: value});
+    FirebaseFirestore.instance.collection(Collection.products.name).doc(did).update({field: value});
   }
 
-  String _getFieldName(PlutoGridOnChangedEvent event) =>
-      event.column!.field.toString();
+  String _getFieldName(PlutoGridOnChangedEvent event) => event.column!.field.toString();
 
   String _getDocIdByEvent(PlutoGridOnChangedEvent event) {
     String docId = event.row!.key.toString();
@@ -199,10 +181,8 @@ class DataService {
   void _estimate(int columnIdx, int rowIdx, double value) {
     if (columnIdx == 1) {
       final rs = value * 2.34;
-      final totalIdx = _stateManager!.refColumns
-          .indexWhere((c) => c.field == Field.total.name);
-      final totalCell =
-          _stateManager!.refRows[rowIdx].cells.values.toList()[totalIdx];
+      final totalIdx = _stateManager!.refColumns.indexWhere((c) => c.field == Field.total.name);
+      final totalCell = _stateManager!.refRows[rowIdx].cells.values.toList()[totalIdx];
       _stateManager!
         ..changeCellValue(totalCell, rs.toString())
         ..notifyListeners();
@@ -233,8 +213,7 @@ Widget screenHome(WidgetRef ref, context) => Scaffold(
                 columns: columns,
                 columnGroups: columnGroups,
                 rows: List.empty(growable: true),
-                onLoaded: (event) =>
-                    ref.read(dataProvider).stateManager = event.stateManager),
+                onLoaded: (event) => ref.read(dataProvider).stateManager = event.stateManager),
           ),
         ],
       ),
@@ -248,8 +227,7 @@ class FormulaDisplay extends ConsumerWidget {
   @override
   build(context, ref) => TextField(
         controller: ctrl..text = ref.watch(formulaProvider),
-        onSubmitted: (content) =>
-            ref.read(formulaProvider.notifier).updateFormula(content),
+        onSubmitted: (content) => ref.read(formulaProvider.notifier).updateFormula(content),
       );
 }
 
