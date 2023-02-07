@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 // Démarrer notre application
 void main() => runApp(const SansEtat());
 
-/// Un widget qui affiche un contenu jamais mis à jour
+/// Un widget qui affiche un contenu permanent
 class SansEtat extends StatelessWidget {
   const SansEtat({super.key});
 
@@ -42,7 +42,7 @@ class _CompteurPageState extends State<CompteurPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('Vous avez appuyer $_compteur fois'),
+            const TitreDeCompteur(),
             Text('$_compteur', style: Theme.of(context).textTheme.headline4),
           ],
         ),
@@ -53,5 +53,15 @@ class _CompteurPageState extends State<CompteurPage> {
         child: const Icon(Icons.add),
       ),
     );
+  }
+}
+
+/// Contenu permanent
+class TitreDeCompteur extends StatelessWidget {
+  const TitreDeCompteur({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Text('Compteur de clics');
   }
 }
