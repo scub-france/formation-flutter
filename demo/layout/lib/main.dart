@@ -1,43 +1,67 @@
+// https://zt11w06pvt11x.zapp.page/#/
+
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const Layout());
-}
+void main() => runApp(const Layout());
 
 class Layout extends StatelessWidget {
-  static const star = Icon(Icons.star, size: 20, color: Colors.orange);
+  static const star = Icon(Icons.desktop_mac, size: 20, color: Colors.orange);
 
   const Layout({super.key});
 
   @override
-  build(context) {
-    return MaterialApp(
-        title: 'Layout et mise en page',
-        home: Center(
-          child: SizedBox(
-              width: 90,
-              height: 90,
-              child: Card(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [star, star, star],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [star, star, star],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: const [star, star, star],
-                    ),
-                  ],
-                ),
-              )),
-        ));
+  build(context) => MaterialApp(
+      title: 'Layout et mise en page',
+      home: Scaffold(
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const ListTile(title: Text('Alignement'), subtitle: Text('Début, Centré, Fin')),
+            repartition([MainAxisAlignment.start, MainAxisAlignment.center, MainAxisAlignment.end]),
+            const ListTile(title: Text('Répartition'), subtitle: Text('Entre, Autour, Egal')),
+            repartition([MainAxisAlignment.spaceBetween, MainAxisAlignment.spaceAround, MainAxisAlignment.spaceEvenly]),
+          ],
+        ),
+      ));
+
+  Row repartition(Iterable<MainAxisAlignment> aligns) {
+    return Row(
+      children: [
+        buildColumnAlignment(aligns),
+        buildRowAlignment(aligns),
+      ],
+    );
   }
+
+  Widget buildColumnAlignment(Iterable<MainAxisAlignment> aligns) => SizedBox(
+      width: 90,
+      height: 90,
+      child: Card(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: aligns
+              .map((align) => Column(
+                    mainAxisAlignment: align,
+                    children: const [star, star, star],
+                  ))
+              .toList(),
+        ),
+      ));
+
+  Widget buildRowAlignment(Iterable<MainAxisAlignment> aligns) => SizedBox(
+      width: 90,
+      height: 90,
+      child: Card(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: aligns
+              .map((align) => Row(
+                    mainAxisAlignment: align,
+                    children: const [star, star, star],
+                  ))
+              .toList(),
+        ),
+      ));
 }
 
 class MyHomePage extends StatefulWidget {
