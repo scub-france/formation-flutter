@@ -6,4 +6,4 @@
 
 ## Zapp workspaces
 
-- 7 mars 23 | Local [z03q06xf03r0](http://localhost:3000/cours/flutter_layout_col_row/z03q06xf03r0) | Remote [z03q06xf03r0]([http://localhost:3000/cours/flutter_layout_col_row/z03q06xf03r0](https://zapp.run/edit/zic06g5jd06?theme=light&split=65&lazy=false&entry=lib/main.dart&file=lib/main.dart))
+- 7 mars 23 | Local [z03q06xf03r0](http://localhost:3000/cours/flutter_layout_col_row/z03q06xf03r0) | Remote [z03q06xf03r0](http://localhost:3000/cours/flutter_layout_col_row/z03q06xf03r0)
