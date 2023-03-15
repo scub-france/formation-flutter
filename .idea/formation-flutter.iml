@@ -27,6 +27,12 @@
       <excludeFolder url="file://$MODULE_DIR$/application/scub_design/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/application/scub_design/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/application/scub_design/build" />
+      <excludeFolder url="file://$MODULE_DIR$/demo/flutter_margin_padding/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/demo/flutter_margin_padding/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/demo/flutter_margin_padding/build" />
+      <excludeFolder url="file://$MODULE_DIR$/demo/layout/build" />
+      <excludeFolder url="file://$MODULE_DIR$/demo/layout/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/demo/layout/.dart_tool" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
