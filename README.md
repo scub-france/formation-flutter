@@ -3,8 +3,16 @@
 
 ## Créer un nouveau projet
 
- - Créer une application Flutter ou Dart dans le bon dossier puis commit l'ensemble du projet.
- - Récupérer l'ID Zapp en pointant vers le bon projet.
+```shell
+create-demo.sh nom-de-la-feature
+```
+Un projet est créer sous démo.
+
+
+ - Créer une branche `nom-de-la-feature` depuis dev
+ - Le project doit avoir un $Readme- documenté au bon format y compris historisation
+ - Charger le projet en faisant pointer Zapp vers le projet
+ - Récupérer l'*ID Zapp* en pointant vers le bon projet et mettre à jour le $Readme$
  - Copier le ZappId dans main sous la forme du lien complet à déposer dans EdTech
 
 
