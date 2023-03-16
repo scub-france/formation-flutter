@@ -14,21 +14,21 @@ class SansEtat extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'Widget et états',
-      home: CompteurPage(),
+      home: RandomWordPage(),
     );
   }
 }
 
 /// Widget avec état qui maintient un compteur
-class CompteurPage extends StatefulWidget {
-  const CompteurPage({super.key});
+class RandomWordPage extends StatefulWidget {
+  const RandomWordPage({super.key});
 
   @override
-  State<CompteurPage> createState() => _CompteurPageState();
+  State<RandomWordPage> createState() => _RandomWordPage();
 }
 
 /// Définition de l'état qui contient un compteur
-class _CompteurPageState extends State<CompteurPage> {
+class _RandomWordPage extends State<RandomWordPage> {
   String _resultat = getRandom();
 
   // List de mots
@@ -39,6 +39,7 @@ class _CompteurPageState extends State<CompteurPage> {
 
   // retourne un mot aleatoire
   static String getRandom()=>mots.elementAt(Random().nextInt(mots.length));
+
   // Configurer ce qui sera dessiner à l'écran
   @override
   Widget build(BuildContext context) {
@@ -48,7 +49,7 @@ class _CompteurPageState extends State<CompteurPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const TitreDeCompteur(),
+            const TitreDeSorite(),
             Text(_resultat, style: Theme.of(context).textTheme.headline4),
           ],
         ),
@@ -63,8 +64,8 @@ class _CompteurPageState extends State<CompteurPage> {
 }
 
 /// Contenu permanent
-class TitreDeCompteur extends StatelessWidget {
-  const TitreDeCompteur({super.key});
+class TitreDeSorite extends StatelessWidget {
+  const TitreDeSorite({super.key});
 
   @override
   Widget build(BuildContext context) {
