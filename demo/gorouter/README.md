@@ -10,9 +10,9 @@ Il offre des fonctionnalités avancées telles que la gestion des itinéraires d
 ## Getting Started
 
 Pour utiliser go_router, il faut installer le package:
-"go_router"
+"go_router" :sweat_smile:
 
-Deux façon de l'installer :
+_Deux façons de l'installer_ :
 
 -Taper dans la console du projet => `flutter pub add go_router`;
 
