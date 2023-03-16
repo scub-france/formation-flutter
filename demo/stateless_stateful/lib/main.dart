@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 // Démarrer notre application
@@ -27,30 +29,34 @@ class CompteurPage extends StatefulWidget {
 
 /// Définition de l'état qui contient un compteur
 class _CompteurPageState extends State<CompteurPage> {
-  // Suivre le nombres de clic
-  int _compteur = 0;
+  String _resultat = getRandom();
+
+  // List de mots
+  static Iterable<String> mots=["Scub","Web","Flutter","Dart","widget","provider","GO Router"];
 
   // setState demande la mise à jour de notre affichage avec les valeurs à jour
-  void _incrementer() => setState(() => _compteur++);
+  void _changer() => setState(() => _resultat=getRandom());
 
+  // retourne un mot aleatoire
+  static String getRandom()=>mots.elementAt(Random().nextInt(mots.length));
   // Configurer ce qui sera dessiner à l'écran
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Compteur')),
+      appBar: AppBar(title: const Text("Mot aléatoire")),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const TitreDeCompteur(),
-            Text('$_compteur', style: Theme.of(context).textTheme.headline4),
+            Text(_resultat, style: Theme.of(context).textTheme.headline4),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementer,
-        tooltip: 'Incrémenter',
-        child: const Icon(Icons.add),
+        onPressed: _changer,
+        tooltip: 'Nouveau tirage',
+        child: const Icon(Icons.update),
       ),
     );
   }
@@ -62,6 +68,6 @@ class TitreDeCompteur extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text('Compteur de clics');
+    return const Text('Resultat:');
   }
 }
