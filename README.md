@@ -17,7 +17,7 @@ create-dart.sh nom-de-la-feature
 
 ## Process
 
- - Créer une branche `nom-de-la-feature` depuis dev
+ - Créer une branche `domain`-`nom-de-la-feature` depuis dev. Ex 'console-future'
  - Executé le bon script en fonction du type **flutter** ou **dart**
  - Le project doit avoir un **README** documenté au bon format surtout historisation
  - Charger le projet en faisant pointer Zapp vers le projet
