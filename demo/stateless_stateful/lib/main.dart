@@ -43,7 +43,7 @@ class _RandomWordPage extends State<RandomWordPage> {
   // Configurer ce qui sera dessiner à l'écran
   @override
   build(context)=> Scaffold(
-      appBar: AppBar(title: const Text("Mots aléatoires")),
+      appBar: AppBar(title: const Text("Mots aléatoires !!!")),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
