@@ -31,12 +31,12 @@ gérés par l’Event Loop
 
 Then() est une méthode de Future qui permet de définir une action à effectuer lorsque la Future est
 terminée. Cette méthode prend en paramètre une fonction qui sera exécutée lorsque la Future est
-terminée. exemple: `Future.delayed(Duration(seconds: 2).then((value) => print(value));`
+terminée. ex: `Future.delayed(const Duration(seconds: 2).then((v) => print(v));`
 
 # Utiliser `await` ou `then`
 
 `await` est utilisé pour attendre qu'un Future soit résolu avant de poursuivre l'exécution du code,
-tandis que then est utilisé pour enchaîner des opérations sur un Future une fois qu'il est résolu.
+tandis que then est utilisé pour chaîner des opérations sur un Future après sa résolution.
 
 # Liens
 
