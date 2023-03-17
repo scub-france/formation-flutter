@@ -10,7 +10,7 @@ class Layout extends StatelessWidget {
   const Layout({super.key});
 
   @override
-  build(context) => MaterialApp(
+  build(_) => MaterialApp(
       title: 'Layout et mise en page',
       home: Scaffold(
         body: Column(
@@ -18,20 +18,18 @@ class Layout extends StatelessWidget {
           children: [
             const ListTile(title: Text('Alignement'), subtitle: Text('Début, Centré, Fin')),
             repartition([MainAxisAlignment.start, MainAxisAlignment.center, MainAxisAlignment.end]),
-            const ListTile(title: Text('Répartition'), subtitle: Text('Entre, Autour, Egal')),
+            const ListTile(title: Text('Répartition'), subtitle: Text('Entre, Autour, Egalité')),
             repartition([MainAxisAlignment.spaceBetween, MainAxisAlignment.spaceAround, MainAxisAlignment.spaceEvenly]),
           ],
         ),
       ));
 
-  Row repartition(Iterable<MainAxisAlignment> aligns) {
-    return Row(
-      children: [
-        buildColumnAlignment(aligns),
-        buildRowAlignment(aligns),
-      ],
-    );
-  }
+  Widget repartition(Iterable<MainAxisAlignment> aligns) => Row(
+        children: [
+          buildColumnAlignment(aligns),
+          buildRowAlignment(aligns),
+        ],
+      );
 
   Widget buildColumnAlignment(Iterable<MainAxisAlignment> aligns) => SizedBox(
       width: size,
