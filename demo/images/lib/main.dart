@@ -18,23 +18,15 @@ class ImageApp extends StatelessWidget {
           child: Column(
         children: [
           Container(
-              width: 350,
-              height: 200,
-              color: Colors.white,
-              child: FittedBox(
-                // L'image s'adapte pour occuper la hauteur maximale
-                fit: BoxFit.fitHeight,
-                // Le chargement se fait depuis une ressource externe
-                child: Image.network('/images/scub-logo.webp'),
-              )),
-          Container(
             width: 300,
             height: 200,
             color: Colors.blue.shade100,
             child: FittedBox(
-                // L'image s'adapte pour occuper la hauteur maximale
+                // L'image s'adapte pour occuper la largeur maximale
                 fit: BoxFit.fitWidth,
-                // Le chargement se fait depuis une ressource locale
+                // Le chargement se fait depuis le dossier assets en ressource locale
+                // sinon nous pourrions utiliser Image.network('/images/scub-logo.webp')
+                // attention aux restrictions CORS si vous êtes en mode web
                 child: Image.asset('/assets/turtle.jpeg')),
           ),
         ],
