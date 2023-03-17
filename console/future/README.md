@@ -4,32 +4,30 @@ Dart exécute une opération à la fois, il est mono-thread, ce qui signifie que
 est en cours d’exécution, elle ne peut être interrompue par un autre directive. 
 
 Une Future **n'est pas exécutée** en parallèle mais en séquence d'événements,
-gérés par l’Event Loop (https://www.youtube.com/watch?v=vl_AaCgudcY)
+gérés par l’Event-Loop (https://www.youtube.com/watch?v=vl_AaCgudcY)
 
-A exempleThen(), voici ce qu'il ce passe :
+A _exempleThen()_, voici ce qu'il ce passe :
 
 
-- `` 
-print(‘Avant Future’)
-``
-- ajouter ```(){print(‘Future active’);}``` à la queue “Event”; 
+- `print(‘Avant Future’)`
+- ajouter ```(){print(‘Future active’);}``` à la queue “Event” 
 - ``print(‘Après Future’)``
-- l’Event Loop récupère le code (référencé au point 2) et le lance quand le code se termine, il
-  recherche le then() et l’exécute
+- l’Event-Loop récupère le code (référencé au point 2) et le lance quand le code se termine, il
+  exécute enfin `then` puis renvoit le résultat.
 
 ## Méthodes de type Async
 
 Lorsque vous suffixez la déclaration d’une méthode avec le mot clé `async`, Dart sait que:
 
 - le résultat de la méthode est une Future, même si ce retour est void ->
-  ex: ``Future<void> main() async { ... };`
-- il exécute le code de cette méthode de manière synchrone jusqu’au tout premier mot-clé await, puis
+  ex: `Future<void> main() async { ... };`
+- il exécute le code de cette méthode de manière synchrone jusqu’au tout premier mot-clé `await`, puis
   il suspend l’exécution du reste de cette méthode.
-- la prochaine ligne de code sera exécutée dès que la Future, référencée par le mot-clé await, sera
-  terminé (pour des exemples, voir exo en rapport avec le async).
+- la prochaine ligne de code sera exécutée dès que la Future, référencée par le mot-clé `await`, sera
+  terminé (pour des exemples, voir les exercices en rapport avec `async`).
 
-Une méthode async n'est pas exécutée en parallèle mais selon la séquence normale des événements,
-gérés par l’Event Loop
+Une méthode `async` n'est pas exécutée en parallèle mais selon la séquence normale des événements,
+gérés par l’Event-Loop.
 
 ## Méthodes de type then
 
