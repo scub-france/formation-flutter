@@ -1,9 +1,10 @@
 ### Future
 
-Dart exécute une opération à la fois, l’une après l’autre, ce qui signifie que tant qu’une opération
-est en cours d’exécution, elle ne peut pas être interrompue par un autre code Dart. Une Future N’EST
-PAS exécutée en parallèle mais selon la séquence normale des événements,
-gérés par l’Event Loop (https://dart.cn/articles/archive/event-loop)
+Dart exécute une opération à la fois, il est mono-thread, ce qui signifie que tant qu’une opération
+est en cours d’exécution, elle ne peut être interrompue par un autre directive. 
+
+Une Future **n'est pas exécutée** en parallèle mais en séquence d'événements,
+gérés par l’Event Loop (https://www.youtube.com/watch?v=vl_AaCgudcY)
 
 A exempleThen(), voici ce qu'il ce passe :
 
@@ -23,7 +24,7 @@ Lorsque vous suffixez la déclaration d’une méthode avec le mot clé async, D
 - la prochaine ligne de code sera exécutée dès que la Future, référencée par le mot-clé await, sera
   terminé (pour des exemples, voir exo en rapport avec le async).
 
-Une méthode async N’EST PAS exécutée en parallèle mais selon la séquence normale des événements,
+Une méthode async n'est pas exécutée en parallèle mais selon la séquence normale des événements,
 gérés par l’Event Loop
 
 ## Méthodes de type then
