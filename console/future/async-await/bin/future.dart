@@ -32,7 +32,6 @@ Future<void> getUser() async {
 void main() {
   // getUser();
   // print("test");
-  //
   exo2();
 }
 
