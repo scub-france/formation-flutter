@@ -2,15 +2,23 @@
 
 Widget à états
 
-## Getting Started
+## Widgets avec et sans état
+Un widget est soit avec état, soit sans état. Si un widget peut changer, lorsqu'un utilisateur interagit avec lui, 
+par exemple, il est avec état.
 
-This project is a starting point for a Flutter application.
+Un widget sans état ne change jamais. Icon, IconButtonet Text sont des exemples de widgets sans état. Sous-classe 
+de widgets sans état StatelessWidget.
 
-A few resources to get you started if this is your first Flutter project:
+Un widget avec état est dynamique : par exemple, il peut changer d'apparence en réponse à des événements déclenchés 
+par des interactions de l'utilisateur ou lorsqu'il reçoit des données.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+L'état d'un widget est stocké dans un Stateobjet, séparant l'état du widget de son apparence. L'état se compose de 
+valeurs qui peuvent changer, comme la valeur actuelle d'un curseur ou si une case est cochée. Lorsque l'état du widget
+change, l'objet d'état appelle setState(), indiquant au framework de redessiner le widget.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Exemple
+Afficher un mot aléatoire depuis une liste et l'actualiser grace a un button.
+Le widget TitreDeSorite la demo n'a pas besoin de changer, il est donc stateless.
+Le widget RandomWordPage contient l'element à afficher et qui doit réagir au button ... el est donc stateful
+
+
