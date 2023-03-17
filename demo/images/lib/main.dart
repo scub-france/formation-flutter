@@ -22,7 +22,7 @@ class ImageApp extends StatelessWidget {
             height: 200,
             color: Colors.blue.shade100,
             child: FittedBox(
-                // L'image s'adapte pour occuper la hauteur maximale
+                // L'image s'adapte pour occuper la largeur maximale
                 fit: BoxFit.fitWidth,
                 // Le chargement se fait depuis le dossier assets en ressource locale
                 // sinon nous pourrions utiliser Image.network('/images/scub-logo.webp')
