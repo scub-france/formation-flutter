@@ -5,8 +5,6 @@ int calculate() => 6 * 7;
 main() async {
   print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Exemple async/await !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
   await exempleAsyncAwait();
-  print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Exemple Then !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-  await exempleThen();
   print(" !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Exemple delayed !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
   await exempleDelayed();
   print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Exemple wait !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -15,19 +13,14 @@ main() async {
   await exempleDoWihle();
 }
 
-/// Future est une tâche qui s'exécute de manière asynchrone
-/// Future.then() permet de retourner une valeur et de pouvoir exécuter une tâche sur cette valeur après que la future
-/// soit terminée
-/// exemple de Future.then()
-exempleThen() {
+
+/// exemple de Async et await
+exempleAsyncAwait() async {
   print('Avant Future');
-  Future(() {
-    print('Future active');
-  }).then((_) {
-    /// le _ peut être remplacé par n'importe quel nom de variable, il représente la valeur retournée par la future
+  await Future.delayed(Duration(seconds: 3), () {
     print('Future terminée');
   });
-  print('Après Future'); ///<-- cette ligne s'exécute avant la ligne "Future terminée"
+  print('Après Future'); ///<-- cette ligne s'exécute après la ligne "Future terminée"
 }
 
 /// Future.delayed() permet de retourner une valeur après un certain temps
@@ -71,11 +64,3 @@ exempleDoWihle() {
   print('Après Future'); ///<-- cette ligne s'exécute avant la ligne "Future terminée"
 }
 
-/// exemple de Async et await
-exempleAsyncAwait() async {
-  print('Avant Future');
-  await Future.delayed(Duration(seconds: 3), () {
-    print('Future terminée');
-  });
-  print('Après Future'); ///<-- cette ligne s'exécute après la ligne "Future terminée"
-}
