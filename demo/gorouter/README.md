@@ -17,9 +17,10 @@ _Deux façons de l'installer_ :
 -Taper dans la console du projet => `flutter pub add go_router`;
 
 -Se rendre dans le fichier pubspec.yaml et y inscrire le package =>
+
 "dependencies:
     go_router: ^6.2.0"
-(attention à l'indentation). Lancer impérativement la commance `flutter pub get` pour que le package soit intégré au projet.
+(attention à l'indentation). Lancer impérativement la commande `flutter pub get` pour que le package soit intégré au projet.
 
 Ensuite, il faut faire appel à ce package lors de l'utilisation de go_router. 
 Dans vos fichiers où vous faites appel à go_router, vous devez noter:
