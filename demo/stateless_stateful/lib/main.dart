@@ -32,7 +32,7 @@ class _RandomWordPage extends State<RandomWordPage> {
   String _resultat = getRandom();
 
   // List de mots
-  static Iterable<String> mots=["Scub","Web","Flutter","Dart","widget","provider","GO Router"];
+  static const Iterable<String> mots=["Scub","Web","Flutter","Dart","widget","provider","GO Router"];
 
   // setState demande la mise à jour de notre affichage avec les valeurs à jour
   void _changer() => setState(() => _resultat=getRandom());
@@ -42,8 +42,7 @@ class _RandomWordPage extends State<RandomWordPage> {
 
   // Configurer ce qui sera dessiner à l'écran
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  build(context)=> Scaffold(
       appBar: AppBar(title: const Text("Mot aléatoire")),
       body: Center(
         child: Column(
@@ -60,7 +59,7 @@ class _RandomWordPage extends State<RandomWordPage> {
         child: const Icon(Icons.update),
       ),
     );
-  }
+
 }
 
 /// Contenu permanent
@@ -68,7 +67,5 @@ class TitreDeSorite extends StatelessWidget {
   const TitreDeSorite({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return const Text('Resultat:');
-  }
+  Widget build(BuildContext context)=>const Text('Resultat:');
 }
