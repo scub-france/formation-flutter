@@ -27,9 +27,7 @@ exempleThen() {
     /// le _ peut être remplacé par n'importe quel nom de variable, il représente la valeur retournée par la future
     print('Future terminée');
   });
-  print('Après Future');
-
-  ///<-- cette ligne s'exécute avant la ligne "Future terminée"
+  print('Après Future'); ///<-- cette ligne s'exécute avant la ligne "Future terminée"
 }
 
 /// Future.delayed() permet de retourner une valeur après un certain temps
@@ -38,9 +36,7 @@ exempleDelayed() {
   Future.delayed(Duration(seconds: 3), () {
     print('Future terminée');
   });
-  print('Après Future');
-
-  ///<-- cette ligne s'exécute avant la ligne "Future terminée"
+  print('Après Future'); ///<-- cette ligne s'exécute avant la ligne "Future terminée"
 }
 
 /// Future.wait() permet de retourner une valeur après que toutes les futures soient terminées
@@ -59,9 +55,7 @@ exempleWait() {
   ]).then((_) {
     print('Toutes les futures sont terminées');
   });
-  print('Après Future');
-
-  ///<-- cette ligne s'exécute avant la ligne "Toutes les futures sont terminées"
+  print('Après Future'); ///<-- cette ligne s'exécute avant la ligne "Toutes les futures sont terminées"
 }
 
 /// Future.doWhile() permet de retourner une valeur après que toutes les futures soient terminées
@@ -74,9 +68,7 @@ exempleDoWihle() {
   }).then((_) {
     print('Future terminée');
   });
-  print('Après Future');
-
-  ///<-- cette ligne s'exécute avant la ligne "Future terminée"
+  print('Après Future'); ///<-- cette ligne s'exécute avant la ligne "Future terminée"
 }
 
 /// exemple de Async et await
@@ -85,7 +77,5 @@ exempleAsyncAwait() async {
   await Future.delayed(Duration(seconds: 3), () {
     print('Future terminée');
   });
-  print('Après Future');
-
-  ///<-- cette ligne s'exécute après la ligne "Future terminée"
+  print('Après Future'); ///<-- cette ligne s'exécute après la ligne "Future terminée"
 }
