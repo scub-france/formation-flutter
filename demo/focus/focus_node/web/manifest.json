@@ -1,11 +1,11 @@
 {
-    "name": "focus",
-    "short_name": "focus",
+    "name": "focus_node",
+    "short_name": "focus_node",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "Gestion du focus",
+    "description": "Gestion focus_node",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

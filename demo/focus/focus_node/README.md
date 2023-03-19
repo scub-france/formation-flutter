@@ -1,6 +1,6 @@
-# focus
+# focus_node
 
-Gestion du focus
+Gestion focus_node
 
 ## Getting Started
 
