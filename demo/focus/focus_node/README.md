@@ -14,7 +14,7 @@ Les FocusNode sont des ChangeNotifier , de sorte qu'un écouteur peut être enre
 
 Pour voir l'arborescence de focus dans la console de débogage, appelez debugDumpFocusTree . Pour obtenir l'arborescence de focus sous forme de chaîne, appelez debugDescribeFocusTree .
 
-##Cycle de vie
+## Cycle de vie
 Plusieurs acteurs sont impliqués dans le cycle de vie d'un FocusNode / FocusScopeNode . Ils sont créés et supprimés par leur propriétaire , attachés, détachés et reparentés à l'aide d'un FocusAttachment par leur hôte (qui doit appartenir à l' État d'un StatefulWidget ), et ils sont gérés par le FocusManager . Différentes parties de l' API FocusNode sont destinées à ces différents acteurs.
 
 Les FocusNode (et donc les FocusScopeNode ) sont des objets persistants qui font partie d'un arbre de focus qui est une représentation clairsemée des widgets de la hiérarchie qui souhaitent recevoir des événements de clavier. Ils doivent être gérés comme tout autre état persistant, ce qui est généralement fait par un StatefulWidget qui possède le nœud. Un widget avec état qui possède un nœud de portée de focus doit appeler dispose depuis sa méthode State.dispose .
@@ -27,10 +27,10 @@ La création d'un FocusNode chaque fois que State.build est invoqué entraînera
 
 Si, comme c'est souvent le cas, le StatefulWidget d'hébergement est également le propriétaire du nœud de focus, il appellera également dispose à partir de son State.dispose (auquel cas le FocusAttachment.detach peut être ignoré, car dispose se détachera automatiquement). Si un autre objet possède le nœud de focus, il doit appeler dispose lorsque le nœud a fini d'être utilisé.
 
-##Propagation des événements clés
+## Propagation des événements clés
 Le FocusManager reçoit les événements clés de RawKeyboard et HardwareKeyboard et les transmet aux nœuds ciblés. Il commence par le nœud avec le focus principal et appellera le rappel onKey ou onKeyEvent pour ce nœud. Si le rappel renvoie KeyEventResult.ignored , indiquant qu'il n'a pas géré l'événement, le FocusManager se déplacera vers le parent de ce nœud et appellera son onKey ou onKeyEvent . Si cet onKey ou onKeyEvent renvoie KeyEventResult.handled , il arrêtera de propager l'événement. S'il atteint la racineFocusScopeNode , FocusManager.rootScope , l'événement est ignoré.
 
-##Traversée de mise au point
+## Traversée de mise au point
 Le terme parcours , parfois appelé parcours de tabulation , fait référence au déplacement du focus d'un widget à l'autre dans un ordre particulier (également parfois appelé ordre de tabulation , puisque la touche TAB est souvent liée à l'action pour passer au widget suivant ).
 
 Pour donner le focus au widget suivant ou précédent logique dans l'interface utilisateur, appelez les méthodes nextFocus ou previousFocus . Pour donner le focus à un widget dans une direction particulière, appelez la méthode focusInDirection .
