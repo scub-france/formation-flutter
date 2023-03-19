@@ -8,12 +8,11 @@ class MyApp extends StatelessWidget {
   static const String _title = 'Flutter Code pour FocusNode';
 
   @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
+  build(context)=> const MaterialApp(
       title: _title,
       home: MyStatefulWidget(),
     );
-  }
+
 }
 
 class MyStatefulWidget extends StatefulWidget {
@@ -54,8 +53,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  build(_) => Scaffold(
       body: Center(
         child: GridView.count(
           crossAxisCount: 3,
@@ -63,7 +61,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         ),
       ),
     );
-  }
 }
 
 class ColorfulButton extends StatefulWidget {
@@ -102,7 +99,7 @@ class _ColorfulButtonState extends State<ColorfulButton> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  build(_) {
     _nodeAttachment.reparent();
     return GestureDetector(
       onTap: () {
