@@ -1,11 +1,11 @@
 {
-    "name": "animation",
-    "short_name": "animation",
+    "name": "animation_controller",
+    "short_name": "animation_controller",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "Gestion animation",
+    "description": "Gestion animation_controller",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

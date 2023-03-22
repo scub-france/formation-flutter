@@ -1,6 +1,6 @@
-# animation
+# animation_controller
 
-Gestion animation
+Gestion animation_controller
 
 ## Getting Started
 
