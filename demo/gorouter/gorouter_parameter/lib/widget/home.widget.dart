@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  //When making the widget, we need the context in parameter
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,9 +14,9 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ElevatedButton(
-              //here you can see that by pressing the button we will go to '/settings'.
-              //The route defined here must be identical to the name that was written where you generated the routes
-              onPressed: () => context.go('/settings'),
+              // Ici, le bouton nous renvoie à la page "settings/:name".
+              // Si vous remplacez "name" dans l'URL par une chaîne de caractères, vous verrez apparaître celui-ci dans l'AppBar
+              onPressed: () => context.go('/settings/:name'),
               child: const Text('Go to the setting Page'),
             ),
           ],
