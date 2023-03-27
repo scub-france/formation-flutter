@@ -68,6 +68,7 @@ class _ColorfulButtonState extends State<ColorfulButton> {
   @override
   void initState() {
     super.initState();
+    //Si vous souhaitez être averti chaque fois que Focus change, enregistrez un écouteur avec addListener
     _node.addListener(_handleFocusChange);
    _nodeAttachment = _node.attach(context);
   }
@@ -83,6 +84,7 @@ class _ColorfulButtonState extends State<ColorfulButton> {
   //nettoyez le nœud de focus lorsque le formulaire est éliminé
   @override
   void dispose() {
+    //Vous devez vous désinscrire avec removeListener pour éviter les fuites de mémoire
     _node.removeListener(_handleFocusChange);
     // attachment sera detaché sur appel de dispose().
     _node.dispose();
