@@ -7,14 +7,14 @@ void main() {
   runApp(const MyApp());
 }
 
-// This widget is the root of your application.
+// Ce widget est la racine de votre application.
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
 
-  //routerConfig allows to define the router configuration of the application.
-  // Here, we pass it "router" which is an object of GoRouter.
-  // This object is configured with the list of routes to manage and other configuration parameters like the navigation mode
+  // RouterConfig permet de définir la configuration du routeur de l'application.
+  // Ici, nous lui passons "router" qui est un objet de GoRouter.
+  // Cet objet est configuré avec la liste des routes à gérer et d'autres paramètres de configuration comme le mode de navigation
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(

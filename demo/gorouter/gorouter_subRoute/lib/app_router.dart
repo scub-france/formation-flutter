@@ -3,15 +3,15 @@ import 'package:gorouter/widget/home.widget.dart';
 import 'package:gorouter/widget/setting.widget.dart';
 
 
-//For this example, we named the initial route /home
+//Pour cet exemple, nous avons nommé la route initiale /home
 final router = GoRouter(
-  //we need to add initialLocation to tell our application that the default route is no longer "/" but, in our case, "/home".
-  //Without this, Flutter will go to "/" when opening the application
+  //nous devons ajouter initialLocation pour indiquer à notre application que la route par défaut n'est plus "/" mais, dans notre cas, "/home".
+  //Sans cela, Flutter ira à "/" lors de l'ouverture de l'application.
   initialLocation: "/home",
-  //Now, pay attention to the indentation of things.
-  //Here, our 1st GoRoute, does not close after calling the HomePage Widget.
-  //We set up another route inside the 1st route.
-  //Important point, do not put a '/' before the sub-route
+  //Maintenant, faites attention à l'indentation des choses.
+  //Ici, notre premier GoRoute ne se ferme pas après avoir appelé le HomePage Widget.
+  //Nous avons établi une autre route à l'intérieur de la première route.
+  //Point important, ne pas mettre de '/' avant le sous-itinéraire.
   routes: [
     GoRoute(
       path: "/home",

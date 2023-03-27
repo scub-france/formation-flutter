@@ -14,8 +14,8 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ElevatedButton(
-              //In order to respect the routes defined by go_router, which calls setting.widget as a sub-route of home.widget,
-              //we have to specify it when calling the method
+              //Afin de respecter les routes définies par go_router, qui appelle setting.widget en tant que sous-route de home.widget,
+              //nous devons le spécifier lors de l'appel de la méthode
               onPressed: () => context.go('/home/settings'),
               child: const Text('Go to the setting Page'),
             ),

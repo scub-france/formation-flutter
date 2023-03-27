@@ -14,8 +14,8 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ElevatedButton(
-              //Here, the button will send us to the 'settings/:name' page.
-              // If you change 'name' in the URL to a string, you will see this one appear in the AppBar
+              // Ici, le bouton nous renvoie à la page "settings/:name".
+              // Si vous remplacez "name" dans l'URL par une chaîne de caractères, vous verrez apparaître celui-ci dans l'AppBar
               onPressed: () => context.go('/settings/:name'),
               child: const Text('Go to the setting Page'),
             ),
