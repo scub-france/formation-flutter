@@ -93,6 +93,7 @@ class _ColorfulButtonState extends State<ColorfulButton> {
   build(_) {
     _nodeAttachment.reparent();
     return GestureDetector(
+      //permet d'avoir la main sur le focus grace au clics souris
       onTap: () {
         if (_focused) {
           _node.unfocus();
