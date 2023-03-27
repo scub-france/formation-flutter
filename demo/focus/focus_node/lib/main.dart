@@ -24,7 +24,6 @@ class MyStatefulWidget extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   List<Widget> children = <Widget>[];
-  List<FocusNode> childFocusNodes = <FocusNode>[];
 
   @override
   void initState() {
@@ -34,18 +33,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     }
   }
 
-  @override
-  void dispose() {
-    for (final FocusNode node in childFocusNodes) {
-      node.dispose();
-    }
-    super.dispose();
-  }
-
   void _addChild() {
-    childFocusNodes
-        .add(FocusNode()..requestFocus());
-
     children.add(const Padding(
       padding: EdgeInsets.all(2.0),
       child: ColorfulButton(),
@@ -75,6 +63,8 @@ class _ColorfulButtonState extends State<ColorfulButton> {
   bool _focused = false;
   late FocusAttachment _nodeAttachment;
 
+  //Définissez le nœud de focus. Pour gérer le cycle de vie, créez le FocusNode dans
+  //la méthode initState et nettoyez-le dans la méthode dispose.
   @override
   void initState() {
     super.initState();
@@ -90,10 +80,11 @@ class _ColorfulButtonState extends State<ColorfulButton> {
     }
   }
 
+  //nettoyez le nœud de focus lorsque le formulaire est éliminé
   @override
   void dispose() {
     _node.removeListener(_handleFocusChange);
-    // The attachment will automatically be detached in dispose().
+    // attachment sera detaché sur appel de dispose().
     _node.dispose();
     super.dispose();
   }
