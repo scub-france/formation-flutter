@@ -51,9 +51,11 @@
       <excludeFolder url="file://$MODULE_DIR$/demo/firestore/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/demo/firestore/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/demo/firestore/build" />
+
       <excludeFolder url="file://$MODULE_DIR$/demo/focus_node/build" />
       <excludeFolder url="file://$MODULE_DIR$/demo/focus_node/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/demo/focus_node/.dart_tool" />
+
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
