@@ -43,7 +43,7 @@ class _FocusButtonState extends State<FocusButton> {
     _nodeAttachment = _node.attach(context);
   }
 
-  void _handleFocusChange() => print("Focus updated to $isFocused");
+  void _handleFocusChange() => setState(() => print("Focus updated to $isFocused"));
 
   //nettoyez le nœud de focus lorsque le formulaire est éliminé
   @override
