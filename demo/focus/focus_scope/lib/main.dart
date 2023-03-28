@@ -9,30 +9,35 @@ class FocusApp extends StatefulWidget {
   State<FocusApp> createState() => _FocusAppState();
 }
 
+//Voyons comment réagira notre application avec deux focusScope (groupes de focus)
+//pour chaque focusScope, on lie un checkbox pour controller le parametre canRequestFocus de notre focusScope
+//on peut ainsi permettre/empécher le focusScope de demander le focus
 class _FocusAppState extends State<FocusApp> {
   bool isScope1canRequestFocus= true;
   bool isScope2canRequestFocus= false;
   @override
   build(_) {
-    final checkbox1= Checkbox(
+    final checkbox1=Row(children: [Text('  Le scope ne peut demander le focus que si la case est cochée') ,Checkbox(
         checkColor: Colors.white,
-    value: isScope1canRequestFocus,
-    onChanged: (bool? value) {
-    setState(() {
-    isScope1canRequestFocus = value!;
-    });});
-    final checkbox2= Checkbox(
+        value: isScope1canRequestFocus,
+        onChanged: (value) {
+          setState(() {
+            isScope1canRequestFocus = value!;
+          });})]);
+    final checkbox2=Row(children: [Text('  Le scope ne peut demander le focus que si la case est cochée') ,Checkbox(
         checkColor: Colors.white,
         value: isScope2canRequestFocus,
         onChanged: (value) {
           setState(() {
             isScope2canRequestFocus = value!;
-          });});
+          });})]);
+    
+    // tout se joue ici ! on crée ainsi deux FocusScope...
     final scope1=FocusScope(canRequestFocus:isScope1canRequestFocus , child:const GroupeButtonWidget());
     final scope2=FocusScope(canRequestFocus:isScope2canRequestFocus , child:const GroupeButtonWidget());
     return Center(
       child: Column(
-        children: [checkbox1,Expanded(child:scope1), checkbox2, Expanded(child:scope2)]
+        children: [checkbox1,Expanded(child:scope1), checkbox2,Expanded(child:scope2)]
       ),
     );
   }
@@ -71,7 +76,7 @@ class FocusButton extends StatefulWidget {
 
 class _FocusButton extends State<FocusButton> {
   final FocusNode _node= FocusNode();
-  bool _focused = false;
+  bool get isFocused => _node.hasFocus;
   late FocusAttachment _nodeAttachment;
 
   //Définissez le nœud de focus. Pour gérer le cycle de vie, créez le FocusNode dans
@@ -84,13 +89,7 @@ class _FocusButton extends State<FocusButton> {
     _nodeAttachment = _node.attach(context);
   }
 
-  void _handleFocusChange() {
-    if (_node.hasFocus != _focused) {
-      setState(() {
-        _focused = _node.hasFocus;
-      });
-    }
-  }
+  void _handleFocusChange() => setState(() => print("Focus updated to $isFocused"));
 
   //nettoyez le nœud de focus lorsque le formulaire est éliminé
   @override
@@ -108,21 +107,17 @@ class _FocusButton extends State<FocusButton> {
    _nodeAttachment.reparent();
     return GestureDetector(
       //permet d'avoir la main sur le focus grace au clics souris
-      onTap: () {
-        if (_focused) {
-          _node.unfocus();
-        } else {
-          _node.requestFocus();
-        }
-      },
+      onTap: () => isFocused ? _node.unfocus() : _node.requestFocus(),
       child: Center(
-        child: Container(
-          width: 200,
-          height: 70,
-          color: _focused ? Colors.green : Colors.red,
-          alignment: Alignment.center,
-          child:
-          Text(_focused ? "Selectionné" : 'Non Selectionné'),
+        child: DecoratedBox(
+          decoration: BoxDecoration(color: isFocused ? Colors.green : Colors.orangeAccent),
+          child: SizedBox(
+            width: 300,
+            height: 300,
+            child: Center(
+              child: isFocused ? const Text("Focus") : const SizedBox(),
+            ),
+          ),
         ),
       ),
     );
