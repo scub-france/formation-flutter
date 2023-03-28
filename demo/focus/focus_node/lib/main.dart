@@ -57,7 +57,7 @@ class _FocusButtonState extends State<FocusButton> {
 
   @override
   build(_) {
-    // Reconnecté le parent avec le noeud déjà existant
+    //Garantit que le FocusNode attaché à ce point d'attachement a le bon nœud parent, en le modifiant si nécessaire.
     _nodeAttachment.reparent();
     return GestureDetector(
       //permet d'avoir la main sur le focus grace au clics souris
