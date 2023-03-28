@@ -23,8 +23,6 @@ et communiquer entre eux et avec l'application principale en utilisant des ports
   utiliser `Isolate.run()`uniquement lorsque vous ciblez des plateformes natives pour une API plus
   ergonomique.
 
-  Isolate.run() - Crée un Isolate
-
   Pour créer un isolate en Dart, vous devez d'abord importer la classe **`Isolate`** à partir du
   module **`dart:isolate`**. Ensuite, vous pouvez utiliser la méthode **`Isolate.spawn()`** pour
   créer un nouvel isolate.
@@ -33,7 +31,7 @@ et communiquer entre eux et avec l'application principale en utilisant des ports
   appelée **`isolateFunction()`** :
 
     ```dart
-    
+
     import 'dart:isolate';
     
     void isolateFunction() {
