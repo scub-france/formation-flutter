@@ -3,9 +3,9 @@ import 'package:gorouter/widget/home.widget.dart';
 import 'package:gorouter/widget/setting.widget.dart';
 
 
-//Here we define routes
-//this is simple route to navigate between HomePage and SettingPage
-//Pay attention: here, we defined routes but we must call them where we need them
+// Nous définissons ici les routes
+// Il s'agit d'une route simple pour naviguer entre HomePage et SettingPage
+// Attention : ici, nous avons défini des itinéraires, mais nous devons les appeler là où nous en avons besoin.
 final router = GoRouter(
   routes: [
     GoRoute(
