@@ -24,6 +24,7 @@ class _FocusAppState extends State<FocusApp> {
           setState(() {
             isScope1canRequestFocus = value!;
           });})]);
+
     final checkbox2=Row(children: [Text('  Le scope ne peut demander le focus que si la case est cochée') ,Checkbox(
         checkColor: Colors.white,
         value: isScope2canRequestFocus,
@@ -31,7 +32,7 @@ class _FocusAppState extends State<FocusApp> {
           setState(() {
             isScope2canRequestFocus = value!;
           });})]);
-    
+
     // tout se joue ici ! on crée ainsi deux FocusScope...
     final scope1=FocusScope(canRequestFocus:isScope1canRequestFocus , child:const GroupeButtonWidget());
     final scope2=FocusScope(canRequestFocus:isScope2canRequestFocus , child:const GroupeButtonWidget());
