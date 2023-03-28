@@ -16,8 +16,7 @@ class User {
 
 ///Exercice 1
 /// Dans la fonction getUser ou main utilise async et await, pour faire en sorte de récupèrer le résultat de la fonction getUser() avant d'afficher "test"
-/// Après avoir réussis, utlise le .then() pour modifier les informations de ton user et afficher le résultat
-Future<void> getUser() async {
+Future<void> getUser()  async {
   User user = User(
     userId: 1,
     id: 1,
@@ -30,8 +29,9 @@ Future<void> getUser() async {
 }
 
 void main() {
-  // getUser();
-  // print("test");
+  getUser();
+  print('test');
+  print('****************** Exo2 ******************');
   exo2();
 }
 

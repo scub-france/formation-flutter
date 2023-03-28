@@ -3,69 +3,40 @@ import 'package:future/main.dart' as future;
 class User {
   int userId;
   int id;
-  String title;
+  String nom;
   bool completed;
 
   User({
     required this.userId,
     required this.id,
-    required this.title,
+    required this.nom,
     required this.completed,
   });
 }
 
 ///Exercice 1
-/// Dans la fonction getUser ou main utilise async et await, pour faire en sorte de récupèrer le résultat de la fonction getUser() avant d'afficher "test"
-/// Après avoir réussis, utlise le .then() pour modifier les informations de ton user et afficher le résultat
-Future<void> getUser() async {
+/// modifie la methode main, afin de récuperer t'on user grâce à un then et modifie par la suite le nom de ce user et affiche le nom de l'user modifié
+User getUser() {
   User user = User(
     userId: 1,
     id: 1,
-    title: 'scuber',
+    nom: 'scuber',
     completed: false,
   );
-  Future.delayed(Duration(seconds: 3), () {
-    print(user.title);
-  });
+  return user;
 }
 
 void main() {
-  // getUser();
-  // print("test");
-  exo2();
-}
-
-/// Exercice 2
-/// rajoute un await quelque part pour afficher D à la fin du programme
-void exo2() async {
-  methodA();
-  await methodB();
-  await methodC('main');
-  methodD();
-}
-
-methodA() {
-  print('A');
-}
-
-methodB() async {
-  print('B start');
-  await methodC('B');
-  print('B end');
-}
-
-methodC(String from) async {
-  print('C start from $from');
-
-  Future(() {
-    print('C running Future from $from');
-  }).then((_) {
-    print('C end of Future from $from');
+  Future.delayed(Duration(seconds: 1), () {
+    getUser();
   });
-
-  print('C end from $from');
+  // getUser();
 }
 
-methodD() {
-  print('D');
-}
+///Exo 2 : Créez une fonction asynchrone qui simule une opération asynchrone qui prend 3 secondes pour s'exécuter et qui renvoie
+///une chaîne de caractères "Done". Utilisez "then" pour afficher la valeur retournée par cette fonction à la console.
+
+
+/// Exo 3 :Créez une fonction asynchrone qui récupère les données à partir d'une API RESTful
+/// (par exemple, https://jsonplaceholder.typicode.com/posts). La fonction doit renvoyer une liste de titres d'articles
+/// sous forme de Future<List<String>>. Utilisez "then" pour afficher les titres d'articles récupérer
