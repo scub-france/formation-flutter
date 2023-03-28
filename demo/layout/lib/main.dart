@@ -10,29 +10,35 @@ class Layout extends StatelessWidget {
   const Layout({super.key});
 
   @override
-  build(context) => MaterialApp(
+  build(_) => MaterialApp(
       title: 'Layout et mise en page',
       home: Scaffold(
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const ListTile(title: Text('Alignement'), subtitle: Text('Début, Centré, Fin')),
+            const ListTile(
+              title: Text('Alignement'),
+              subtitle: Text('Début, Centré, Fin'),
+            ),
             repartition([MainAxisAlignment.start, MainAxisAlignment.center, MainAxisAlignment.end]),
-            const ListTile(title: Text('Répartition'), subtitle: Text('Entre, Autour, Egal')),
+            const ListTile(
+              title: Text('Répartition'),
+              subtitle: Text('Entre, Autour, Egalité'),
+            ),
             repartition([MainAxisAlignment.spaceBetween, MainAxisAlignment.spaceAround, MainAxisAlignment.spaceEvenly]),
           ],
         ),
       ));
 
-  Row repartition(Iterable<MainAxisAlignment> aligns) {
-    return Row(
-      children: [
-        buildColumnAlignment(aligns),
-        buildRowAlignment(aligns),
-      ],
-    );
-  }
+  /// Pour chaque [Alignment] on applique un mode Colonne et Ligne
+  Widget repartition(Iterable<MainAxisAlignment> aligns) => Row(
+        children: [
+          buildColumnAlignment(aligns),
+          buildRowAlignment(aligns),
+        ],
+      );
 
+  /// Construire et Aligner dans une [Column]
   Widget buildColumnAlignment(Iterable<MainAxisAlignment> aligns) => SizedBox(
       width: size,
       height: size,
@@ -48,6 +54,7 @@ class Layout extends StatelessWidget {
         ),
       ));
 
+  /// Construire et Aligner dans une [Row]
   Widget buildRowAlignment(Iterable<MainAxisAlignment> aligns) => SizedBox(
       width: size,
       height: size,

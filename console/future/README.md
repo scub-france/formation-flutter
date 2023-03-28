@@ -1,1 +1,0 @@
-Comment utiliser les `Future`
