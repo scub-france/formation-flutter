@@ -46,6 +46,7 @@ class _FocusAppState extends State<FocusApp> {
     final scope2 = FocusScope(canRequestFocus: isScope2canRequestFocus, child: const GroupeButtonWidget());
     return Center(
       child: Column(children: [Text(intruduction),sizeBox,checkbox1, Expanded(child: scope1),sizeBox, checkbox2, Expanded(child: scope2)]),
+
     );
   }
 }
@@ -73,6 +74,7 @@ class _GroupeButtonWidget extends State<GroupeButtonWidget> {
           ),
         ),
       );
+
 }
 
 class FocusButton extends StatefulWidget {
@@ -84,6 +86,7 @@ class FocusButton extends StatefulWidget {
 
 class _FocusButton extends State<FocusButton> {
   final FocusNode _node = FocusNode();
+
 
   bool get isFocused => _node.hasFocus;
   late FocusAttachment _nodeAttachment;
@@ -114,6 +117,7 @@ class _FocusButton extends State<FocusButton> {
   build(_) {
     //Garantit que le FocusNode attaché à ce point d'attachement a le bon nœud parent, en le modifiant si nécessaire.
     _nodeAttachment.reparent();
+
     return GestureDetector(
       //permet d'avoir la main sur le focus grace au clics souris
       onTap: () => isFocused ? _node.unfocus() : _node.requestFocus(),
@@ -123,6 +127,7 @@ class _FocusButton extends State<FocusButton> {
           child: SizedBox(
             width: 200,
             height: 200,
+
             child: Center(
               child: isFocused ? const Text("Focus") : const SizedBox(),
             ),
@@ -132,3 +137,4 @@ class _FocusButton extends State<FocusButton> {
     );
   }
 }
+
