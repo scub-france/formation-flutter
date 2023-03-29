@@ -51,21 +51,11 @@
       <excludeFolder url="file://$MODULE_DIR$/demo/firestore/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/demo/firestore/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/demo/firestore/build" />
-      <excludeFolder url="file://$MODULE_DIR$/demo/gorouter/gorouter_namedRoute/.dart_tool" />
-      <excludeFolder url="file://$MODULE_DIR$/demo/gorouter/gorouter_namedRoute/build" />
-      <excludeFolder url="file://$MODULE_DIR$/demo/gorouter/gorouter_namedRoute/.pub" />
-      <excludeFolder url="file://$MODULE_DIR$/demo/gorouter/gorouter_intro/build" />
-      <excludeFolder url="file://$MODULE_DIR$/demo/gorouter/gorouter_intro/.dart_tool" />
-      <excludeFolder url="file://$MODULE_DIR$/demo/gorouter/gorouter_intro/.pub" />
-      <excludeFolder url="file://$MODULE_DIR$/demo/gorouter/gorouter_parameter/.pub" />
-      <excludeFolder url="file://$MODULE_DIR$/demo/gorouter/gorouter_parameter/.dart_tool" />
-      <excludeFolder url="file://$MODULE_DIR$/demo/gorouter/gorouter_parameter/build" />
-      <excludeFolder url="file://$MODULE_DIR$/demo/gorouter/gorouter_subRoute/.dart_tool" />
-      <excludeFolder url="file://$MODULE_DIR$/demo/gorouter/gorouter_subRoute/.pub" />
-      <excludeFolder url="file://$MODULE_DIR$/demo/gorouter/gorouter_subRoute/build" />
-      <excludeFolder url="file://$MODULE_DIR$/demo/gorouter/gorouter_redirection/.dart_tool" />
-      <excludeFolder url="file://$MODULE_DIR$/demo/gorouter/gorouter_redirection/build" />
-      <excludeFolder url="file://$MODULE_DIR$/demo/gorouter/gorouter_redirection/.pub" />
+
+      <excludeFolder url="file://$MODULE_DIR$/demo/focus_node/build" />
+      <excludeFolder url="file://$MODULE_DIR$/demo/focus_node/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/demo/focus_node/.dart_tool" />
+
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
