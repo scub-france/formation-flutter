@@ -68,8 +68,7 @@ class _GroupeButtonWidget extends State<GroupeButtonWidget> {
   @override
   build(_) => Scaffold(
         body: Center(
-          child: ListView(
-            scrollDirection: Axis.horizontal,
+          child: Row(
             children: children,
           ),
         ),
@@ -122,8 +121,8 @@ class _FocusButton extends State<FocusButton> {
         child: DecoratedBox(
           decoration: BoxDecoration(color: isFocused ? Colors.green : Colors.orangeAccent),
           child: SizedBox(
-            width: 150,
-            height: 150,
+            width: 200,
+            height: 200,
             child: Center(
               child: isFocused ? const Text("Focus") : const SizedBox(),
             ),
