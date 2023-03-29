@@ -6,34 +6,40 @@ class StackApp extends StatelessWidget {
   const StackApp({super.key});
 
   @override
-  build(_) => MaterialApp(
+  build(context) => MaterialApp(
       title: 'Layout et mise en page',
       home: Scaffold(
         body: Column(
           /// [MainAxisAlignment.spaceEvenly] permet de répartir les enfants de la [Column] de manière égale
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            const Text("Stack comportement par défault",style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            )),
+            const Text("Stack comportement par défault",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                )),
+
             /// [Stack] avec [Alignment.topLeft] qui est l'alignement par défaut de [Stack]
             rowStack(),
-            const Text("Stack avec la modification du paramètre Alignement",style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            )),
+            const Text("Stack avec la modification du paramètre Alignement",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                )),
+
             /// [Stack] avec [Alignment.center] afin d'aligner les enfants au centre
             rowStackWithAlign(),
-            const Text("Stack avec le widget Positioned",style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            )),
+            const Text("Stack avec le widget Positioned",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                )),
             rowStackPositioned(),
-            const Text("Stack avec la modification du paramètre fit",style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            )),
+            const Text("Stack avec la modification du paramètre fit",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                )),
             rowStackWithFit(),
           ],
         ),
@@ -54,17 +60,17 @@ class StackApp extends StatelessWidget {
           ),
           Stack(
             children: <Widget>[
-              buildStackCircle(50, Colors.red),
-              buildStackCircle(40, Colors.green),
-              buildStackCircle(30, Colors.blue),
+              buildCircle(50, Colors.red),
+              buildCircle(40, Colors.green),
+              buildCircle(30, Colors.blue),
             ],
           ),
           Stack(
             children: <Widget>[
               buildLayer(100, 100, Colors.red),
-              buildStackCircle(50, Colors.cyan),
-              buildStackCircle(40, Colors.green),
-              buildStackCircle(30, Colors.blue),
+              buildCircle(50, Colors.cyan),
+              buildCircle(40, Colors.green),
+              buildCircle(30, Colors.blue),
             ],
           ),
         ],
@@ -99,9 +105,9 @@ class StackApp extends StatelessWidget {
               Stack(
                 alignment: Alignment.bottomCenter,
                 children: <Widget>[
-                  buildStackCircle(50, Colors.red),
-                  buildStackCircle(40, Colors.green),
-                  buildStackCircle(30, Colors.blue),
+                  buildCircle(50, Colors.red),
+                  buildCircle(40, Colors.green),
+                  buildCircle(30, Colors.blue),
                 ],
               ),
             ],
@@ -113,9 +119,9 @@ class StackApp extends StatelessWidget {
                 alignment: Alignment.bottomLeft,
                 children: <Widget>[
                   buildLayer(100, 100, Colors.red),
-                  buildStackCircle(50, Colors.cyan),
-                  buildStackCircle(40, Colors.green),
-                  buildStackCircle(30, Colors.blue),
+                  buildCircle(50, Colors.cyan),
+                  buildCircle(40, Colors.green),
+                  buildCircle(30, Colors.blue),
                 ],
               ),
             ],
@@ -151,9 +157,9 @@ class StackApp extends StatelessWidget {
               const Text("blue top:0"),
               Stack(
                 children: <Widget>[
-                  buildStackCircle(50, Colors.red),
-                  buildStackCircle(40, Colors.green),
-                  Positioned(top: 0, child: buildStackCircle(30, Colors.blue)),
+                  buildCircle(50, Colors.red),
+                  buildCircle(40, Colors.green),
+                  Positioned(top: 0, child: buildCircle(30, Colors.blue)),
                 ],
               ),
             ],
@@ -164,9 +170,9 @@ class StackApp extends StatelessWidget {
               Stack(
                 children: <Widget>[
                   buildLayer(100, 100, Colors.red),
-                  buildStackCircle(50, Colors.cyan),
-                  Positioned(bottom: 0, child: buildStackCircle(40, Colors.green)),
-                  buildStackCircle(30, Colors.blue),
+                  buildCircle(50, Colors.cyan),
+                  Positioned(bottom: 0, child: buildCircle(40, Colors.green)),
+                  buildCircle(30, Colors.blue),
                 ],
               ),
             ],
@@ -174,7 +180,7 @@ class StackApp extends StatelessWidget {
         ],
       );
 
-/// Crée une ligne avec 3 [Stack], ou nous allons utiliser le paramètre [fit] de [Stack]
+  /// Crée une ligne avec 3 [Stack], ou nous allons utiliser le paramètre [fit] de [Stack]
   /// [fit] permet de définir le comportement de la [Stack] par rapport à ses enfants
   /// [StackFit.loose] fait le widget enfant occuper la taille minimale
   /// [StackFit.expand] fait le widget enfant occuper la taille maximale
@@ -210,9 +216,9 @@ class StackApp extends StatelessWidget {
                 child: Stack(
                   fit: StackFit.passthrough,
                   children: <Widget>[
-                    buildStackCircle(50, Colors.red),
-                    buildStackCircle(40, Colors.green),
-                    buildStackCircle(30, Colors.blue),
+                    buildCircle(50, Colors.red),
+                    buildCircle(40, Colors.green),
+                    buildCircle(30, Colors.blue),
                   ],
                 ),
               ),
@@ -228,9 +234,9 @@ class StackApp extends StatelessWidget {
                   fit: StackFit.loose,
                   children: <Widget>[
                     buildLayer(100, 100, Colors.red),
-                    buildStackCircle(50, Colors.cyan),
-                    buildStackCircle(40, Colors.green),
-                    buildStackCircle(30, Colors.blue),
+                    buildCircle(50, Colors.cyan),
+                    buildCircle(40, Colors.green),
+                    buildCircle(30, Colors.blue),
                   ],
                 ),
               ),
@@ -250,7 +256,7 @@ class StackApp extends StatelessWidget {
       ));
 
   /// Crée un cercle grâce à [CircleAvatar] de la taille et color donnée
-  Widget buildStackCircle(int radius, Color color) => CircleAvatar(
+  Widget buildCircle(int radius, Color color) => CircleAvatar(
         radius: radius.toDouble(),
         backgroundColor: color,
       );
