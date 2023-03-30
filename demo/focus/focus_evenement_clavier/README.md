@@ -1,16 +1,10 @@
-# focus_evenement_clavier
+#### Appelé si ce nœud de focus reçoit un événement clé alors qu'il est focalisé (c'est-à-dire quand hasFocus renvoie true).
 
-Gestion focus_evenement_clavier
+# Propagation des événements clés
 
-## Getting Started
+Le FocusManager reçoit les événements clés de RawKeyboard et HardwareKeyboard et les transmet aux nœuds ciblés. Il commence par 
+le nœud avec le focus principal et appellera le rappel onKey ou onKeyEvent pour ce nœud. Si le rappel renvoie KeyEventResult.ignored , 
+indiquant qu'il n'a pas géré l'événement, le FocusManager se déplacera vers le parent de ce nœud et appellera son onKey ou onKeyEvent .
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Si cet onKey ou onKeyEvent renvoie KeyEventResult.handled , il arrêtera de propager l'événement. S'il atteint la racineFocusScopeNode ,
+FocusManager.rootScope , l'événement est ignoré.
