@@ -6,13 +6,13 @@
 ### Flutter
 
 ```shell
-create-demo.sh nom-de-la-feature
+create-demo.sh nom_de_la_feature
 ```
 
 ### Dart
 
 ```shell
-create-dart.sh nom-de-la-feature
+create-dart.sh nom_de_la_feature
 ```
 
 ## Process
