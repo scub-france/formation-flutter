@@ -39,7 +39,6 @@ class _ChildColorfulButtonState extends State<ChildColorfulButton> {
   _ChildColorfulButtonState(this.alphanumerique);
 
   String affichage = "";
-
   @override
   void initState() {
     super.initState();
@@ -123,6 +122,7 @@ class ParentColorfulButton extends StatefulWidget {
 class _ParentColorfulButton extends State<ParentColorfulButton> {
   late FocusNode _nodeParent;
   late FocusAttachment _nodeAttachmentParent;
+  String presentation="On vous presente dans cet exemple avec trois filtres, chaque filtre a son foncusNode et les trois filtres ont comme parent notre widget principale qui contient le focus parent. \n On constatera ainsi comment chaque focus traite les évenements clavier et/ou les renvois au scope parent";
   String affichage = "Touche alphanumerique rejetées:";
   final voyelles = ['A', 'E', 'Y', 'U', 'O', 'I'];
   final consonnes = [
@@ -185,11 +185,11 @@ class _ParentColorfulButton extends State<ParentColorfulButton> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
             children: [
-
+      Text(presentation),
       Text(affichage),
           Expanded(
             child: GridView.count(
-              childAspectRatio:2,
+              childAspectRatio:3,
               crossAxisCount: 2,
               children: [
         const Center(child:Text("Filtre voyelles" )), Focus(parentNode: _nodeParent, child: ChildColorfulButton(alphanumerique: voyelles, focusParent: _nodeParent)),
