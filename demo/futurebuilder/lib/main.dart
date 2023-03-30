@@ -16,7 +16,7 @@ class FutureBuild extends StatelessWidget {
   );
 
   @override
-  build(_) => MaterialApp(
+  build(context) => MaterialApp(
         title: 'Future Builder',
         theme: ThemeData(
           primarySwatch: Colors.grey,
@@ -26,26 +26,26 @@ class FutureBuild extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              /// Crée mon Widget FutureBuilder en lui passant mon Future
-              /// et je lui passe dans mon builder un AsyncSnapshot qui contient
-              /// les données et l'etat de mon Future
+              // Crée mon Widget FutureBuilder en lui passant mon Future
+              // et je lui passe dans mon builder un AsyncSnapshot qui contient
+              // les données et l'etat de mon Future
               FutureBuilder(
                 future: _data,
                 builder: (_, snapshot) {
-                  /// Si mon Future a des données, je les affiche ou je peux faire un traitement
+                  // Si mon Future a des données, je les affiche ou je peux faire un traitement
                   if (snapshot.hasData) {
                     return Text('${snapshot.data}');
                   }
-                  /// Si mon Future a une erreur, je l'affiche ou je peux faire un traitement
+                  // Si mon Future a une erreur, je l'affiche ou je peux faire un traitement
                   else if (snapshot.hasError) {
                     return Text('${snapshot.error}');
                   }
-                  /// Sinon je renvoie un Widget de chargement
+                  // Sinon je renvoie un Widget de chargement
                   else {
                     return Column(
                       children: const [
                         Text('Loading'),
-                        /// Widget de chargement
+                        // Widget de chargement
                         CircularProgressIndicator(),
                       ],
                     );
