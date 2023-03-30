@@ -5,72 +5,61 @@ void main() => runApp(const StackApp());
 class StackApp extends StatelessWidget {
   const StackApp({super.key});
 
+  static const header = TextStyle(
+    fontSize: 22,
+    fontWeight: FontWeight.bold,
+  );
+
   @override
-  build(context) => MaterialApp(
-      title: 'Layout et mise en page',
-      home: Scaffold(
-        body: Column(
-          /// [MainAxisAlignment.spaceEvenly] permet de répartir les enfants de la [Column] de manière égale
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            const Text("Stack comportement par défault",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                )),
-
-            /// [Stack] avec [Alignment.topLeft] qui est l'alignement par défaut de [Stack]
-            rowStack(),
-            const Text("Stack avec la modification du paramètre Alignement",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                )),
-
-            /// [Stack] avec [Alignment.center] afin d'aligner les enfants au centre
-            rowStackWithAlign(),
-            const Text("Stack avec le widget Positioned",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                )),
-            rowStackPositioned(),
-            const Text("Stack avec la modification du paramètre fit",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                )),
-            rowStackWithFit(),
-          ],
-        ),
-      ));
+  build(_) {
+    return MaterialApp(
+        // TODO pas le bon titre
+        title: 'Layout et mise en page',
+        home: Scaffold(
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              const Comment("Stack comportement par défault", style: header),
+              rowStack(),
+              const Comment("Stack avec la modification du paramètre Alignement", style: header),
+              rowStackWithAlign(),
+              const Comment("Stack avec le widget Positioned", style: header),
+              rowStackPositioned(),
+              const Comment("Stack avec la modification du paramètre fit", style: header),
+              rowStackWithFit(),
+            ],
+          ),
+        ));
+  }
 
   /// Crée une ligne avec 3 [Stack], passe en paramètre l'alignement de la [Stack]
   Widget rowStack() => Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /// [Stack] permet de superposer des widgets
+          // [Stack] permet de superposer des widgets
           Stack(
             children: <Widget>[
-              buildLayer(100, 100, Colors.red),
-              buildLayer(80, 80, Colors.green),
-              buildLayer(60, 60, Colors.blue),
+              // Ce calque est affiché à l'arrière
+              calque(100, 100, Colors.red),
+              calque(80, 80, Colors.green),
+              // Celui-ci est affiché au dessus des autres
+              calque(60, 60, Colors.blue),
             ],
           ),
           Stack(
             children: <Widget>[
-              buildCircle(50, Colors.red),
-              buildCircle(40, Colors.green),
-              buildCircle(30, Colors.blue),
+              cercle(50, Colors.red),
+              cercle(40, Colors.green),
+              cercle(30, Colors.blue),
             ],
           ),
           Stack(
             children: <Widget>[
-              buildLayer(100, 100, Colors.red),
-              buildCircle(50, Colors.cyan),
-              buildCircle(40, Colors.green),
-              buildCircle(30, Colors.blue),
+              calque(100, 100, Colors.red),
+              cercle(50, Colors.cyan),
+              cercle(40, Colors.green),
+              cercle(30, Colors.blue),
             ],
           ),
         ],
@@ -78,7 +67,7 @@ class StackApp extends StatelessWidget {
 
   /// Crée une ligne avec 3 [Stack], est utiliser Alignement disponible dans [Stack] pour placer nos widgets
   /// Les sous-composants sont positionnés en fonction de la propriété d'alignement
-  /// algnement disponnible dans [Stack] :
+  /// alignement disponible dans [Stack] :
   /// [Alignment.topLeft], [Alignment.topCenter], [Alignment.topRight], [Alignment.centerLeft],
   /// [Alignment.center], [Alignment.centerRight], [Alignment.bottomLeft], [Alignment.bottomCenter], [Alignment.bottomRight]
   Widget rowStackWithAlign() => Row(
@@ -88,40 +77,40 @@ class StackApp extends StatelessWidget {
           /// [Stack] permet de superposer des widgets
           Column(
             children: [
-              const Text("top Right"),
+              const Comment("top Right"),
               Stack(
                 alignment: Alignment.topRight,
                 children: <Widget>[
-                  buildLayer(100, 100, Colors.red),
-                  buildLayer(80, 80, Colors.green),
-                  buildLayer(60, 60, Colors.blue),
+                  calque(100, 100, Colors.red),
+                  calque(80, 80, Colors.green),
+                  calque(60, 60, Colors.blue),
                 ],
               ),
             ],
           ),
           Column(
             children: [
-              const Text("bottom Center"),
+              const Comment("bottom Center"),
               Stack(
                 alignment: Alignment.bottomCenter,
                 children: <Widget>[
-                  buildCircle(50, Colors.red),
-                  buildCircle(40, Colors.green),
-                  buildCircle(30, Colors.blue),
+                  cercle(50, Colors.red),
+                  cercle(40, Colors.green),
+                  cercle(30, Colors.blue),
                 ],
               ),
             ],
           ),
           Column(
             children: [
-              const Text("bottom Left"),
+              const Comment("bottom Left"),
               Stack(
                 alignment: Alignment.bottomLeft,
                 children: <Widget>[
-                  buildLayer(100, 100, Colors.red),
-                  buildCircle(50, Colors.cyan),
-                  buildCircle(40, Colors.green),
-                  buildCircle(30, Colors.blue),
+                  calque(100, 100, Colors.red),
+                  cercle(50, Colors.cyan),
+                  cercle(40, Colors.green),
+                  cercle(30, Colors.blue),
                 ],
               ),
             ],
@@ -139,14 +128,14 @@ class StackApp extends StatelessWidget {
           /// [Stack] permet de superposer des widgets
           Column(
             children: [
-              const Text("blue right :0"),
+              const Comment("blue right :0"),
               Stack(
                 children: <Widget>[
-                  buildLayer(100, 100, Colors.red),
-                  buildLayer(80, 80, Colors.green),
+                  calque(100, 100, Colors.red),
+                  calque(80, 80, Colors.green),
                   Positioned(
                     right: 0,
-                    child: buildLayer(60, 60, Colors.blue),
+                    child: calque(60, 60, Colors.blue),
                   ),
                 ],
               ),
@@ -154,25 +143,25 @@ class StackApp extends StatelessWidget {
           ),
           Column(
             children: [
-              const Text("blue top:0"),
+              const Comment("blue top:0"),
               Stack(
                 children: <Widget>[
-                  buildCircle(50, Colors.red),
-                  buildCircle(40, Colors.green),
-                  Positioned(top: 0, child: buildCircle(30, Colors.blue)),
+                  cercle(50, Colors.red),
+                  cercle(40, Colors.green),
+                  Positioned(top: 0, child: cercle(30, Colors.blue)),
                 ],
               ),
             ],
           ),
           Column(
             children: [
-              const Text("green bottom:0"),
+              const Comment("green bottom:0"),
               Stack(
                 children: <Widget>[
-                  buildLayer(100, 100, Colors.red),
-                  buildCircle(50, Colors.cyan),
-                  Positioned(bottom: 0, child: buildCircle(40, Colors.green)),
-                  buildCircle(30, Colors.blue),
+                  calque(100, 100, Colors.red),
+                  cercle(50, Colors.cyan),
+                  Positioned(bottom: 0, child: cercle(40, Colors.green)),
+                  cercle(30, Colors.blue),
                 ],
               ),
             ],
@@ -192,16 +181,16 @@ class StackApp extends StatelessWidget {
           /// [Stack] permet de superposer des widgets
           Column(
             children: [
-              const Text("StackFit.expand"),
+              const Comment("StackFit.expand"),
               SizedBox(
                 height: 100,
                 width: 100,
                 child: Stack(
                   fit: StackFit.expand,
                   children: <Widget>[
-                    buildLayer(100, 100, Colors.red),
-                    buildLayer(80, 80, Colors.green),
-                    buildLayer(60, 60, Colors.blue),
+                    calque(100, 100, Colors.red),
+                    calque(80, 80, Colors.green),
+                    calque(60, 60, Colors.blue),
                   ],
                 ),
               ),
@@ -209,16 +198,17 @@ class StackApp extends StatelessWidget {
           ),
           Column(
             children: [
-              const Text("StackFit.passThrough"),
+              // TODO remplacer le texte par la vraie enum
+              Comment(StackFit.passthrough.name),
               SizedBox(
                 height: 100,
                 width: 100,
                 child: Stack(
                   fit: StackFit.passthrough,
                   children: <Widget>[
-                    buildCircle(50, Colors.red),
-                    buildCircle(40, Colors.green),
-                    buildCircle(30, Colors.blue),
+                    cercle(50, Colors.red),
+                    cercle(40, Colors.green),
+                    cercle(30, Colors.blue),
                   ],
                 ),
               ),
@@ -226,17 +216,17 @@ class StackApp extends StatelessWidget {
           ),
           Column(
             children: [
-              const Text("StackFit.loose"),
+              const Comment("StackFit.loose"),
               SizedBox(
                 height: 100,
                 width: 100,
                 child: Stack(
                   fit: StackFit.loose,
                   children: <Widget>[
-                    buildLayer(100, 100, Colors.red),
-                    buildCircle(50, Colors.cyan),
-                    buildCircle(40, Colors.green),
-                    buildCircle(30, Colors.blue),
+                    calque(100, 100, Colors.red),
+                    cercle(50, Colors.cyan),
+                    cercle(40, Colors.green),
+                    cercle(30, Colors.blue),
                   ],
                 ),
               ),
@@ -246,18 +236,35 @@ class StackApp extends StatelessWidget {
       );
 
   /// Crée un rectangle grâce à [DecoratedBox] de la color donnée et de la taille donnée grâce à [SizedBox]
-  Widget buildLayer(int height, int width, Color color) => SizedBox(
+  Widget calque(int height, int width, Color color) => SizedBox(
       height: height.toDouble(),
       width: width.toDouble(),
       child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: color,
-        ),
+        decoration: BoxDecoration(color: color),
       ));
 
   /// Crée un cercle grâce à [CircleAvatar] de la taille et color donnée
-  Widget buildCircle(int radius, Color color) => CircleAvatar(
+  Widget cercle(int radius, Color color) => CircleAvatar(
         radius: radius.toDouble(),
         backgroundColor: color,
+      );
+}
+
+/// Aide à la description
+class Comment extends StatelessWidget {
+  const Comment(this.content,
+      {super.key,
+      this.style = const TextStyle(
+        fontSize: 19,
+        fontWeight: FontWeight.w300,
+      )});
+
+  final TextStyle style;
+  final String content;
+
+  @override
+  build(_) => Container(
+        margin: const EdgeInsets.symmetric(vertical: 12),
+        child: Text(content, style: style),
       );
 }
