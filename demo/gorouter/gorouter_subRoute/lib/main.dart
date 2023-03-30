@@ -1,20 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:gorouter/widget/home.widget.dart';
+import 'package:gorouter/widget/setting.widget.dart';
 
-import 'app_router.dart';
 
 
+//ROUTE AVEC ITINERAIRES
 void main() {
   runApp(const MyApp());
 }
 
-// Ce widget est la racine de votre application.
+
+//Pour cet exemple, nous avons nommé la route initiale /home
+final router = GoRouter(
+  //nous devons ajouter initialLocation pour indiquer à notre application que la route par défaut n'est plus "/" mais, dans notre cas, "/home".
+  //Sans cela, Flutter ira à "/" lors de l'ouverture de l'application.
+  initialLocation: "/home",
+  //Maintenant, faites attention à l'indentation des choses.
+  //Ici, notre premier GoRoute ne se ferme pas après avoir appelé le HomePage Widget.
+  //Nous avons établi une autre route à l'intérieur de la première route.
+  //Point important, ne pas mettre de '/' avant le sous-itinéraire.
+  routes: [
+    GoRoute(
+        path: "/home",
+        builder: (context, state) => const HomePage(),
+        routes : [
+          GoRoute(
+            path: "settings",
+            builder: (context, state) => const SettingPage(),
+          )
+        ]
+    ),
+  ],
+);
+
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-
-  // RouterConfig permet de définir la configuration du routeur de l'application.
-  // Ici, nous lui passons "router" qui est un objet de GoRouter.
-  // Cet objet est configuré avec la liste des routes à gérer et d'autres paramètres de configuration comme le mode de navigation
+  
   @override
   build(context) {
     return MaterialApp.router(
