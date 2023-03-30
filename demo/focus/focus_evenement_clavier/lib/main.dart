@@ -103,7 +103,7 @@ class _ChildColorfulButtonState extends State<ChildColorfulButton> {
       child: Center(
         child: Container(
           width: 400,
-          height: 100,
+          height: 50,
           color: _focused ? _color : Colors.white,
           alignment: Alignment.center,
           child: Text(_focused ? affichage : 'Press to focus'),
@@ -123,7 +123,7 @@ class ParentColorfulButton extends StatefulWidget {
 class _ParentColorfulButton extends State<ParentColorfulButton> {
   late FocusNode _nodeParent;
   late FocusAttachment _nodeAttachmentParent;
-  String affichage = "Touche alphanumerique rejetées: ";
+  String affichage = "Touche alphanumerique rejetées:";
   final voyelles = ['A', 'E', 'Y', 'U', 'O', 'I'];
   final consonnes = [
     'Z',
@@ -164,7 +164,7 @@ class _ParentColorfulButton extends State<ParentColorfulButton> {
       if (voyelles.contains(event.logicalKey.keyLabel) ||
           consonnes.contains(event.logicalKey.keyLabel) ||
           numerique.contains(event.logicalKey.keyLabel)) {
-        setState(() => affichage = '$affichage-${event.logicalKey.keyLabel}');
+        setState(() => affichage ='$affichage ${event.logicalKey.keyLabel}');
       }
       return KeyEventResult.handled;
     }
@@ -182,13 +182,23 @@ class _ParentColorfulButton extends State<ParentColorfulButton> {
   Widget build(BuildContext context) {
     _nodeAttachmentParent.reparent();
     return Center(
-        child: Column(children: [
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+            children: [
+
       Text(affichage),
-      Column(children: [
-        Row(children: [Text("voyelles" ), Focus(parentNode: _nodeParent, child: ChildColorfulButton(alphanumerique: voyelles, focusParent: _nodeParent))]),
-        Row(children: [Text("Consonnes" ), Focus(parentNode: _nodeParent, child: ChildColorfulButton(alphanumerique: consonnes, focusParent: _nodeParent))]),
-        Row(children: [Text("chiffres" ), Focus(parentNode: _nodeParent, child: ChildColorfulButton(alphanumerique: numerique, focusParent: _nodeParent))]),
-      ],)
+          Expanded(
+            child: GridView.count(
+              crossAxisSpacing:100,
+              mainAxisSpacing: 2,
+              childAspectRatio:2,
+              crossAxisCount: 2,
+              children: [
+        const Center(child:Text("voyelles" )), Focus(parentNode: _nodeParent, child: ChildColorfulButton(alphanumerique: voyelles, focusParent: _nodeParent)),
+        const Center(child: Text("Consonnes" )), Focus(parentNode: _nodeParent, child: ChildColorfulButton(alphanumerique: consonnes, focusParent: _nodeParent)),
+        const Center(child: Text("chiffres" )), Focus(parentNode: _nodeParent, child: ChildColorfulButton(alphanumerique: numerique, focusParent: _nodeParent)),
+      ],),
+          )
 
     ]));
   }
@@ -202,7 +212,7 @@ class AlphaNumeriqueFilter extends StatelessWidget {
     final TextTheme textTheme = Theme.of(context).textTheme;
     return DefaultTextStyle(
       style: textTheme.headlineMedium!,
-      child: ParentColorfulButton(),
+      child: const ParentColorfulButton(),
     );
   }
 }
