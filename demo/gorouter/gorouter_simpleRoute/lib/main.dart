@@ -26,14 +26,11 @@ final _router = GoRouter(
   ],
 );
 
-// Ce widget est la racine de votre application.
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-
-  // RouterConfig permet de définir la configuration du routeur de l'application.
-  // Ici, nous lui passons "_router" qui est un objet de GoRouter.
-  // Cet objet est configuré avec la liste des routes à gérer et d'autres paramètres de configuration comme le mode de navigation
+  
   @override
   build(context) {
     return MaterialApp.router(
