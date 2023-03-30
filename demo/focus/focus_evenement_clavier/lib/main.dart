@@ -189,14 +189,12 @@ class _ParentColorfulButton extends State<ParentColorfulButton> {
       Text(affichage),
           Expanded(
             child: GridView.count(
-              crossAxisSpacing:100,
-              mainAxisSpacing: 2,
               childAspectRatio:2,
               crossAxisCount: 2,
               children: [
-        const Center(child:Text("voyelles" )), Focus(parentNode: _nodeParent, child: ChildColorfulButton(alphanumerique: voyelles, focusParent: _nodeParent)),
-        const Center(child: Text("Consonnes" )), Focus(parentNode: _nodeParent, child: ChildColorfulButton(alphanumerique: consonnes, focusParent: _nodeParent)),
-        const Center(child: Text("chiffres" )), Focus(parentNode: _nodeParent, child: ChildColorfulButton(alphanumerique: numerique, focusParent: _nodeParent)),
+        const Center(child:Text("Filtre voyelles" )), Focus(parentNode: _nodeParent, child: ChildColorfulButton(alphanumerique: voyelles, focusParent: _nodeParent)),
+        const Center(child: Text("Filtre consonnes" )), Focus(parentNode: _nodeParent, child: ChildColorfulButton(alphanumerique: consonnes, focusParent: _nodeParent)),
+        const Center(child: Text("Filtre chiffres" )), Focus(parentNode: _nodeParent, child: ChildColorfulButton(alphanumerique: numerique, focusParent: _nodeParent)),
       ],),
           )
 
