@@ -51,6 +51,7 @@ class _ChildColorfulButtonState extends State<ChildColorfulButton> {
   void _handleFocusChange() {
     if (_node.hasFocus != _focused) {
       setState(() {
+        affichage="";
         _focused = _node.hasFocus;
       });
     }
@@ -58,6 +59,9 @@ class _ChildColorfulButtonState extends State<ChildColorfulButton> {
 
   KeyEventResult _handleKeyPress(FocusNode node, RawKeyEvent event) {
     if (event is RawKeyDownEvent) {
+      if(event.logicalKey.keyLabel=="Tab"){
+        return KeyEventResult.ignored;
+      }
       if (alphanumerique.contains(event.logicalKey.keyLabel)) {
         setState(() {
           affichage = affichage + event.logicalKey.keyLabel;
@@ -154,6 +158,9 @@ class _ParentColorfulButton extends State<ParentColorfulButton> {
 
   KeyEventResult _handleKeyPressParent(FocusNode node, RawKeyEvent event) {
     if (event is RawKeyDownEvent) {
+      if(event.logicalKey.keyLabel=="Tab"){
+        return KeyEventResult.ignored;
+      }
       if (voyelles.contains(event.logicalKey.keyLabel) ||
           consonnes.contains(event.logicalKey.keyLabel) ||
           numerique.contains(event.logicalKey.keyLabel)) {
@@ -178,7 +185,9 @@ class _ParentColorfulButton extends State<ParentColorfulButton> {
         child: Column(children: [
       Text(affichage),
       Column(children: [
-        Row(children: [Text("voyelles" ), Focus(parentNode: _nodeParent, child: ChildColorfulButton(alphanumerique: voyelles, focusParent: _nodeParent))])
+        Row(children: [Text("voyelles" ), Focus(parentNode: _nodeParent, child: ChildColorfulButton(alphanumerique: voyelles, focusParent: _nodeParent))]),
+        Row(children: [Text("Consonnes" ), Focus(parentNode: _nodeParent, child: ChildColorfulButton(alphanumerique: consonnes, focusParent: _nodeParent))]),
+        Row(children: [Text("chiffres" ), Focus(parentNode: _nodeParent, child: ChildColorfulButton(alphanumerique: numerique, focusParent: _nodeParent))]),
       ],)
 
     ]));
