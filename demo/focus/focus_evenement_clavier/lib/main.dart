@@ -20,23 +20,23 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class ChildColorfulButton extends StatefulWidget {
-  const ChildColorfulButton({super.key, required this.alphanumerique, required FocusNode focusParent});
+class ChildButton extends StatefulWidget {
+  const ChildButton({super.key, required this.alphanumerique, required FocusNode focusParent});
 
   final List<String> alphanumerique;
 
   @override
-  State<ChildColorfulButton> createState() => _ChildColorfulButtonState(alphanumerique);
+  State<ChildButton> createState() => _ChildButtonState(alphanumerique);
 }
 
-class _ChildColorfulButtonState extends State<ChildColorfulButton> {
+class _ChildButtonState extends State<ChildButton> {
   late FocusNode _node;
   bool _focused = false;
   late FocusAttachment _nodeAttachment;
   Color _color = Colors.white;
   final List<String> alphanumerique;
 
-  _ChildColorfulButtonState(this.alphanumerique);
+  _ChildButtonState(this.alphanumerique);
 
   String affichage = "";
   @override
@@ -112,17 +112,17 @@ class _ChildColorfulButtonState extends State<ChildColorfulButton> {
   }
 }
 
-class ParentColorfulButton extends StatefulWidget {
-  const ParentColorfulButton({super.key});
+class ParentButton extends StatefulWidget {
+  const ParentButton({super.key});
 
   @override
-  State<ParentColorfulButton> createState() => _ParentColorfulButton();
+  State<ParentButton> createState() => _ParentButton();
 }
 
-class _ParentColorfulButton extends State<ParentColorfulButton> {
+class _ParentButton extends State<ParentButton> {
   late FocusNode _nodeParent;
   late FocusAttachment _nodeAttachmentParent;
-  String presentation="On vous presente dans cet exemple avec trois filtres, chaque filtre a son foncusNode et les trois filtres ont comme parent notre widget principale qui contient le focus parent. \n On constatera ainsi comment chaque focus traite les évenements clavier et/ou les renvois au scope parent";
+  String presentation="On vous presente cet exemple avec trois filtres, chaque filtre a son foncusNode et les trois filtres ont comme parent notre widget principale qui contient le focus parent. \nOn constatera ainsi comment chaque focus traite les évenements clavier et/ou les renvois au scope parent.";
   String affichage = "Touche alphanumerique rejetées:";
   final voyelles = ['A', 'E', 'Y', 'U', 'O', 'I'];
   final consonnes = [
@@ -192,9 +192,9 @@ class _ParentColorfulButton extends State<ParentColorfulButton> {
               childAspectRatio:3,
               crossAxisCount: 2,
               children: [
-        const Center(child:Text("Filtre voyelles" )), Focus(parentNode: _nodeParent, child: ChildColorfulButton(alphanumerique: voyelles, focusParent: _nodeParent)),
-        const Center(child: Text("Filtre consonnes" )), Focus(parentNode: _nodeParent, child: ChildColorfulButton(alphanumerique: consonnes, focusParent: _nodeParent)),
-        const Center(child: Text("Filtre chiffres" )), Focus(parentNode: _nodeParent, child: ChildColorfulButton(alphanumerique: numerique, focusParent: _nodeParent)),
+        const Center(child:Text("Filtre voyelles" )), Focus(parentNode: _nodeParent, child: ChildButton(alphanumerique: voyelles, focusParent: _nodeParent)),
+        const Center(child: Text("Filtre consonnes" )), Focus(parentNode: _nodeParent, child: ChildButton(alphanumerique: consonnes, focusParent: _nodeParent)),
+        const Center(child: Text("Filtre chiffres" )), Focus(parentNode: _nodeParent, child: ChildButton(alphanumerique: numerique, focusParent: _nodeParent)),
       ],),
           )
 
@@ -210,7 +210,7 @@ class AlphaNumeriqueFilter extends StatelessWidget {
     final TextTheme textTheme = Theme.of(context).textTheme;
     return DefaultTextStyle(
       style: textTheme.headlineMedium!,
-      child: const ParentColorfulButton(),
+      child: const ParentButton(),
     );
   }
 }
