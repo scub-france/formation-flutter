@@ -84,7 +84,6 @@ class FocusButton extends StatefulWidget {
 
 class _FocusButton extends State<FocusButton> {
   final FocusNode _node = FocusNode();
-
   bool get isFocused => _node.hasFocus;
   late FocusAttachment _nodeAttachment;
 
