@@ -41,7 +41,7 @@ class _ChildButtonState extends State<ChildButton> {
     }
   }
 
-  //Cette methode est appelé a chaque evenement du clavier, l'appel a la methode se fait grace a l'attribut onKey de la methode attach
+  //Cette methode est appelée a chaque evenement du clavier, l'appel a la methode se fait grace a l'attribut onKey de la methode attach
   //voir plus haut dans initState()
   KeyEventResult _handleKeyPress(FocusNode node, RawKeyEvent event) {
     if (event is RawKeyDownEvent) {
@@ -148,7 +148,7 @@ class _ParentButton extends State<ParentButton> {
     _nodeAttachmentParent = _nodeParent.attach(context, onKey: _handleKeyPressParent);
   }
 
-  //Cette methode est appelé a chque evenement du clavier, l'appel a la methode se fait grace a l'attribut onKey de la methode attach
+  //Cette methode est appelée a chque evenement du clavier, l'appel a la methode se fait grace a l'attribut onKey de la methode attach
   //voir plus haut dans initState()
   //a ce niveau (noeud parent), seul les evenements ignorés pas le noeud enfant seront traités
   KeyEventResult _handleKeyPressParent(FocusNode node, RawKeyEvent event) {
