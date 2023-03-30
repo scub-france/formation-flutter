@@ -13,8 +13,7 @@ class StackApp extends StatelessWidget {
   @override
   build(_) {
     return MaterialApp(
-        // TODO pas le bon titre
-        title: 'Layout et mise en page',
+        title: 'Flutter Stack',
         home: Scaffold(
           body: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -181,7 +180,7 @@ class StackApp extends StatelessWidget {
           /// [Stack] permet de superposer des widgets
           Column(
             children: [
-              const Comment("StackFit.expand"),
+              Comment(StackFit.expand.name),
               SizedBox(
                 height: 100,
                 width: 100,
@@ -198,7 +197,6 @@ class StackApp extends StatelessWidget {
           ),
           Column(
             children: [
-              // TODO remplacer le texte par la vraie enum
               Comment(StackFit.passthrough.name),
               SizedBox(
                 height: 100,
@@ -216,7 +214,7 @@ class StackApp extends StatelessWidget {
           ),
           Column(
             children: [
-              const Comment("StackFit.loose"),
+              Comment(StackFit.loose.name),
               SizedBox(
                 height: 100,
                 width: 100,
