@@ -17,7 +17,7 @@ create-dart.sh nom-de-la-feature
 
 ## Process
 
- - Créer une branche `domain`-`nom-de-la-feature` depuis dev. Ex 'console-future'
+ - Créer une branche `domain`-`nom_de_la_feature` depuis dev. Ex 'console-future'
  - Créer un ticket github correspondant au nom `domain`-`nom-de-la-feature`
  - Executé le bon script en fonction du type **flutter** ou **dart**. Voir ci-dessus.
  - Le project doit avoir un **README** documenté au bon format surtout historisation
