@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class SettingPage extends StatelessWidget {
-  //We need a variable that we have defined in the route.
-  //Herre it is 'name'
+  //Nous avons besoin d'une variable que nous avons définie dans l'itinéraire.
+  //Ici, il s'agit de 'name'
   final String name;
   const SettingPage({super.key, required this.name});
 
@@ -11,7 +11,7 @@ class SettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //Here we use this variable
+      //Ici, nous utilisons la variable
       appBar: AppBar(title: Text(name)),
       body: Center(
         child: Column(

@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   // Ici, nous lui passons "router" qui est un objet de GoRouter.
   // Cet objet est configuré avec la liste des routes à gérer et d'autres paramètres de configuration comme le mode de navigation
   @override
-  Widget build(BuildContext context) {
+  build(context) {
     return MaterialApp.router(
       routerConfig: router,
       title: 'router Demo',
