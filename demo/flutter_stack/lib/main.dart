@@ -142,12 +142,12 @@ class StackApp extends StatelessWidget {
           ),
           Column(
             children: [
-              const Comment("blue top:0"),
+              const Comment("blue bottom:0"),
               Stack(
                 children: <Widget>[
                   cercle(50, Colors.red),
                   cercle(40, Colors.green),
-                  Positioned(top: 0, child: cercle(30, Colors.blue)),
+                  Positioned(bottom: 0, child: cercle(30, Colors.blue)),
                 ],
               ),
             ],
@@ -204,6 +204,7 @@ class StackApp extends StatelessWidget {
                 child: Stack(
                   fit: StackFit.passthrough,
                   children: <Widget>[
+                    calque(100, 100, Colors.red),
                     cercle(50, Colors.red),
                     cercle(40, Colors.green),
                     cercle(30, Colors.blue),
