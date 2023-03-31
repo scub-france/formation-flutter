@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+/// Je vous propose cet exemple qui contient trois filtres.
+/// Chaque filtre a son noeud de focus et les trois noeuds ont comme parent notre widget principale qui contient le focus parent.
+/// On constatera ainsi comment chaque focus traite les évenements clavier et/ou les renvois au scope parent.
+
 void main() => runApp(const MaterialApp(home: Scaffold(body: AlphaNumeriqueFilter())));
 
-//Notre fabrique de filtres,
+/// Notre fabrique de filtres,
 class ChildButton extends StatefulWidget {
-  const ChildButton({super.key, required this.alphanumerique, required FocusNode focusParent});
-
+  const ChildButton({super.key, required this.alphanumerique, required FocusNode focusParent, required this.affichageParDefaut});
   final List<String> alphanumerique;
+  final String affichageParDefaut;
 
   @override
-  State<ChildButton> createState() => _ChildButtonState(alphanumerique);
+  State<ChildButton> createState() => _ChildButtonState();
 }
 
 class _ChildButtonState extends State<ChildButton> {
@@ -18,16 +22,12 @@ class _ChildButtonState extends State<ChildButton> {
   bool _focused = false;
   late FocusAttachment _nodeAttachment;
   Color _color = Colors.white;
-  final List<String> alphanumerique;
-
-  _ChildButtonState(this.alphanumerique);
-
   String affichage = "";
 
   @override
   void initState() {
     super.initState();
-    _node = FocusNode(debugLabel: 'Button');
+    _node = FocusNode();
     _node.addListener(_handleFocusChange);
     _nodeAttachment = _node.attach(context, onKey: _handleKeyPress);
   }
@@ -35,28 +35,29 @@ class _ChildButtonState extends State<ChildButton> {
   void _handleFocusChange() {
     if (_node.hasFocus != _focused) {
       setState(() {
+        _color = _node.hasFocus ? Colors.lightBlueAccent : Colors.white;
         affichage = "";
         _focused = _node.hasFocus;
       });
     }
   }
 
-  //Cette methode est appelée a chaque evenement du clavier, l'appel a la methode se fait grace a l'attribut onKey de la methode attach
-  //voir plus haut dans initState()
+  /// Cette methode est appelée a chaque evenement du clavier, l'appel a la methode se fait grace a l'attribut onKey de la methode attach
+  /// voir plus haut dans initState()
   KeyEventResult _handleKeyPress(FocusNode node, RawKeyEvent event) {
     if (event is RawKeyDownEvent) {
-      //on ignore l'evenement "Tab" pour garder la fonctionalité tabulation
+      /// on ignore l'evenement "Tab" pour garder la fonctionalité tabulation
       if (event.logicalKey.keyLabel == "Tab") {
         return KeyEventResult.ignored;
       }
-      if (alphanumerique.contains(event.logicalKey.keyLabel)) {
+      if (widget.alphanumerique.contains(event.logicalKey.keyLabel)) {
         setState(() {
           affichage = affichage + event.logicalKey.keyLabel;
           _color = Colors.green;
         });
-        //On prévient ici le FocusManager que l'evenement a été traité et stoppera ainsi la propagation
+        /// On prévient ici le FocusManager que l'evenement a été traité et stoppera ainsi la propagation
         return KeyEventResult.handled;
-      } else if (!alphanumerique.contains(event.logicalKey.keyLabel)) {
+      } else if (!widget.alphanumerique.contains(event.logicalKey.keyLabel)) {
         setState(() {
           _color = Colors.red;
         });
@@ -64,12 +65,12 @@ class _ChildButtonState extends State<ChildButton> {
       }
     }
     setState(() {
-      _color = Colors.white;
+      _color = node.hasFocus ? Colors.lightBlueAccent : Colors.white;
     });
     return KeyEventResult.ignored;
   }
 
-  //oublions pas de liberer la memoire
+  /// oublions pas de liberer la memoire
   @override
   void dispose() {
     _node.removeListener(_handleFocusChange);
@@ -79,7 +80,7 @@ class _ChildButtonState extends State<ChildButton> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  build(_) {
     _nodeAttachment.reparent();
     return GestureDetector(
       onTap: () {
@@ -93,16 +94,16 @@ class _ChildButtonState extends State<ChildButton> {
         child: Container(
           width: 400,
           height: 50,
-          color: _focused ? _color : Colors.white,
+          color: _color,
           alignment: Alignment.center,
-          child: Text(_focused ? affichage : 'Press to focus'),
+          child: Text(_focused ? affichage : widget.affichageParDefaut),
         ),
       ),
     );
   }
 }
 
-//Notre widget principal
+/// Notre widget principal
 class ParentButton extends StatefulWidget {
   const ParentButton({super.key});
 
@@ -113,9 +114,9 @@ class ParentButton extends StatefulWidget {
 class _ParentButton extends State<ParentButton> {
   late FocusNode _nodeParent;
   late FocusAttachment _nodeAttachmentParent;
-  String presentation =
-      "On vous presente cet exemple avec trois filtres, chaque filtre a son foncusNode et les trois filtres ont comme parent notre widget principale qui contient le focus parent. \nOn constatera ainsi comment chaque focus traite les évenements clavier et/ou les renvois au scope parent.";
-  String affichage = "Touche alphanumerique rejetées:";
+  String titre = "Focus et les evenements clavier";
+  final affichageStatic = "Touche alphanumerique rejetée:";
+  String affichageDynamic = "";
   final voyelles = ['A', 'E', 'Y', 'U', 'O', 'I'];
   final consonnes = [
     'Z',
@@ -148,31 +149,31 @@ class _ParentButton extends State<ParentButton> {
     _nodeAttachmentParent = _nodeParent.attach(context, onKey: _handleKeyPressParent);
   }
 
-  //Cette methode est appelée a chque evenement du clavier, l'appel a la methode se fait grace a l'attribut onKey de la methode attach
-  //voir plus haut dans initState()
-  //a ce niveau (noeud parent), seul les evenements ignorés pas le noeud enfant seront traités
+  /// Cette methode est appelée a chque evenement du clavier, l'appel a la methode se fait grace a l'attribut onKey de la methode attach
+  /// voir plus haut dans initState()
+  /// a ce niveau (noeud parent), seul les evenements ignorés pas le noeud enfant seront traités
   KeyEventResult _handleKeyPressParent(FocusNode node, RawKeyEvent event) {
     if (event is RawKeyDownEvent) {
 
-      //on ignore l'evenement "Tab" pour garder la fonctionalité tabulation
+      /// on ignore l'evenement "Tab" pour garder la fonctionalité tabulation
       if (event.logicalKey.keyLabel == "Tab") {
         return KeyEventResult.ignored;
       }
 
-      //Ici, on traite les caractéres refusé par nos filtres
+      /// Ici, on traite les caractéres refusé par nos filtres
       if (voyelles.contains(event.logicalKey.keyLabel) ||
           consonnes.contains(event.logicalKey.keyLabel) ||
           numerique.contains(event.logicalKey.keyLabel)) {
-        setState(() => affichage = '$affichage ${event.logicalKey.keyLabel}');
+        setState(() => affichageDynamic = event.logicalKey.keyLabel);
       }
       return KeyEventResult.handled;
     }
 
-    //Tout evenement qui ne parvient pas du clavier sera ignoré par notre widget et sera ainsi traité a un niveau plus haut de l'application
+    /// Tout evenement qui ne parvient pas du clavier sera ignoré par notre widget et sera ainsi traité a un niveau plus haut de l'application
     return KeyEventResult.ignored;
   }
 
-  //N'oublions pas de dispose notre node
+  /// N'oublions pas de dispose notre node
   @override
   void dispose() {
     _nodeParent.dispose();
@@ -180,29 +181,31 @@ class _ParentButton extends State<ParentButton> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  build(context) {
     _nodeAttachmentParent.reparent();
     return Center(
         child: Column(mainAxisSize: MainAxisSize.min, children: [
-      Text(presentation),
-      Expanded(
-        child: GridView.count(
-          childAspectRatio: 3,
-          crossAxisCount: 2,
-          children: [
-            const Center(child: Text("Filtre voyelles")),
-            //c'est ici qu'on crée le liens de parenté entre notre noeud parent et enfant
-            Focus(parentNode: _nodeParent, child: ChildButton(alphanumerique: voyelles, focusParent: _nodeParent)),
-            const Center(child: Text("Filtre consonnes")),
-            //c'est ici qu'on crée le liens de parenté entre notre noeud parent et enfant
-            Focus(parentNode: _nodeParent, child: ChildButton(alphanumerique: consonnes, focusParent: _nodeParent)),
-            const Center(child: Text("Filtre chiffres")),
-            //c'est ici qu'on crée le liens de parenté entre notre noeud parent et enfant
-            Focus(parentNode: _nodeParent, child: ChildButton(alphanumerique: numerique, focusParent: _nodeParent)),
-          ],
-        ),
+      Padding(
+        padding: const EdgeInsets.only(bottom:150),
+        child: Text(titre),
       ),
-      Text(affichage),
+            /// c'est ici qu'on crée le liens de parenté entre notre noeud parent et enfant
+            Focus(parentNode: _nodeParent, child: Padding(
+              padding: const EdgeInsets.all(25),
+              child: ChildButton(alphanumerique: voyelles, focusParent: _nodeParent, affichageParDefaut: 'Filtre voyelles',),
+            )),
+            /// c'est ici qu'on crée le liens de parenté entre notre noeud parent et enfant
+            Focus(parentNode: _nodeParent, child: Padding(
+              padding: const EdgeInsets.all(25),
+              child: ChildButton(alphanumerique: consonnes, focusParent: _nodeParent, affichageParDefaut: 'Filtre consonnes',),
+            )),
+            /// c'est ici qu'on crée le liens de parenté entre notre noeud parent et enfant
+            Focus(parentNode: _nodeParent, child: Padding(
+              padding: const EdgeInsets.all(25),
+              child: ChildButton(alphanumerique: numerique, focusParent: _nodeParent, affichageParDefaut: 'Filtre chiffres',),
+            )),
+      Text(affichageStatic),
+          Text(affichageDynamic, style: const TextStyle(color: Colors.red, fontSize: 100),)
     ]));
   }
 }
