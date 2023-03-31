@@ -1,67 +1,38 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(const MyApp());
+void main() => runApp(MaterialApp(home: Scaffold(body: FocusApp())));
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class FocusApp extends StatelessWidget {
+  FocusApp({Key? key}) : super(key: key);
 
-  static const String _title = 'Flutter Code pour FocusNode';
+  final children = List.generate(
+      6,
+      (index) => const Padding(
+            padding: EdgeInsets.all(2.0),
+            child: FocusButton(),
+          ));
 
   @override
-  build(context)=> const MaterialApp(
-      title: _title,
-      home: MyStatefulWidget(),
-    );
-
+  build(context) => Center(
+          child: GridView.count(
+        crossAxisCount: 3,
+        children: children,
+      ));
 }
 
-class MyStatefulWidget extends StatefulWidget {
-  const MyStatefulWidget({super.key});
+class FocusButton extends StatefulWidget {
+  const FocusButton({super.key});
 
   @override
-  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
+  State<FocusButton> createState() => _FocusButtonState();
 }
 
-class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  List<Widget> children = <Widget>[];
-
-  @override
-  void initState() {
-    super.initState();
-    for(int i=0; i<6; i++) {
-      _addChild();
-    }
-  }
-
-  void _addChild() {
-    children.add(const Padding(
-      padding: EdgeInsets.all(2.0),
-      child: ColorfulButton(),
-    ));
-  }
-
-  @override
-  build(_) => Scaffold(
-      body: Center(
-        child: GridView.count(
-          crossAxisCount: 3,
-          children: children,
-        ),
-      ),
-    );
-}
-
-class ColorfulButton extends StatefulWidget {
-  const ColorfulButton({super.key});
-
-  @override
-  State<ColorfulButton> createState() => _ColorfulButtonState();
-}
-
-class _ColorfulButtonState extends State<ColorfulButton> {
-  final FocusNode _node= FocusNode();
-  bool _focused = false;
+class _FocusButtonState extends State<FocusButton> {
+  final FocusNode _node = FocusNode();
   late FocusAttachment _nodeAttachment;
+
+  bool get isFocused => _node.hasFocus;
+
 
   //Définissez le nœud de focus. Pour gérer le cycle de vie, créez le FocusNode dans
   //la méthode initState et nettoyez-le dans la méthode dispose.
@@ -70,49 +41,44 @@ class _ColorfulButtonState extends State<ColorfulButton> {
     super.initState();
     //Si vous souhaitez être averti chaque fois que Focus change, enregistrez un écouteur avec addListener
     _node.addListener(_handleFocusChange);
-   _nodeAttachment = _node.attach(context);
+    _nodeAttachment = _node.attach(context);
   }
 
-  void _handleFocusChange() {
-    if (_node.hasFocus != _focused) {
-      setState(() {
-        _focused = _node.hasFocus;
-      });
-    }
-  }
+  void _handleFocusChange() => setState(() => print("Focus updated to $isFocused"));
+
 
   //nettoyez le nœud de focus lorsque le formulaire est éliminé
   @override
   void dispose() {
     //Vous devez vous désinscrire avec removeListener pour éviter les fuites de mémoire
     _node.removeListener(_handleFocusChange);
-    // attachment sera detaché sur appel de dispose().
+    
+    // Libéré le noeud de focus
     _node.dispose();
     super.dispose();
   }
 
   @override
   build(_) {
+    //Garantit que le FocusNode attaché à ce point d'attachement a le bon nœud parent, en le modifiant si nécessaire.
     _nodeAttachment.reparent();
     return GestureDetector(
       //permet d'avoir la main sur le focus grace au clics souris
-      onTap: () {
-        if (_focused) {
-          _node.unfocus();
-        } else {
-          _node.requestFocus();
-        }
-      },
+      onTap: () => isFocused ? _node.unfocus() : _node.requestFocus(),
       child: Center(
-        child: Container(
-          width: 400,
-          height: 100,
-          color: _focused ? Colors.green : Colors.red,
-          alignment: Alignment.center,
-          child:
-          Text(_focused ? "Selectionné" : 'Non Selectionné'),
+        child: DecoratedBox(
+          decoration: BoxDecoration(color: isFocused ? Colors.green : Colors.orangeAccent),
+          child: SizedBox(
+            width: 300,
+            height: 300,
+            child: Center(
+              child: isFocused ? const Text("Focus") : const SizedBox(),
+            ),
+          ),
+
         ),
       ),
     );
   }
 }
+

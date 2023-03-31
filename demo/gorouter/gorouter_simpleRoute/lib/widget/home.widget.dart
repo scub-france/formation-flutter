@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  //Lors de la création du widget, nous avons besoin du 'contexte' en paramètre
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

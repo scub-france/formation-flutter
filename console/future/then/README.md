@@ -1,11 +1,8 @@
 ## Méthodes de type then
 
-`Then()` est une méthode d'un Future qui permet de définir une action à effectuer lorsque la Future est
-terminée. Cette méthode prend en paramètre une fonction qui sera exécutée lorsque la Future est
-terminée. exemple: `Future.delayed(Duration(seconds: 2).then((value) => print(value));`
+Le mot-clé `then` est utilisé en Dart pour gérer les futures (Future) qui sont des objets
+représentant une valeur qui sera disponible à un moment ultérieur. Lorsque vous appelez une méthode
+asynchrone qui renvoie un Future, vous pouvez utiliser `then` pour définir une action qui sera faite
+lorsque le future c’est terminé avec succès ou par une erreur si le then est suivi dans catcherror
 
-# Liens
 
-- [Dart async-await](https://dart.dev/codelabs/async-await)
-- [Dart asynchrony support](https://dart.dev/guides/language/language-tour#asynchrony-support)
-- https://api.flutter.dev/flutter/dart-async/Future-class.html
