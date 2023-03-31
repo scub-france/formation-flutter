@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 
-//SIMPLE ROUTE
+// GO VS PUSH
 void main() {
   runApp(const MyApp());
 }
