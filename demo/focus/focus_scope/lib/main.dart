@@ -9,9 +9,6 @@ class FocusApp extends StatefulWidget {
   State<FocusApp> createState() => _FocusAppState();
 }
 
-//Voyons comment réagira notre application avec deux focusScope (groupes de focus)
-//pour chaque focusScope, on lie un checkbox pour controller le parametre canRequestFocus de notre focusScope
-//on peut ainsi permettre/empécher le focusScope de demander le focus
 class _FocusAppState extends State<FocusApp> {
   final intruduction =
       "Voyons comment réagira notre application avec deux focusScope (groupes de focus).\n pour chaque focusScope, on lie un checkbox pour controller le parametre canRequestFocus de notre focusScope, on peut ainsi permettre/empécher le focusScope de demander le focus.";
@@ -64,19 +61,19 @@ class GroupeButtonWidget extends StatefulWidget {
 class _GroupeButtonWidget extends State<GroupeButtonWidget> {
   final children = List.generate(
       3,
-      (index) => const Padding(
-            padding: EdgeInsets.all(2.0),
-            child: FocusButton(),
-          ));
+          (index) => const Padding(
+        padding: EdgeInsets.all(2.0),
+        child: FocusButton(),
+      ));
 
   @override
   build(_) => Scaffold(
-        body: Center(
-          child: Row(
-            children: children,
-          ),
-        ),
-      );
+    body: Center(
+      child: Row(
+        children: children,
+      ),
+    ),
+  );
 
 }
 
@@ -89,6 +86,8 @@ class FocusButton extends StatefulWidget {
 
 class _FocusButton extends State<FocusButton> {
   final FocusNode _node = FocusNode();
+
+
   bool get isFocused => _node.hasFocus;
   late FocusAttachment _nodeAttachment;
 
@@ -117,23 +116,20 @@ class _FocusButton extends State<FocusButton> {
   @override
   build(_) {
     //Garantit que le FocusNode attaché à ce point d'attachement a le bon nœud parent, en le modifiant si nécessaire.
-   _nodeAttachment.reparent();
-    return GestureDetector(
+    _nodeAttachment.reparent();
+
+    return AspectRatio(aspectRatio: 1, child: GestureDetector(
       //permet d'avoir la main sur le focus grace au clics souris
       onTap: () => isFocused ? _node.unfocus() : _node.requestFocus(),
       child: Center(
         child: DecoratedBox(
           decoration: BoxDecoration(color: isFocused ? Colors.green : Colors.orangeAccent),
-          child: SizedBox(
-            width: 150,
-            height: 150,
-
-            child: Center(
-              child: isFocused ? const Text("Focus") : const SizedBox(),
-            ),
+          child: Center(
+            child: isFocused ? const Text("Focus") :  Text("Click Me"),
           ),
         ),
       ),
-    );
+    ));
   }
 }
+
