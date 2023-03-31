@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 /// Je vous propose cet exemple qui contient trois filtres.
-/// Chaque filtre a son noeud de focus et les trois noeuds ont comme parent notre widget principale qui contient le focus parent.
-/// On constatera ainsi comment chaque focus traite les évenements clavier et/ou les renvois au scope parent
+/// Chaque filtre a son noeud de focus et les trois noeuds ont comme
+/// parent notre widget principale qui contient le focus parent.
+/// On constatera ainsi comment chaque focus traite les évenements
+/// clavier et/ou les renvois au scope parent
 
 void main() => runApp(const MaterialApp(home: Scaffold(body: AlphaNumeriqueFilter())));
 
@@ -44,8 +46,9 @@ class _ChildButtonState extends State<ChildButton> {
     }
   }
 
-  /// Cette methode est appelée a chaque evenement du clavier, l'appel a la methode se fait grace a l'attribut onKey de la methode attach
-  /// voir plus haut dans initState()
+  /// Cette methode est appelée a chaque evenement du clavier,
+  /// l'appel a la methode se fait grace a l'attribut onKey de
+  /// la methode attach voir plus haut dans initState()
   KeyEventResult _handleKeyPress(FocusNode node, RawKeyEvent event) {
     if (event is RawKeyDownEvent) {
       /// on ignore l'evenement "Tab" pour garder la fonctionalité tabulation
@@ -54,11 +57,12 @@ class _ChildButtonState extends State<ChildButton> {
       }
       if (widget.alphanumerique.contains(event.logicalKey.keyLabel)) {
         setState(() {
-          affichage = affichage + event.logicalKey.keyLabel;
+          /// On traite le cas des numpad
+          affichage = affichage + event.logicalKey.keyLabel.replaceAll('Numpad ', '');
           _color = Colors.green;
         });
 
-        /// On prévient ici le FocusManager que l'evenement a été traité et stoppera ainsi la propagation
+        /// On prévient le FocusManager que l'évenement est traité et stoppera ainsi la propagation
         return KeyEventResult.handled;
       } else if (!widget.alphanumerique.contains(event.logicalKey.keyLabel)) {
         setState(() {
@@ -143,7 +147,7 @@ class _ParentButton extends State<ParentButton> {
     'B',
     'N'
   ];
-  final numerique = List<String>.generate(10, (int index) => index.toString());
+  final numerique = List<String>.generate(10, (int index) => index.toString()) +List<String>.generate(10, (int index) => "Numpad $index");
 
   @override
   void initState() {
@@ -152,8 +156,8 @@ class _ParentButton extends State<ParentButton> {
     _nodeAttachmentParent = _nodeParent.attach(context, onKey: _handleKeyPressParent);
   }
 
-  /// Cette methode est appelée a chque evenement du clavier, l'appel a la methode se fait grace a l'attribut onKey de la methode attach
-  /// voir plus haut dans initState()
+  /// Cette methode est appelée a chque evenement du clavier, l'appel a la methode se
+  /// fait grace a l'attribut onKey de la methode attach voir plus haut dans initState()
   /// a ce niveau (noeud parent), seul les evenements ignorés pas le noeud enfant seront traités
   KeyEventResult _handleKeyPressParent(FocusNode node, RawKeyEvent event) {
     if (event is RawKeyDownEvent) {
@@ -171,7 +175,8 @@ class _ParentButton extends State<ParentButton> {
       return KeyEventResult.handled;
     }
 
-    /// Tout evenement qui ne parvient pas du clavier sera ignoré par notre widget et sera ainsi traité a un niveau plus haut de l'application
+    /// Tout évenement qui ne parvient pas du clavier sera ignoré par notre widget et sera
+    /// ainsi traité a un niveau plus haut de l'application
     return KeyEventResult.ignored;
   }
 
@@ -183,7 +188,7 @@ class _ParentButton extends State<ParentButton> {
   }
 
   @override
-  build(context) {
+  build(_) {
     _nodeAttachmentParent.reparent();
     return Center(
         child: Column(mainAxisSize: MainAxisSize.min, children: [
