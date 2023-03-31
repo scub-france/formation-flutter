@@ -10,7 +10,7 @@ class FocusApp extends StatefulWidget {
 }
 
 class _FocusAppState extends State<FocusApp> {
-  final intruduction =
+  final introduction =
       "Voyons comment réagira notre application avec deux focusScope (groupes de focus).\n pour chaque focusScope, on lie un checkbox pour controller le parametre canRequestFocus de notre focusScope, on peut ainsi permettre/empécher le focusScope de demander le focus.";
   bool isScope1canRequestFocus = true;
   bool isScope2canRequestFocus = false;
@@ -18,7 +18,7 @@ class _FocusAppState extends State<FocusApp> {
   @override
   build(_) {
     final checkbox1 = Row(children: [
-      const Text('  Le scope ne peut demander le focus que si la case est cochée'),
+      const Text('Le scope ne peut demander le focus que si la case est cochée'),
       Checkbox(
           checkColor: Colors.white,
           value: isScope1canRequestFocus,
@@ -40,12 +40,20 @@ class _FocusAppState extends State<FocusApp> {
             });
           })
     ]);
-    const sizeBox= SizedBox(width:2, height:50);
+    const sizeBox = SizedBox(width: 2, height: 50);
     // tout se joue ici ! on crée ainsi deux FocusScope...
     final scope1 = FocusScope(canRequestFocus: isScope1canRequestFocus, child: const GroupeButtonWidget());
     final scope2 = FocusScope(canRequestFocus: isScope2canRequestFocus, child: const GroupeButtonWidget());
     return Center(
-      child: Column(children: [Text(intruduction),sizeBox,checkbox1, Expanded(child: scope1),sizeBox, checkbox2, Expanded(child: scope2)]),
+      child: Column(children: [
+        Text(intruduction),
+        sizeBox,
+        checkbox1,
+        Expanded(child: scope1),
+        sizeBox,
+        checkbox2,
+        Expanded(child: scope2)
+      ]),
 
     );
   }
@@ -61,19 +69,21 @@ class GroupeButtonWidget extends StatefulWidget {
 class _GroupeButtonWidget extends State<GroupeButtonWidget> {
   final children = List.generate(
       3,
-          (index) => const Padding(
+          (index) =>
+      const Padding(
         padding: EdgeInsets.all(2.0),
         child: FocusButton(),
       ));
 
   @override
-  build(_) => Scaffold(
-    body: Center(
-      child: Row(
-        children: children,
-      ),
-    ),
-  );
+  build(_) =>
+      Scaffold(
+        body: Center(
+          child: Row(
+            children: children,
+          ),
+        ),
+      );
 
 }
 
@@ -125,7 +135,7 @@ class _FocusButton extends State<FocusButton> {
         child: DecoratedBox(
           decoration: BoxDecoration(color: isFocused ? Colors.green : Colors.orangeAccent),
           child: Center(
-            child: isFocused ? const Text("Focus") :  Text("Click Me"),
+            child: isFocused ? const Text("Focus") : Text("Click Me"),
           ),
         ),
       ),
