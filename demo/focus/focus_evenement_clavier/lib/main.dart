@@ -9,7 +9,9 @@ void main() => runApp(const MaterialApp(home: Scaffold(body: AlphaNumeriqueFilte
 
 /// Notre fabrique de filtres,
 class ChildButton extends StatefulWidget {
-  const ChildButton({super.key, required this.alphanumerique, required FocusNode focusParent, required this.affichageParDefaut});
+  const ChildButton(
+      {super.key, required this.alphanumerique, required FocusNode focusParent, required this.affichageParDefaut});
+
   final List<String> alphanumerique;
   final String affichageParDefaut;
 
@@ -55,6 +57,7 @@ class _ChildButtonState extends State<ChildButton> {
           affichage = affichage + event.logicalKey.keyLabel;
           _color = Colors.green;
         });
+
         /// On prévient ici le FocusManager que l'evenement a été traité et stoppera ainsi la propagation
         return KeyEventResult.handled;
       } else if (!widget.alphanumerique.contains(event.logicalKey.keyLabel)) {
@@ -154,7 +157,6 @@ class _ParentButton extends State<ParentButton> {
   /// a ce niveau (noeud parent), seul les evenements ignorés pas le noeud enfant seront traités
   KeyEventResult _handleKeyPressParent(FocusNode node, RawKeyEvent event) {
     if (event is RawKeyDownEvent) {
-
       /// on ignore l'evenement "Tab" pour garder la fonctionalité tabulation
       if (event.logicalKey.keyLabel == "Tab") {
         return KeyEventResult.ignored;
@@ -186,26 +188,50 @@ class _ParentButton extends State<ParentButton> {
     return Center(
         child: Column(mainAxisSize: MainAxisSize.min, children: [
       Padding(
-        padding: const EdgeInsets.only(bottom:150),
+        padding: const EdgeInsets.only(bottom: 150),
         child: Text(titre),
       ),
-            /// c'est ici qu'on crée le liens de parenté entre notre noeud parent et enfant
-            Focus(parentNode: _nodeParent, child: Padding(
-              padding: const EdgeInsets.all(25),
-              child: ChildButton(alphanumerique: voyelles, focusParent: _nodeParent, affichageParDefaut: 'Filtre voyelles',),
-            )),
-            /// c'est ici qu'on crée le liens de parenté entre notre noeud parent et enfant
-            Focus(parentNode: _nodeParent, child: Padding(
-              padding: const EdgeInsets.all(25),
-              child: ChildButton(alphanumerique: consonnes, focusParent: _nodeParent, affichageParDefaut: 'Filtre consonnes',),
-            )),
-            /// c'est ici qu'on crée le liens de parenté entre notre noeud parent et enfant
-            Focus(parentNode: _nodeParent, child: Padding(
-              padding: const EdgeInsets.all(25),
-              child: ChildButton(alphanumerique: numerique, focusParent: _nodeParent, affichageParDefaut: 'Filtre chiffres',),
-            )),
+
+      /// c'est ici qu'on crée le liens de parenté entre notre noeud parent et enfant
+      Focus(
+          parentNode: _nodeParent,
+          child: Padding(
+            padding: const EdgeInsets.all(25),
+            child: ChildButton(
+              alphanumerique: voyelles,
+              focusParent: _nodeParent,
+              affichageParDefaut: 'Filtre voyelles',
+            ),
+          )),
+
+      /// c'est ici qu'on crée le liens de parenté entre notre noeud parent et enfant
+      Focus(
+          parentNode: _nodeParent,
+          child: Padding(
+            padding: const EdgeInsets.all(25),
+            child: ChildButton(
+              alphanumerique: consonnes,
+              focusParent: _nodeParent,
+              affichageParDefaut: 'Filtre consonnes',
+            ),
+          )),
+
+      /// c'est ici qu'on crée le liens de parenté entre notre noeud parent et enfant
+      Focus(
+          parentNode: _nodeParent,
+          child: Padding(
+            padding: const EdgeInsets.all(25),
+            child: ChildButton(
+              alphanumerique: numerique,
+              focusParent: _nodeParent,
+              affichageParDefaut: 'Filtre chiffres',
+            ),
+          )),
       Text(affichageStatic),
-          Text(affichageDynamic, style: const TextStyle(color: Colors.red, fontSize: 100),)
+      Text(
+        affichageDynamic,
+        style: const TextStyle(color: Colors.red, fontSize: 100),
+      )
     ]));
   }
 }
@@ -214,11 +240,8 @@ class AlphaNumeriqueFilter extends StatelessWidget {
   const AlphaNumeriqueFilter({super.key});
 
   @override
-  build(context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
-    return DefaultTextStyle(
-      style: textTheme.headlineMedium!,
-      child: const ParentButton(),
-    );
-  }
+  build(context) => DefaultTextStyle(
+        style: Theme.of(context).textTheme.headlineMedium!,
+        child: const ParentButton(),
+      );
 }
