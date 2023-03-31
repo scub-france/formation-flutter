@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'app_router.dart';
 
 //ROUTE AVEC PARAMETRE
 void main() {
