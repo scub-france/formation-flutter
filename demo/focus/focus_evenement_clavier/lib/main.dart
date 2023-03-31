@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 
 /// Je vous propose cet exemple qui contient trois filtres.
 /// Chaque filtre a son noeud de focus et les trois noeuds ont comme parent notre widget principale qui contient le focus parent.
-/// On constatera ainsi comment chaque focus traite les évenements clavier et/ou les renvois au scope parent.
+/// On constatera ainsi comment chaque focus traite les évenements clavier et/ou les renvois au scope parent
 
 void main() => runApp(const MaterialApp(home: Scaffold(body: AlphaNumeriqueFilter())));
 
