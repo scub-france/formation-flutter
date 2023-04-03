@@ -12,7 +12,7 @@ void main() async {
 
   // tu peux récupérer seulement le premier élément comme ça
   //final computedData = await p.first;
-  
+
   // mais si tu veux récupérer plus d'éléments tu peux utiliser la méthode listen
   //on va récupérer les données envoyées par le port ainsi que le message qu'on lui à envoyé en premier
   p.listen((message) {
