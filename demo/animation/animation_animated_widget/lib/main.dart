@@ -2,15 +2,17 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+/// Les Widgets animés sont widgets qui fournissent une mécanique d'animation d'attributs
+/// Ils sont plus simples à mettre en oeuvre dans les scénarios
 void main() => runApp(const AnimationApp());
 
 class AnimationApp extends StatelessWidget {
   const AnimationApp({super.key});
 
   @override
-  Widget build(context) => const MaterialApp(
+  build(context) => const MaterialApp(
         title: 'Animation simple',
-        home: MyStatefulWidget(),
+        home: esfzef(),
       );
 }
 
@@ -24,12 +26,13 @@ class SpinningContainer extends AnimatedWidget {
   // et donc mettre à jour l'animation
   : super(listenable: controller);
 
+  // Note animation est typée, elle va produire unique un double
   Animation<double> get _progress => listenable as Animation<double>;
 
   @override
-  Widget build(context) =>
-      // Transform est un Widget qui implémente plusieurs mouvement
-      // Ici nous choisissons directement la rotation
+  build(context) =>
+      // Transform est un Widget qui propose plusieurs mode
+      // Ici nous choisissons directement une rotation
       Transform.rotate(
         // 2 Pi c'est une rotation complète à 360°
         // si l'animation est à 0.1 alors notre rotation est à 10%
@@ -48,25 +51,27 @@ class MyStatefulWidget extends StatefulWidget {
 
 /// [AnimationController] repose sur la propriété
 /// vsync qui se trouve dans le Mixin [TickerProviderStateMixin]
+/// Le Ticker est l'horloge système, elle nous prévient du timing en fonction des frames
 class _MyStatefulWidgetState extends State<MyStatefulWidget> with TickerProviderStateMixin {
   // Définition et contrôle de notre animation
-  late final AnimationController _controller = AnimationController(
+  late final _controller = AnimationController(
+    // L'animation est exécutée sur une période totale de 10 secondes.
+    // Le controller passera de la valeur 0 à la valeur 1 en 10 secondes
     duration: const Duration(seconds: 10),
     // this fait référence à TickerProviderStateMixin
     vsync: this,
   )
-    // Répétition
+    // Répétition à l'infinie
     ..repeat();
 
   @override
   void dispose() {
-    // Ne pas oublié de disposer le contrôleur pour éviter les fuites de mémoire
+    // Ne pas oublier de disposer le contrôleur pour éviter les fuites de mémoire
     _controller.dispose();
     super.dispose();
   }
 
   @override
-  Widget build(context) {
-    return SpinningContainer(controller: _controller);
-  }
+   build(context) => SpinningContainer(controller: _controller);
+
 }
