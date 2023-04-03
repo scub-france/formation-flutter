@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="22ba6389-a66f-4dc9-87f8-76b0eaa9bdcd" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../future/console_future_intro/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../future/console_future_intro/.idea/console_future_intro.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../future/console_future_intro/.idea/libraries/Dart_Packages.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../future/console_future_intro/.idea/libraries/Dart_SDK.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../future/console_future_intro/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../future/console_future_intro/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../future/console_future_intro/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../future/console_future_intro/console_future_intro/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../future/console_future_intro/console_future_intro/CHANGELOG.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../future/console_future_intro/console_future_intro/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../future/console_future_intro/console_future_intro/analysis_options.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../future/console_future_intro/console_future_intro/bin/console_future_intro.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../future/console_future_intro/console_future_intro/lib/console_future_intro.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../future/console_future_intro/console_future_intro/pubspec.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../future/console_future_isolate/bin/console_future_isolate.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../future/console_future_isolate/bin/console_future_isolate.dart" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2NjzNkiTCgM6kJoKnmmG6SKw2PW" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="autoscrollToSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="false" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "last_opened_file_path": "/Users/rfelker/Documents/scub/EdTech/formation-flutter/console/http_basic_parse",
+    "nodejs_package_manager_path": "npm",
+    "show.migrate.to.gradle.popup": "false"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="22ba6389-a66f-4dc9-87f8-76b0eaa9bdcd" name="Changes" comment="" />
+      <created>1680192241244</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1680192241244</updated>
+      <workItem from="1680192242420" duration="149000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
