@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const FlutterDecoration());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class FlutterDecoration extends StatelessWidget {
+  const FlutterDecoration({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,21 +14,21 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const HomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,14 +39,55 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('DecoratedBox'),
-            // Tu peux commencer par compléter ce code ci dessous avec les exemples du cours.
-            // DecoratedBox(
-            //   decoration: BoxDecoration(
-
-            //   ),
-            //   child: const Text('Mon enfant décoré'),
-            // ),
+            const Text('DecoratedBox 1'),
+            SizedBox(
+              width: 400,
+              height: 200,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: Colors.yellow,
+                  border: Border.all(
+                    color: Colors.red,
+                    width: 2,
+                  ),
+                ),
+                child: const Center(
+                  child: Text('L\'enfant n°1 décoré'),
+                ),
+              ),
+            ),
+            const Text('DecoratedBox 2'),
+            const SizedBox(
+              width: 200,
+              height: 200,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: AssetImage('images/background.jpg'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: Center(
+                    child: Text('L\'enfant n°2 décoré',
+                        style: TextStyle(color: Colors.white))),
+              ),
+            ),
+            const Text('DecoratedBox 3'),
+            const SizedBox(
+              width: 400,
+              height: 200,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [Colors.blue, Colors.red],
+                  ),
+                ),
+                child: Center(child: Text('L\'enfant n°3 décoré')),
+              ),
+            ),
           ],
         ),
       ),
