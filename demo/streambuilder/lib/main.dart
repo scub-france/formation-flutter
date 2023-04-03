@@ -13,7 +13,7 @@ class StreamBuild extends StatelessWidget {
 
   // Crée un flux(un stream) qui grâce à [Stream.periodic] émet un entier toutes les secondes et qui s'arrête après 5 émissions
   // grâce à la méthode [Stream.take]
-  final Stream<int> _stream =  Stream.periodic(const Duration(seconds: 1), (i) => i).take(5);
+  final _stream =  Stream.periodic(const Duration(seconds: 1), (i) => i).take(5);
 
   @override
   build(_) => Column(

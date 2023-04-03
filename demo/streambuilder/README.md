@@ -12,9 +12,9 @@ widget (builder) spécifiée, avec la dernière valeur du flux de données en ta
 Cela permet de créer des interfaces utilisateur réactives qui reflètent les changements en temps
 réel dans les données de l'application.
 
-Il est important de noter que le StreamBuilder doit être utilisé avec un flux de données qui peut
-être diffusé plusieurs fois (broadcast stream) ou qui est asynchrone. Si un flux de données ne peut
-être écouté qu'une seule fois, il est préférable d'utiliser le widget FutureBuilder à la place.
+Il est important de noter que le StreamBuilder doit être utilisé avec un stream qui broadcast et
+permet donc à plusieurs widgets de s'abonner.Donc si il ne se produit qu'une seul résolution, il est
+mieux d'utiliser un FutureBuilder.
 
 En résumé, le StreamBuilder est un outil puissant pour créer des interfaces utilisateur réactives en
 utilisant des flux de données, et il est particulièrement utile pour les applications qui
