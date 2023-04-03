@@ -54,7 +54,7 @@ class _BarApp extends State<BarApp>
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(isKeepAlive ? "Le widget est detruit quand il n'est plus visible, un autre widget est reconsruit a chaque fois": "Le widget est maintenu en vie"),
+          Text(isKeepAlive ? "Le widget est réinitialisé a chaque affichage": "l'état du widget est maintenu"),
           Text(affichage.toString(),style:const  TextStyle (color :  Colors .green, fontSize :  100 )),
           GestureDetector(
             onTap: () => setState(() {
@@ -68,7 +68,7 @@ class _BarApp extends State<BarApp>
                   width: 200,
                   height: 50,
                   child: Center(
-                    child: isKeepAlive ? const Text("Desactiver keepAlive") : const Text("activer keepAlive") ,
+                    child: isKeepAlive ? const Text("Désactiver keepAlive") : const Text("activer keepAlive") ,
                   ),
                 ),
               ),
