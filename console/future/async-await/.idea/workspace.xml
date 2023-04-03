@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="51d0a603-735d-4ed7-9ead-a09916560048" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../.idea/future.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../isolate/.idea/isolate.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../demo/flutter_stack/flutter_stack.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/future_test.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../isolate/test/future_test.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../demo/gorouter/gorouter_intro/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../demo/gorouter/gorouter_intro/.idea/gorouter_intro.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/async-await.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../demo/gorouter/gorouter_intro/.idea/libraries/Dart_SDK.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../demo/gorouter/gorouter_intro/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../demo/gorouter/gorouter_intro/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../demo/gorouter/gorouter_intro/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../demo/gorouter/gorouter_intro/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../.idea/formation-flutter.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../isolate/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../isolate/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,16 +30,15 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "last_opened_file_path": "/Users/rfelker/Documents/scub/EdTech/formation-flutter/console/future/async-await",
-    "nodejs_package_manager_path": "npm",
-    "show.migrate.to.gradle.popup": "false"
-  }
-}]]></component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
+    <property name="cidr.known.project.marker" value="true" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
