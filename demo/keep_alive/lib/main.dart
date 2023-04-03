@@ -1,6 +1,12 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 
+/// Il s'agit ici d'une page avec une TabBar ou chaque tab affiche un nombre aléatoire
+/// si on passe d'une tab a l'autre, le comportement naturel d'un tabBar est que l'etat
+/// d'un tab est perdu quand il n'est plus affiché !
+/// si on revient sur notre tab, il sera réinitialisé et une nouvelle valeur aléatoire sera
+/// calculée....
+/// on a ainsi ajouté un button pour activer/désactiver le keepAlive
 void main() {
   runApp(const TabBarDemo());
 }
@@ -58,7 +64,9 @@ class _BarApp extends State<BarApp>
           Text(affichage.toString(),style:const  TextStyle (color :  Colors .green, fontSize :  100 )),
           GestureDetector(
             onTap: () => setState(() {
+              /// on change ici l'etat de notre AutomaticKeepAlive
               isKeepAlive=!isKeepAlive;
+              /// Garantit que tous les ancêtres AutomaticKeepAlive sont en bon état
               updateKeepAlive();
             }),
             child: Center(
@@ -78,12 +86,17 @@ class _BarApp extends State<BarApp>
       ),
     );
   }
+
+  /// c'est ici qu'on définie si notre tab sera sauvegardé ou non
+  /// Si on veut que notre tab soit sauvegardé tout le temps, il suffit de remplacer
+  /// isKeepAlive par true....
   @override
   bool get wantKeepAlive => isKeepAlive;
 
   @override
   void initState() {
     affichage=Random().nextInt(1000);
+    /// l'etat de notre tab ne sera pas sauvegardé
     isKeepAlive=false;
     super.initState();
   }
