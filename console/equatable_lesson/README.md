@@ -4,24 +4,14 @@ Gestion equatable
 
 ## Getting Started
 
-Equatable est un package Dart qui fournit une implémentation simple et pratique de l'égalité et de la représentation des objets.
+Equatable est un package Dart qui fournit une implémentation simple et pratique de comparaison et de la représentation des objets.
 
-Il vous permet de facilement comparer des objets basés sur leur contenu, plutôt que sur leur identité.
-
-Le package Equatable fournit une classe Equatable que vous pouvez étendre dans vos propres classes pour leur donner une implémentation de l'égalité basée sur leur contenu.
+Il suffit d'étendre la classe Equatable pour implémenter une comparaison basée sur vos attributs.
 
 
 ## Installation
 
-Pour utiliser Equatable dans votre projet Dart, vous devez ajouter le package equatable à votre fichier pubspec.yaml :
-
-`equatable`
-
-Ensuite, vous pouvez exécuter `dart pub get` pour télécharger et installer le package.
-
-OU:
-
-Taper la commande `dart pub add equatable`.
+Pour utiliser Equatable dans votre projet Dart, il faut ajouter la dépendence `equatable`
 
 
 ## Utilisation

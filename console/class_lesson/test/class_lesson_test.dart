@@ -1,4 +1,4 @@
-import 'package:equatable_lesson/equatable_lesson.dart';
+import 'package:class_lesson/class_lesson.dart';
 import 'package:test/test.dart';
 
 void main() {
