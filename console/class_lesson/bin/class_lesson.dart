@@ -14,24 +14,14 @@ class Person {
     }
 }
 
-//En fait, la classe Person possède deux champs, nom, qui représente le nom de la personne et agequi stockera son âge. Puis nous avons une fonction infos(), qui, dans une classe s’appelle méthode.
+// La classe Person possède deux champs, nom, qui représente le nom de la personne et age qui stockera son âge. Puis nous avons une fonction info(), qui, dans une classe s’appelle méthode.
 //
-// Cette méthode ne renvoie rien, d’ou l’utilisation du mot void. Cependant, la méthode infos() affiche des informations sur une personne.
+// Cette méthode ne renvoie rien, d’où l’utilisation du mot void. Cependant, la méthode info() affiche des informations sur une personne.
 //
 // Pour faire simple, une classe est un modèle qui stocke les propriétés de l’objet ainsi que les actions qu’ils peut effectuer.
 //
 // Les variables nom et age sont de types String et int, qui n’acceptent pas les valeurs nulles. Donc, nous devons fournir à ces variables des valeurs initiales.
-//
-// Cependant, nous pourrions utiliser le type nullable en utilisant le signe ?, ce qui rend les valeurs initiales optionnelles.
 
-//CLASSE AVEC VALEUR OPTIONNEL
-class Person1{
-  String? nom;
-  int? age;
-  void info(){
-    print('Nom: $nom, Age: $age');
-  }
-}
 
 //LE CONSTRUCTEUR DE LA CLASSE DART
 void main() {
@@ -39,7 +29,7 @@ void main() {
   //instancier un objet marie
   Person marie = Person();
 
-  // changer les valeurs de nom et age
+  //changer les valeurs de nom et age
   marie.name = "Marie";
   marie.age = 25;
   marie.info();
@@ -54,9 +44,9 @@ class Person2{
   }
 }
 
-//A l'execution du code, voici le résultat du print `Nom: Marie Age: 25`
+// print `Nom: Marie Age: 25`
 
-//Pour créer un objet Person, nous avons utilisé l’expression Person().
+// Pour créer un objet Person, nous avons utilisé l’expression Person().
 //
 // En fait, les anciennes versions de Dart utilisaient également le mot 'new' pour appeler le constructeur.
 
@@ -72,13 +62,13 @@ class Person2{
 //
 // Par exemple, pour définir les valeurs des champs nous utiliserons :
 //
-//`marie.nom = "Marie";
-//marie.age = 25;
+// `marie.nom = "Marie";`
+// `marie.age = 25;`
 
 
 //CREER UN CONSTRUCTEUR D'UNE CLASSE DART
 
-//Un constructeur d’une classe Dart permet d’initialiser et de définir les valeurs de notre objet.
+// Un constructeur d’une classe Dart permet d’initialiser et de définir les valeurs de notre objet.
 //
 // Le constructeur prend le même nom de la classe et utilise un mot clé this.
 
@@ -181,7 +171,7 @@ void main4(){
   print(marie.leNom);
 }
 
-//Notez que nous avons utilisé les mots clés set et get avec la même fonction à savoir leNom.
+// Notez que nous avons utilisé les mots clés set et get avec la même fonction à savoir leNom.
 //
 // De plus, la fonction getter n’est pas définie avec des parenthèses.
 //
