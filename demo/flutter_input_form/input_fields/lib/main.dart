@@ -7,10 +7,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(appBarTheme: AppBarTheme(color: Colors.deepPurple)),
       title: 'My App',
       home: Scaffold(
         appBar: AppBar(
-          title: Text('My App'),
+          title: Text('Input Fields'),
         ),
         body: const MyFormWidget(),
       ),
@@ -40,9 +41,6 @@ class _MyFormWidgetState extends State<MyFormWidget> {
 
   @override
   build(context) => Scaffold(
-      appBar: AppBar(
-        title: const Text('My Form Widget'),
-      ),
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
