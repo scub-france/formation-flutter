@@ -10,10 +10,10 @@ main() async {
 }
 
 Future<int> doInSeconds(int sec) {
-  print('> Processing with value=${sec}...');
+  print('> Ple temps en seconde est de =${sec}...');
 
   if (sec <= 0) {
-    return Future.error('> input \'sec\' must be greater than 0');
+    return Future.error('> \'sec\' doit être supérieur à 0');
   }
 
   return Future.delayed(Duration(seconds: sec), () => sec).then((sec) {

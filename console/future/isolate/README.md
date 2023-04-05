@@ -17,7 +17,7 @@ et communiquer entre eux et avec l'application principale en utilisant des ports
 ### Comment lancer un Isolate/Comment ça fonctionne
 
   **Remarque Flutter :** si vous utilisez Flutter, envisagez
-  d'utiliser [la fonction Flutter`compute()`](https://api.flutter.dev/flutter/foundation/compute-constant.html)
+  d'utiliser [la fonction Flutter`compute()`](https://api.flutter.dev/flutter/foundation/compute-constant.html)
   au lieu de `Isolate.run()`. La `compute`fonction permet à votre code de fonctionner sur
   des [plates-formes natives et non natives](https://dart.dev/overview#platform) . À
   utiliser `Isolate.run()`uniquement lorsque vous ciblez des plateformes natives pour une API plus
@@ -30,9 +30,9 @@ et communiquer entre eux et avec l'application principale en utilisant des ports
   Voici un exemple de code qui crée un nouvel isolate et y exécute une fonction
   appelée **`isolateFunction()`** :
 
-    ```dart
-
-    import 'dart:isolate';
+```dart
+    
+import 'dart:isolate';
     
     void isolateFunction() {
       // Code à exécuter dans l'isolate
@@ -41,8 +41,8 @@ et communiquer entre eux et avec l'application principale en utilisant des ports
     void main() async {
       Isolate isolate = await Isolate.spawn(isolateFunction);
     }
-    
-    ```
+```
+  
 
   Dans cet exemple, la fonction **`isolateFunction()`** sera exécutée dans le nouvel isolate créé
   par la méthode **`Isolate.spawn()`**. Notez que la méthode **`Isolate.spawn()`** renvoie une
@@ -55,26 +55,24 @@ et communiquer entre eux et avec l'application principale en utilisant des ports
 
   Voici un exemple de code qui envoie un message à l'isolate et attend une réponse :
 
-    ```dart
-    
-    import 'dart:isolate';
-    
-    void isolateFunction() {
-      ReceivePort receivePort = ReceivePort();
-      sendPort.send(receivePort.sendPort);
-      receivePort.listen((message) {
-        print('Message reçu dans l\'isolate : $message');
-      });
-    }
-    
-    void main() async {
-      ReceivePort receivePort = ReceivePort();
-      Isolate isolate = await Isolate.spawn(isolateFunction, receivePort.sendPort);
-      SendPort sendPort = await receivePort.first;
-      sendPort.send('Bonjour depuis l\'application principale !');
-    }
-    
-    ```
+```dart
+  import 'dart:isolate';
+  
+  void isolateFunction() {
+    ReceivePort receivePort = ReceivePort();
+    sendPort.send(receivePort.sendPort);
+    receivePort.listen((message) {
+      print('Message reçu dans l\'isolate : $message');
+    });
+  }
+  
+  void main() async {
+    ReceivePort receivePort = ReceivePort();
+    Isolate isolate = await Isolate.spawn(isolateFunction, receivePort.sendPort);
+    SendPort sendPort = await receivePort.first;
+    sendPort.send('Bonjour depuis l\'application principale !');
+  }
+```
 
   Dans cet exemple, nous créons un port **`ReceivePort`** dans l'isolate et envoyons son port d'
   envoi à l'application principale en utilisant la méthode **`send()`**. Ensuite, nous écoutons les

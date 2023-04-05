@@ -24,13 +24,20 @@ Future possède plusieurs constructeurs:
 `Future.delayed`: permet de créer une Future qui sera résolue après un certain délai \
 `Future.value`: permet de créer une Future qui sera résolue avec une valeur donnée \
 `Future.error`: permet de créer une Future qui sera résolue avec une erreur donnée \
-`Future.microtask` : exécute une tâche de manière asynchrone, mais avec une priorité plus élevée que les tâches qui sont en attente dans la queue d'attente des Futures. \
-`Future.sync`: pour exécuter une tâche de manière synchrone, ce qui signifie que la tâche sera exécutée immédiatement sans être placée dans la queue d'événements et sans bloquer le thread principal.
-`Future.wait`: permet de créer une Future qui sera résolue lorsque toutes les Futures passées en paramètre seront résolues.
+`Future.microtask` : exécute une tâche de manière asynchrone, mais avec une priorité plus élevée que
+les tâches qui sont en attente dans la queue d'attente des Futures. \
+`Future.sync`: pour exécuter une tâche de manière synchrone, ce qui signifie que la tâche sera
+exécutée immédiatement sans être placée dans la queue d'événements et sans bloquer le thread
+principal.
+`Future.wait`: permet de créer une Future qui sera résolue lorsque toutes les Futures passées en
+paramètre seront résolues.
+
 ## Utiliser `await` ou `then` ou `isolate`
 
 `await` est utilisé pour attendre qu'un Future soit résolu avant de poursuivre l'exécution du code,
-tandis que then est utilisé pour enchaîner des opérations sur un Future une fois qu'il est résolu.
+tandis que then est utilisé pour enchaîner des opérations sur un Future une fois qu'il est résolu.En
+revanche, l'isolate est utilisé pour exécuter du code de manière isolée et asynchrone par rapport au
+thread principal de l'application.
 
 # Liens
 

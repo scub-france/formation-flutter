@@ -1,5 +1,9 @@
 main() async {
-  await exempleAsyncAwait();
+  exempleAsyncAwait();
+
+  //le code ci-dessous va s'exécuter avant la fin de la fonction exempleAsyncAwait()
+  //car elle n'est pas bloquée par un await
+  print('Avant Future dans le main');
 }
 
 /// exemple de Async et await
