@@ -2,34 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 
-
-
-//ROUTE AVEC ITINERAIRES
+// GO VS PUSH
 void main() {
   runApp(const MyApp());
 }
 
-
-//Pour cet exemple, nous avons nommé la route initiale /home
-final router = GoRouter(
-  //nous devons ajouter initialLocation pour indiquer à notre application que la route par défaut n'est plus "/" mais, dans notre cas, "/home".
-  //Sans cela, Flutter ira à "/" lors de l'ouverture de l'application.
-  initialLocation: "/home",
-  //Maintenant, faites attention à l'indentation des choses.
-  //Ici, notre premier GoRoute ne se ferme pas après avoir appelé le HomePage Widget.
-  //Nous avons établi une autre route à l'intérieur de la première route.
-  //Point important, ne pas mettre de '/' avant le sous-itinéraire.
+// Nous définissons ici les routes
+// Il s'agit d'une route simple pour naviguer entre HomePage et SettingPage
+// Attention : ici, nous avons défini des itinéraires, mais nous devons les appeler là où nous en avons besoin.
+final _router = GoRouter(
   routes: [
     GoRoute(
-        path: "/home",
-        builder: (context, state) => const HomePage(),
-        routes : [
-          GoRoute(
-            path: "settings",
-            builder: (context, state) => const SettingPage(),
-          )
-        ]
+      path: "/",
+      builder: (context, state) => const HomePage(),
     ),
+    GoRoute(
+      path: "/settings",
+      builder: (context, state) => const SettingPage(),
+    )
   ],
 );
 
@@ -41,7 +31,7 @@ class MyApp extends StatelessWidget {
   @override
   build(context) {
     return MaterialApp.router(
-      routerConfig: router,
+      routerConfig: _router,
       title: 'router Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -63,9 +53,9 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ElevatedButton(
-              //Afin de respecter les routes définies par go_router, qui appelle setting.widget en tant que sous-route de home.widget,
-              //nous devons le spécifier lors de l'appel de la méthode
-              onPressed: () => context.go('/home/settings'),
+              // Ici, vous pouvez voir qu'en appuyant sur le bouton, nous irons dans '/settings'.
+              // La route définie ici doit être identique au nom qui a été écrit à l'endroit où vous avez généré les routes
+              onPressed: () => context.go('/settings'),
               child: const Text('Go to the setting Page'),
             ),
           ],
@@ -78,7 +68,7 @@ class HomePage extends StatelessWidget {
 class SettingPage extends StatelessWidget {
   const SettingPage({super.key});
 
-
+  // Lors de la création du widget, nous avons besoin du contexte en paramètre
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,7 +78,9 @@ class SettingPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ElevatedButton(
-              onPressed: () => context.go('/home'),
+              // Vérifier l'itinéraire qui a été défini pour '/'.
+              // La route définie ici doit être identique au nom qui a été écrit à l'endroit où vous avez généré les routes
+              onPressed: () => context.go('/'),
               child: const Text('Go to home'),
             ),
           ],
@@ -97,5 +89,7 @@ class SettingPage extends StatelessWidget {
     );
   }
 }
+
+
 
 
