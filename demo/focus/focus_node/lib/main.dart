@@ -34,12 +34,12 @@ class _FocusButtonState extends State<FocusButton> {
   bool get isFocused => _node.hasFocus;
 
 
-  //Définissez le nœud de focus. Pour gérer le cycle de vie, créez le FocusNode dans
-  //la méthode initState et nettoyez-le dans la méthode dispose.
+  /// Définissez le nœud de focus. Pour gérer le cycle de vie, créez le FocusNode dans
+  /// la méthode initState et nettoyez-le dans la méthode dispose.
   @override
   void initState() {
     super.initState();
-    //Si vous souhaitez être averti chaque fois que Focus change, enregistrez un écouteur avec addListener
+    // Si vous souhaitez être averti chaque fois que Focus change, enregistrez un écouteur avec addListener
     _node.addListener(_handleFocusChange);
     _nodeAttachment = _node.attach(context);
   }
@@ -47,7 +47,7 @@ class _FocusButtonState extends State<FocusButton> {
   void _handleFocusChange() => setState(() => print("Focus updated to $isFocused"));
 
 
-  //nettoyez le nœud de focus lorsque le formulaire est éliminé
+  /// nettoyez le nœud de focus lorsque le formulaire est éliminé
   @override
   void dispose() {
     //Vous devez vous désinscrire avec removeListener pour éviter les fuites de mémoire

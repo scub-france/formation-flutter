@@ -1,0 +1,488 @@
+Index: lib/main.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/main.dart b/lib/main.dart
+--- a/lib/main.dart	
++++ b/lib/main.dart	
+@@ -1,5 +1,7 @@
+ import 'package:flutter/material.dart';
+ 
++/// Travailler avec [Stack] pour créer des widgets et de les disposer en calques
++/// cad les uns au dessus des autres pour composer le rendu final
+ void main() => runApp(const StackApp());
+ 
+ class StackApp extends StatelessWidget {
+@@ -10,7 +12,6 @@
+       title: 'Layout et mise en page',
+       home: Scaffold(
+         body: Column(
+-          /// [MainAxisAlignment.spaceEvenly] permet de répartir les enfants de la [Column] de manière égale
+           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+           children: [
+             /// [Stack] avec [Alignment.topLeft] qui est l'alignement par défaut de [Stack]
+@@ -27,24 +28,13 @@
+         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+         crossAxisAlignment: CrossAxisAlignment.start,
+         children: [
+-          /// [Stack] permet de superposer des widgets
+           Stack(
+             //alignment: align,
+-            children: <Widget>[
+-              buildLayer(100, 100, Colors.red),
+-              buildLayer(80, 80, Colors.green),
+-              buildLayer(60, 60, Colors.blue),
+-              Align(
+-                  alignment: Alignment.bottomRight,
+-                  child: SizedBox(
+-                    width: 10,
+-                    height: 10,
+-                    child: DecoratedBox(
+-                      decoration: BoxDecoration(
+-                        color: Colors.redAccent,
+-                      ),
+-                    ),
+-                  )),
++            children: [
++              calque(100, 100, Colors.red),
++              calque(80, 80, Colors.green),
++              calque(60, 60, Colors.blue),
++              const Align(alignment: Alignment.bottomRight, child: MiniBox()),
+               const Positioned(
+                   left: 5,
+                   top: 5,
+@@ -70,7 +60,7 @@
+           Stack(
+             alignment: align,
+             children: <Widget>[
+-              buildLayer(100, 100, Colors.red),
++              calque(100, 100, Colors.red),
+               buildStackCircle(50, Colors.cyan),
+               buildStackCircle(40, Colors.green),
+               buildStackCircle(30, Colors.blue),
+@@ -80,7 +70,7 @@
+       );
+ 
+   /// Crée un rectangle grâce à [DecoratedBox] de la color donnée et de la taille donnée grâce à [SizedBox]
+-  Widget buildLayer(int height, int width, Color color) => SizedBox(
++  Widget calque(int height, int width, Color color) => SizedBox(
+       height: height.toDouble(),
+       width: width.toDouble(),
+       child: DecoratedBox(
+@@ -95,3 +85,16 @@
+         backgroundColor: color,
+       );
+ }
++
++class MiniBox extends StatelessWidget {
++  const MiniBox({super.key, this.color = Colors.blue});
++
++  final Color color;
++
++  @override
++  build(context) => const SizedBox(
++        width: 10,
++        height: 10,
++        child: DecoratedBox(decoration: BoxDecoration(color: Colors.redAccent)),
++      );
++}
+Index: ../gorouter/gorouter_intro/.idea/modules.xml
+===================================================================
+diff --git a/../gorouter/gorouter_intro/.idea/modules.xml b/../gorouter/gorouter_intro/.idea/modules.xml
+deleted file mode 100644
+--- a/../gorouter/gorouter_intro/.idea/modules.xml	
++++ /dev/null	
+@@ -1,8 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="ProjectModuleManager">
+-    <modules>
+-      <module fileurl="file://$PROJECT_DIR$/.idea/gorouter_intro.iml" filepath="$PROJECT_DIR$/.idea/gorouter_intro.iml" />
+-    </modules>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: ../gorouter/gorouter_intro/README.md
+===================================================================
+diff --git a/../gorouter/gorouter_intro/README.md b/../gorouter/gorouter_intro/README.md
+deleted file mode 100644
+--- a/../gorouter/gorouter_intro/README.md	
++++ /dev/null	
+@@ -1,72 +0,0 @@
+-# gorouter
+-
+-# ZappId
+-
+-z41w06px51x0 17 mars
+-
+-
+-# Liens
+-
+-https://zapp.run/github/Robert-Scub/formation-flutter/tree/main/demo/gorouter/gorouter_intro
+-
+-Gestion gorouter
+-
+-## go_router... ok, mais c'est qui ce router ?
+-
+-go_router est un package Flutter qui permet de gérer la navigation dans une application en utilisant des routes. 
+-Il offre des fonctionnalités avancées telles que la gestion des itinéraires de navigation et la personnalisation de l'apparence des itinéraires de navigation.
+-
+-## Getting Started
+-
+-Pour utiliser go_router, il faut installer le package:
+-"go_router" :sweat_smile:
+-
+-_Deux façons de l'installer_ :
+-
+--Taper dans la console du projet => `flutter pub add go_router`;
+-
+--Se rendre dans le fichier pubspec.yaml et y inscrire le package =>
+-
+-"dependencies:
+-    go_router: ^6.2.0"
+-(attention à l'indentation). Lancer impérativement la commande `flutter pub get` pour que le package soit intégré au projet.
+-
+-Ensuite, il faut faire appel à ce package lors de l'utilisation de go_router. 
+-Dans vos fichiers où vous faites appel à go_router, vous devez noter:
+-
+-`import 'package:go_router/go_router.dart';`
+-
+-Note: 
+-Si vous déjà installé le package et que vous mettez une 'route' en place, votre IDE pointera une erreur et vous proposera d'importer go_router.
+-
+-## Fonctionnalitées
+-
+-#### Gestion des itinéraires:
+-
+-go_router vous permet de définir facilement des itinéraires de navigation dans votre application. 
+-Vous pouvez définir des itinéraires pour chaque page de votre application, et go_router se chargera de les afficher lorsque l'utilisateur navigue dans votre application.
+-
+-#### Gestion des erreurs de navigation:
+-
+-Lorsque l'utilisateur navigue vers une page qui n'existe pas ou qui n'est pas autorisée, go_router peut afficher une page d'erreur personnalisée.
+-Vous pouvez définir une page d'erreur personnalisée pour chaque type d'erreur de navigation, ce qui facilite la gestion des erreurs dans votre application.
+-
+-#### Transitions d'écran personnalisées:
+-
+-go_router vous permet de personnaliser les transitions d'écran lorsque l'utilisateur navigue dans votre application. 
+-Vous pouvez définir des transitions personnalisées pour chaque itinéraire, ou utiliser une transition par défaut pour tous les itinéraires.
+-
+-#### Gestion de l'état de navigation:
+-
+-go_router facilite la gestion de l'état de navigation dans votre application. 
+-Vous pouvez utiliser l'état de navigation pour stocker des informations sur la position actuelle de l'utilisateur dans votre application, et pour faciliter la navigation en arrière et en avant.
+-
+-#### Gestion des paramètres de navigation:
+-
+-Lorsque l'utilisateur navigue vers une page, il peut souvent être utile de passer des paramètres à cette page. 
+-go_router facilite la gestion des paramètres de navigation en les stockant dans l'état de navigation. 
+-Vous pouvez récupérer ces paramètres dans la page de destination en utilisant la propriété state.
+-
+-
+-En utilisant go_router, vous pouvez facilement créer une navigation personnalisée dans votre application Flutter, 
+-avec des fonctionnalités telles que la gestion des erreurs, les transitions personnalisées et la gestion de l'état et des paramètres de navigation.
+Index: ../gorouter/gorouter_intro/.idea/misc.xml
+===================================================================
+diff --git a/../gorouter/gorouter_intro/.idea/misc.xml b/../gorouter/gorouter_intro/.idea/misc.xml
+deleted file mode 100644
+--- a/../gorouter/gorouter_intro/.idea/misc.xml	
++++ /dev/null	
+@@ -1,6 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="FrameworkDetectionExcludesConfiguration">
+-    <type id="android" />
+-  </component>
+-</project>
+\ No newline at end of file
+Index: ../gorouter/gorouter_intro/.idea/gorouter_intro.iml
+===================================================================
+diff --git a/../gorouter/gorouter_intro/.idea/gorouter_intro.iml b/../gorouter/gorouter_intro/.idea/gorouter_intro.iml
+deleted file mode 100644
+--- a/../gorouter/gorouter_intro/.idea/gorouter_intro.iml	
++++ /dev/null	
+@@ -1,14 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<module type="JAVA_MODULE" version="4">
+-  <component name="NewModuleRootManager" inherit-compiler-output="true">
+-    <exclude-output />
+-    <content url="file://$MODULE_DIR$">
+-      <excludeFolder url="file://$MODULE_DIR$/.dart_tool" />
+-      <excludeFolder url="file://$MODULE_DIR$/.pub" />
+-      <excludeFolder url="file://$MODULE_DIR$/build" />
+-    </content>
+-    <orderEntry type="inheritedJdk" />
+-    <orderEntry type="sourceFolder" forTests="false" />
+-    <orderEntry type="library" name="Dart SDK" level="project" />
+-  </component>
+-</module>
+\ No newline at end of file
+Index: ../gorouter/gorouter_intro/lib/widget/setting.widget.dart
+===================================================================
+diff --git a/../gorouter/gorouter_intro/lib/widget/setting.widget.dart b/../gorouter/gorouter_intro/lib/widget/setting.widget.dart
+deleted file mode 100644
+--- a/../gorouter/gorouter_intro/lib/widget/setting.widget.dart	
++++ /dev/null	
+@@ -1,27 +0,0 @@
+-import 'package:flutter/material.dart';
+-import 'package:go_router/go_router.dart';
+-
+-class SettingPage extends StatelessWidget {
+-  const SettingPage({super.key});
+-
+-  // Lors de la création du widget, nous avons besoin du contexte en paramètre
+-  @override
+-  Widget build(BuildContext context) {
+-    return Scaffold(
+-      appBar: AppBar(title: const Text('Setting Page')),
+-      body: Center(
+-        child: Column(
+-          mainAxisAlignment: MainAxisAlignment.center,
+-          children: <Widget>[
+-            ElevatedButton(
+-              // Vérifier l'itinéraire qui a été défini pour '/'.
+-              // La route définie ici doit être identique au nom qui a été écrit à l'endroit où vous avez généré les routes
+-              onPressed: () => context.go('/'),
+-              child: const Text('Go to home'),
+-            ),
+-          ],
+-        ),
+-      ),
+-    );
+-  }
+-}
+\ No newline at end of file
+Index: ../gorouter/gorouter_intro/lib/app_router.dart
+===================================================================
+diff --git a/../gorouter/gorouter_intro/lib/app_router.dart b/../gorouter/gorouter_intro/lib/app_router.dart
+deleted file mode 100644
+--- a/../gorouter/gorouter_intro/lib/app_router.dart	
++++ /dev/null	
+@@ -1,20 +0,0 @@
+-import 'package:go_router/go_router.dart';
+-import 'package:gorouter/widget/home.widget.dart';
+-import 'package:gorouter/widget/setting.widget.dart';
+-
+-
+-// Nous définissons ici les routes
+-// Il s'agit d'une route simple pour naviguer entre HomePage et SettingPage
+-// Attention : ici, nous avons défini des itinéraires, mais nous devons les appeler là où nous en avons besoin.
+-final router = GoRouter(
+-  routes: [
+-    GoRoute(
+-      path: "/",
+-      builder: (context, state) => const HomePage(),
+-    ),
+-    GoRoute(
+-      path: "/settings",
+-      builder: (context, state) => const SettingPage(),
+-    )
+-  ],
+-);
+\ No newline at end of file
+Index: ../gorouter/gorouter_intro/test/widget_test.dart
+===================================================================
+diff --git a/../gorouter/gorouter_intro/test/widget_test.dart b/../gorouter/gorouter_intro/test/widget_test.dart
+deleted file mode 100644
+--- a/../gorouter/gorouter_intro/test/widget_test.dart	
++++ /dev/null	
+@@ -1,30 +0,0 @@
+-// This is a basic Flutter widget test.
+-//
+-// To perform an interaction with a widget in your test, use the WidgetTester
+-// utility in the flutter_test package. For example, you can send tap and scroll
+-// gestures. You can also use WidgetTester to find child widgets in the widget
+-// tree, read text, and verify that the values of widget properties are correct.
+-
+-import 'package:flutter/material.dart';
+-import 'package:flutter_test/flutter_test.dart';
+-
+-import 'package:gorouter/main.dart';
+-
+-void main() {
+-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+-    // Build our app and trigger a frame.
+-    await tester.pumpWidget(const MyApp());
+-
+-    // Verify that our counter starts at 0.
+-    expect(find.text('0'), findsOneWidget);
+-    expect(find.text('1'), findsNothing);
+-
+-    // Tap the '+' icon and trigger a frame.
+-    await tester.tap(find.byIcon(Icons.add));
+-    await tester.pump();
+-
+-    // Verify that our counter has incremented.
+-    expect(find.text('0'), findsNothing);
+-    expect(find.text('1'), findsOneWidget);
+-  });
+-}
+Index: ../gorouter/gorouter_intro/lib/main.dart
+===================================================================
+diff --git a/../gorouter/gorouter_intro/lib/main.dart b/../gorouter/gorouter_intro/lib/main.dart
+deleted file mode 100644
+--- a/../gorouter/gorouter_intro/lib/main.dart	
++++ /dev/null	
+@@ -1,32 +0,0 @@
+-import 'package:flutter/material.dart';
+-
+-import 'app_router.dart';
+-
+-
+-void main() {
+-  runApp(const MyApp());
+-}
+-
+-// Ce widget est la racine de votre application.
+-class MyApp extends StatelessWidget {
+-  const MyApp({super.key});
+-
+-
+-  // RouterConfig permet de définir la configuration du routeur de l'application.
+-  // Ici, nous lui passons "router" qui est un objet de GoRouter.
+-  // Cet objet est configuré avec la liste des routes à gérer et d'autres paramètres de configuration comme le mode de navigation
+-  @override
+-  build(context ) {
+-    return MaterialApp.router(
+-      routerConfig: router,
+-      title: 'router Demo',
+-      theme: ThemeData(
+-        primarySwatch: Colors.blue,
+-      ),
+-    );
+-  }
+-}
+-
+-
+-
+-
+Index: ../gorouter/gorouter_intro/.idea/libraries/Flutter_Plugins.xml
+===================================================================
+diff --git a/../gorouter/gorouter_intro/.idea/libraries/Flutter_Plugins.xml b/../gorouter/gorouter_intro/.idea/libraries/Flutter_Plugins.xml
+deleted file mode 100644
+--- a/../gorouter/gorouter_intro/.idea/libraries/Flutter_Plugins.xml	
++++ /dev/null	
+@@ -1,7 +0,0 @@
+-<component name="libraryTable">
+-  <library name="Flutter Plugins" type="FlutterPluginsLibraryType">
+-    <CLASSES />
+-    <JAVADOC />
+-    <SOURCES />
+-  </library>
+-</component>
+\ No newline at end of file
+Index: ../gorouter/gorouter_intro/lib/widget/home.widget.dart
+===================================================================
+diff --git a/../gorouter/gorouter_intro/lib/widget/home.widget.dart b/../gorouter/gorouter_intro/lib/widget/home.widget.dart
+deleted file mode 100644
+--- a/../gorouter/gorouter_intro/lib/widget/home.widget.dart	
++++ /dev/null	
+@@ -1,27 +0,0 @@
+-import 'package:flutter/material.dart';
+-import 'package:go_router/go_router.dart';
+-
+-class HomePage extends StatelessWidget {
+-  const HomePage({super.key});
+-
+-  //Lors de la création du widget, nous avons besoin du 'contexte' en paramètre
+-  @override
+-  Widget build(BuildContext context) {
+-    return Scaffold(
+-      appBar: AppBar(title: const Text('Home Page')),
+-      body: Center(
+-        child: Column(
+-          mainAxisAlignment: MainAxisAlignment.center,
+-          children: <Widget>[
+-            ElevatedButton(
+-              // Ici, vous pouvez voir qu'en appuyant sur le bouton, nous irons dans '/settings'.
+-              // La route définie ici doit être identique au nom qui a été écrit à l'endroit où vous avez généré les routes
+-              onPressed: () => context.go('/settings'),
+-              child: const Text('Go to the setting Page'),
+-            ),
+-          ],
+-        ),
+-      ),
+-    );
+-  }
+-}
+\ No newline at end of file
+Index: ../gorouter/gorouter_intro/.idea/libraries/Dart_SDK.xml
+===================================================================
+diff --git a/../gorouter/gorouter_intro/.idea/libraries/Dart_SDK.xml b/../gorouter/gorouter_intro/.idea/libraries/Dart_SDK.xml
+deleted file mode 100644
+--- a/../gorouter/gorouter_intro/.idea/libraries/Dart_SDK.xml	
++++ /dev/null	
+@@ -1,27 +0,0 @@
+-<component name="libraryTable">
+-  <library name="Dart SDK">
+-    <CLASSES>
+-      <root url="file://$PROJECT_DIR$/../../../../../../INSTALL/flutter/bin/cache/dart-sdk/lib/async" />
+-      <root url="file://$PROJECT_DIR$/../../../../../../INSTALL/flutter/bin/cache/dart-sdk/lib/cli" />
+-      <root url="file://$PROJECT_DIR$/../../../../../../INSTALL/flutter/bin/cache/dart-sdk/lib/collection" />
+-      <root url="file://$PROJECT_DIR$/../../../../../../INSTALL/flutter/bin/cache/dart-sdk/lib/convert" />
+-      <root url="file://$PROJECT_DIR$/../../../../../../INSTALL/flutter/bin/cache/dart-sdk/lib/core" />
+-      <root url="file://$PROJECT_DIR$/../../../../../../INSTALL/flutter/bin/cache/dart-sdk/lib/developer" />
+-      <root url="file://$PROJECT_DIR$/../../../../../../INSTALL/flutter/bin/cache/dart-sdk/lib/ffi" />
+-      <root url="file://$PROJECT_DIR$/../../../../../../INSTALL/flutter/bin/cache/dart-sdk/lib/html" />
+-      <root url="file://$PROJECT_DIR$/../../../../../../INSTALL/flutter/bin/cache/dart-sdk/lib/indexed_db" />
+-      <root url="file://$PROJECT_DIR$/../../../../../../INSTALL/flutter/bin/cache/dart-sdk/lib/io" />
+-      <root url="file://$PROJECT_DIR$/../../../../../../INSTALL/flutter/bin/cache/dart-sdk/lib/isolate" />
+-      <root url="file://$PROJECT_DIR$/../../../../../../INSTALL/flutter/bin/cache/dart-sdk/lib/js" />
+-      <root url="file://$PROJECT_DIR$/../../../../../../INSTALL/flutter/bin/cache/dart-sdk/lib/js_util" />
+-      <root url="file://$PROJECT_DIR$/../../../../../../INSTALL/flutter/bin/cache/dart-sdk/lib/math" />
+-      <root url="file://$PROJECT_DIR$/../../../../../../INSTALL/flutter/bin/cache/dart-sdk/lib/mirrors" />
+-      <root url="file://$PROJECT_DIR$/../../../../../../INSTALL/flutter/bin/cache/dart-sdk/lib/svg" />
+-      <root url="file://$PROJECT_DIR$/../../../../../../INSTALL/flutter/bin/cache/dart-sdk/lib/typed_data" />
+-      <root url="file://$PROJECT_DIR$/../../../../../../INSTALL/flutter/bin/cache/dart-sdk/lib/web_audio" />
+-      <root url="file://$PROJECT_DIR$/../../../../../../INSTALL/flutter/bin/cache/dart-sdk/lib/web_gl" />
+-    </CLASSES>
+-    <JAVADOC />
+-    <SOURCES />
+-  </library>
+-</component>
+\ No newline at end of file
+Index: ../gorouter/gorouter_intro/.idea/vcs.xml
+===================================================================
+diff --git a/../gorouter/gorouter_intro/.idea/vcs.xml b/../gorouter/gorouter_intro/.idea/vcs.xml
+deleted file mode 100644
+--- a/../gorouter/gorouter_intro/.idea/vcs.xml	
++++ /dev/null	
+@@ -1,6 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="VcsDirectoryMappings">
+-    <mapping directory="$PROJECT_DIR$/../../.." vcs="Git" />
+-  </component>
+-</project>
+\ No newline at end of file
+Index: ../gorouter/gorouter_intro/.idea/.gitignore
+===================================================================
+diff --git a/../gorouter/gorouter_intro/.idea/.gitignore b/../gorouter/gorouter_intro/.idea/.gitignore
+deleted file mode 100644
+--- a/../gorouter/gorouter_intro/.idea/.gitignore	
++++ /dev/null	
+@@ -1,5 +0,0 @@
+-# Default ignored files
+-/shelf/
+-/workspace.xml
+-# Editor-based HTTP Client requests
+-/httpRequests/
+Index: ../focus/focus_scope/.idea/libraries/Flutter_Plugins.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../focus/focus_scope/.idea/libraries/Flutter_Plugins.xml b/../focus/focus_scope/.idea/libraries/Flutter_Plugins.xml
+deleted file mode 100644
+--- a/../focus/focus_scope/.idea/libraries/Flutter_Plugins.xml	
++++ /dev/null	
+@@ -1,7 +0,0 @@
+-<component name="libraryTable">
+-  <library name="Flutter Plugins" type="FlutterPluginsLibraryType">
+-    <CLASSES />
+-    <JAVADOC />
+-    <SOURCES />
+-  </library>
+-</component>
+\ No newline at end of file
