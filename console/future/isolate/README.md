@@ -1,4 +1,4 @@
-#Isolate 
+#Isolate
 ### Qu’est-ce qu’un Isolate
 
 Un isolate en Dart est une unité de traitement isolée qui s'exécute en parallèle avec le reste de l'
