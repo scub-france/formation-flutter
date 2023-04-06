@@ -10,7 +10,7 @@ void main() async {
     print(response.body);
   } else {
     // Si la requete échoue, nous affichons le statut de celle-ci
-    print('Request failed with status: ${response.statusCode}.');
+    print('Request failed with status: ${response.statusCode}');
   }
 }
 
