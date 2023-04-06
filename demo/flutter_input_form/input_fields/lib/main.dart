@@ -4,14 +4,16 @@ import 'package:flutter/material.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(appBarTheme: AppBarTheme(color: Colors.deepPurple)),
+      theme: ThemeData(appBarTheme: const AppBarTheme(color: Colors.deepPurple)),
       title: 'My App',
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Input Fields'),
+          title: const Text('Input Fields'),
         ),
         body: const MyFormWidget(),
       ),
@@ -41,6 +43,7 @@ class _MyFormWidgetState extends State<MyFormWidget> {
 
   @override
   build(context) => Scaffold(
+    // Créez un widget Form en utilisant la clé _formKey créée ci-dessus.
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -49,20 +52,12 @@ class _MyFormWidgetState extends State<MyFormWidget> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Le widget TextFormField est un widget dans Flutter utilisé pour collecter les entrées utilisateur dans les formulaires.
                 TextFormField(
                   decoration: const InputDecoration(
                     labelText: 'Name',
                     border: OutlineInputBorder(),
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your name';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _name = value!;
-                  },
                 ),
                 const SizedBox(height: 16.0),
                 TextFormField(
@@ -70,18 +65,6 @@ class _MyFormWidgetState extends State<MyFormWidget> {
                     labelText: 'Email',
                     border: OutlineInputBorder(),
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your email address';
-                    }
-                    if (!value.contains('@')) {
-                      return 'Please enter a valid email address';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _email = value!;
-                  },
                 ),
                 const SizedBox(height: 16.0),
                 TextFormField(
@@ -90,20 +73,9 @@ class _MyFormWidgetState extends State<MyFormWidget> {
                     border: OutlineInputBorder(),
                   ),
                   obscureText: true,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a password';
-                    }
-                    if (value.length < 6) {
-                      return 'Password should be at least 6 characters long';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _password = value!;
-                  },
                 ),
                 const SizedBox(height: 16.0),
+                //DropdownButtonFormField est un widget qui affiche une liste déroulante qui permet à l'utilisateur de choisir une option parmi une liste prédéfinie d'options.
                 DropdownButtonFormField<String>(
                   value: _selectedOption,
                   items: ['Option 1', 'Option 2', 'Option 3'].map((option) {
@@ -119,6 +91,8 @@ class _MyFormWidgetState extends State<MyFormWidget> {
                   },
                 ),
                 const SizedBox(height: 16.0),
+                // CheckboxListTile est un widget qui combine une case à cocher avec une tuile.
+                // Il peut être utilisé pour permettre à l'utilisateur de selectionner un ou plusieurs éléments d'une liste en cochant des cases à cocher.
                 CheckboxListTile(
                   title: const Text('Check me out'),
                   value: _isChecked,
@@ -129,6 +103,8 @@ class _MyFormWidgetState extends State<MyFormWidget> {
                   },
                 ),
                 const SizedBox(height: 16.0),
+                // RadioListTile est un widget qui représente un seul choix parmi plusieurs options
+                // présentées sous forme de liste verticale.
                 RadioListTile<String>(
                   title: const Text('Option 1'),
                   value: 'Option 1',
@@ -217,15 +193,6 @@ class _MyFormWidgetState extends State<MyFormWidget> {
                   ),
                 ),
                 const SizedBox(height: 16.0),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                      // TODO: Submit the form
-                    }
-                  },
-                  child: const Text('Submit'),
-                ),
               ],
             ),
           ),
