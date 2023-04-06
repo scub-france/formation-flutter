@@ -30,7 +30,6 @@ Future<void> getUser()  async {
 
 void main() {
   getUser();
-  print('test');
   print('****************** Exo2 ******************');
   exo2();
 }
