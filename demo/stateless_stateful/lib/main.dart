@@ -39,8 +39,8 @@ class _RandomWordPage extends State<RandomWordPage> {
 
   /// setState demande la mise à jour de notre affichage avec les valeurs à jour
   void _changer() => setState(() {
-    _message= "Ce message nous parvient de la methode setState()";
-    _messageColor=Colors.blue;
+    _message= "setState()";
+    _messageColor=Colors.deepPurple;
     _resultat=getRandom(_resultat);
   });
 
@@ -57,7 +57,7 @@ class _RandomWordPage extends State<RandomWordPage> {
   @override
   initState(){
     super.initState();
-    _message="Ce message nous parvient de la methode initState()";
+    _message="initState()";
     _messageColor=Colors.green;
   }
 
@@ -70,7 +70,8 @@ class _RandomWordPage extends State<RandomWordPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(_message, style:  TextStyle(color: _messageColor, fontSize: 18)),
+            const Text("Ce message nous parvient de la methode:"),
+            Text(_message, style:  TextStyle(color: _messageColor, fontSize: 40)),
             const SizedBox(height: 100),
             const TitreDeSorite(),
             Text(_resultat, style: Theme.of(context).textTheme.headline4),
