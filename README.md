@@ -6,23 +6,23 @@
 ### Flutter
 
 ```shell
-create-demo.sh nom-de-la-feature
+create-demo.sh nom_de_la_feature
 ```
 
 ### Dart
 
 ```shell
-create-dart.sh nom-de-la-feature
+create-dart.sh nom_de_la_feature
 ```
 
 ## Process
 
- - Créer une branche `domain`-`nom-de-la-feature` depuis dev. Ex 'console-future'
- - Executé le bon script en fonction du type **flutter** ou **dart**
+ - Créer une branche `domain`-`nom_de_la_feature` depuis dev. Ex 'console-future'
+ - Créer un ticket github correspondant au nom `domain`-`nom-de-la-feature`
+ - Executé le bon script en fonction du type **flutter** ou **dart**. Voir ci-dessus.
  - Le project doit avoir un **README** documenté au bon format surtout historisation
- - Charger le projet en faisant pointer Zapp vers le projet
- - Récupérer l'**ID Zapp** en pointant vers le bon projet et mettre à jour le **README**
- - Copier le ZappId dans main sous la forme du lien complet à déposer dans EdTech
+ - Charger le projet en faisant pointer Zapp vers le projet voir les urls ci-dessous.
+ - Récupérer l'**ID Zapp** en pointant vers le bon projet et mettre à jour le **README** ainsi que le **ticket github**
 
 
 ### Exemple d'URL Zapp
