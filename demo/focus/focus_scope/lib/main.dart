@@ -46,7 +46,7 @@ class _FocusAppState extends State<FocusApp> {
     final scope2 = FocusScope(canRequestFocus: isScope2canRequestFocus, child: const GroupeButtonWidget());
     return Center(
       child: Column(children: [
-        Text(intruduction),
+        Text(introduction),
         sizeBox,
         checkbox1,
         Expanded(child: scope1),
@@ -135,7 +135,7 @@ class _FocusButton extends State<FocusButton> {
         child: DecoratedBox(
           decoration: BoxDecoration(color: isFocused ? Colors.green : Colors.orangeAccent),
           child: Center(
-            child: isFocused ? const Text("Focus") : Text("Click Me"),
+            child: isFocused ? const Text("Focus") : const Text("Click Me"),
           ),
         ),
       ),
