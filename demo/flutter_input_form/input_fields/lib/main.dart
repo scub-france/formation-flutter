@@ -155,16 +155,24 @@ class _MyFormWidgetState extends State<MyFormWidget> {
                     border: OutlineInputBorder(),
                   ),
                   onTap: () async {
+                    // ShowDatePicker est une fonction qui permet d'afficher un dialogue de sélection de date à l'utilisateur
+                    // Il prend plusieurs paramètres optionnels.
                     final date = await showDatePicker(
                       context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(2000),
-                      lastDate: DateTime(2100),
+                      initialDate: DateTime.now(), // la date initiale affichée dans le selecteur
+                      firstDate: DateTime(2000), // la date minimal sélectionnable
+                      lastDate: DateTime(2100), // la date maximal selectionnable
+                      // il y a d'autres paramètres pouvant être pris en compte
                     );
+                    // La date selectionnée ne sera pas automatiquement affichée dans l'interface utilisateur.
+                    // Vous devez utiliser la méthode `setState` et mettre à jour la variable.
+                    // Cela déclenchera une reconstruction de l'interface utilisateur avec la nouvelle date affichée
                     setState(() {
                       _selectedDate = date;
                     });
                   },
+                  // Ici TextEditingController permet de contrôler le texte affiché dans le `TextFormField`
+                  // Attention, dans ce cas, il faut impérativement utiliser setState pour mettre à jour la variable. Ici, c'est `text`
                   controller: TextEditingController(
                     text: _selectedDate != null
                         ? '${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}'
