@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-
+// REDIRECTION GOROUTER
 void main() {
   runApp(const MyApp());
 }
