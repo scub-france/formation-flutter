@@ -40,7 +40,7 @@ void heavyFunction(Map<String, dynamic> map) {
   port.send('data2');
   port.send('data3');
 
-  // N'oubliez pas  de kill l'isolate afin d'évite tout fuite mémoire ou performance
-  // appart si vous utiliser le compute de flutter qui gère tout ça pour vous
+  // N'oubliez pas de kill l'isolate afin d'évite tout fuite mémoire ou performance
+  // sauf si vous utiliser le compute de flutter qui gère tout ça pour vous
   Isolate.exit(port, computedData);
 }
