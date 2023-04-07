@@ -24,13 +24,13 @@ dependencies:
 
 Dans cet exemple, nous avons défini le nom de l'application, sa description et sa version. 
 
-Nous avons également déclaré que notre application dépend de Flutter en utilisant la clé flutter et spécifié que nous avons besoin de l'icône Cupertino en utilisant la clé cupertino_icons. 
+Nous avons également déclaré que notre application dépend de Flutter en utilisant la clé `flutter` et spécifié que nous avons besoin de l'icône `Cupertino` en utilisant la clé `cupertino_icons`. 
 
-La version de cupertino_icons est spécifiée en utilisant le symbole ^ qui signifie que nous voulons la dernière version compatible.
+La version de `cupertino_icons` est spécifiée en utilisant le symbole ^ qui signifie que nous voulons la dernière version compatible.
 
-Une fois que vous avez modifié votre fichier pubspec.yaml, vous pouvez exécuter la commande `flutter pub get` pour télécharger et installer les packages et les dépendances que vous avez spécifiés. 
+Une fois que vous avez modifié votre fichier `pubspec.yaml`, vous devez exécuter la commande `flutter pub get` pour télécharger et installer les packages et les dépendances que vous avez spécifiés. 
 
-Cette commande doit être exécutée chaque fois que vous modifiez votre fichier pubspec.yaml.
+Cette commande doit être exécutée chaque fois que vous modifiez votre fichier `pubspec.yaml`.
 
 
 ## Comment enrichir le pubspec ?
@@ -53,14 +53,14 @@ Voici un exemple de la façon d'ajouter le package http à votre projet Flutter 
 
 Dans cet exemple, nous avons ajouté la dépendance http avec la version 0.13.3.
 
-Impérativement, après avoir ajouté un package, il faut selectionné `Pub get` qui devrait apparaitre en haut à droite, sinon, il faut taper la commande `flutter pub get`.
-
 Pour être à jour, vous pouvez ajouter des dépendances en ne mettant aucune version, de cette façon:
 
 `dependencies:
     flutter:
         sdk: flutter
     http:`
+
+De cette façon, la dernière version du package `http` sera installé, et cela, à chaque fois que vous relancerez la commande `flutter pub get`.
 
 3.Enregistrez le fichier pubspec.yaml.
 
