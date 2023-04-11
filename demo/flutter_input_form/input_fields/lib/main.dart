@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -26,26 +26,26 @@ class MyFormWidget extends StatefulWidget {
   const MyFormWidget({Key? key}) : super(key: key);
 
   @override
-  _MyFormWidgetState createState() => _MyFormWidgetState();
+  MyFormWidgetState createState() => MyFormWidgetState();
 }
 
-class _MyFormWidgetState extends State<MyFormWidget> {
-  final _formKey = GlobalKey<FormState>();
+class MyFormWidgetState extends State<MyFormWidget> {
+  final formKey = GlobalKey<FormState>();
 
-  String _name = '';
-  String _email = '';
-  String _password = '';
-  String _selectedOption = 'Option 1';
-  bool _isChecked = false;
-  double _sliderValue = 0;
-  DateTime? _selectedDate;
-  TimeOfDay? _selectedTime;
+  String name = '';
+  String email = '';
+  String password = '';
+  String selectedOption = 'Option 1';
+  bool isChecked = false;
+  double sliderValue = 0;
+  DateTime? selectedDate;
+  TimeOfDay? selectedTime;
 
   @override
   build(context) => Scaffold(
     // Créez un widget Form en utilisant la clé _formKey créée ci-dessus.
       body: Form(
-        key: _formKey,
+        key: formKey,
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -77,7 +77,7 @@ class _MyFormWidgetState extends State<MyFormWidget> {
                 const SizedBox(height: 16.0),
                 //DropdownButtonFormField est un widget qui affiche une liste déroulante qui permet à l'utilisateur de choisir une option parmi une liste prédéfinie d'options.
                 DropdownButtonFormField<String>(
-                  value: _selectedOption,
+                  value: selectedOption,
                   items: ['Option 1', 'Option 2', 'Option 3'].map((option) {
                     return DropdownMenuItem<String>(
                       value: option,
@@ -86,7 +86,7 @@ class _MyFormWidgetState extends State<MyFormWidget> {
                   }).toList(),
                   onChanged: (value) {
                     setState(() {
-                      _selectedOption = value!;
+                      selectedOption = value!;
                     });
                   },
                 ),
@@ -95,10 +95,10 @@ class _MyFormWidgetState extends State<MyFormWidget> {
                 // Il peut être utilisé pour permettre à l'utilisateur de selectionner un ou plusieurs éléments d'une liste en cochant des cases à cocher.
                 CheckboxListTile(
                   title: const Text('Check me out'),
-                  value: _isChecked,
+                  value: isChecked,
                   onChanged: (value) {
                     setState(() {
-                      _isChecked = value!;
+                      isChecked = value!;
                     });
                   },
                 ),
@@ -108,43 +108,43 @@ class _MyFormWidgetState extends State<MyFormWidget> {
                 RadioListTile<String>(
                   title: const Text('Option 1'),
                   value: 'Option 1',
-                  groupValue: _selectedOption,
+                  groupValue: selectedOption,
                   onChanged: (value) {
                     setState(() {
-                      _selectedOption = value!;
+                      selectedOption = value!;
                     });
                   },
                 ),
                 RadioListTile<String>(
                   title: const Text('Option 2'),
                   value: 'Option 2',
-                  groupValue: _selectedOption,
+                  groupValue: selectedOption,
                   onChanged: (value) {
                     setState(() {
-                      _selectedOption = value!;
+                      selectedOption = value!;
                     });
                   },
                 ),
                 RadioListTile<String>(
                   title: const Text('Option 3'),
                   value: 'Option 3',
-                  groupValue: _selectedOption,
+                  groupValue: selectedOption,
                   onChanged: (value) {
                     setState(() {
-                      _selectedOption = value!;
+                      selectedOption = value!;
                     });
                   },
                 ),
                 const SizedBox(height: 16.0),
                 Slider(
-                  value: _sliderValue,
+                  value: sliderValue,
                   min: 0,
                   max: 100,
                   divisions: 10,
-                  label: _sliderValue.round().toString(),
+                  label: sliderValue.round().toString(),
                   onChanged: (value) {
                     setState(() {
-                      _sliderValue = value;
+                      sliderValue = value;
                     });
                   },
                 ),
@@ -168,14 +168,14 @@ class _MyFormWidgetState extends State<MyFormWidget> {
                     // Vous devez utiliser la méthode `setState` et mettre à jour la variable.
                     // Cela déclenchera une reconstruction de l'interface utilisateur avec la nouvelle date affichée
                     setState(() {
-                      _selectedDate = date;
+                      selectedDate = date;
                     });
                   },
                   // Ici TextEditingController permet de contrôler le texte affiché dans le `TextFormField`
                   // Attention, dans ce cas, il faut impérativement utiliser setState pour mettre à jour la variable. Ici, c'est `text`
                   controller: TextEditingController(
-                    text: _selectedDate != null
-                        ? '${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}'
+                    text: selectedDate != null
+                        ? '${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}'
                         : '',
                   ),
                 ),
@@ -191,12 +191,12 @@ class _MyFormWidgetState extends State<MyFormWidget> {
                       initialTime: TimeOfDay.now(),
                     );
                     setState(() {
-                      _selectedTime = time;
+                      selectedTime = time;
                     });
                   },
                   controller: TextEditingController(
-                    text: _selectedTime != null
-                        ? '${_selectedTime!.hour}:${_selectedTime!.minute}'
+                    text: selectedTime != null
+                        ? '${selectedTime!.hour}:${selectedTime!.minute}'
                         : '',
                   ),
                 ),
