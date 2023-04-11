@@ -16,7 +16,9 @@ La fonction de rappel prend en entrée un contexte de construction (BuildContext
 
 ## Pour quelle utilisation ?
 
-Le `LayoutBuilder` est souvent utilisé pour créer des interfaces utilisateur adaptatives qui s'ajustent en fonction de la taille de l'écran ou de la résolution de l'appareil. 
+Le `LayoutBuilder` est souvent utilisé pour créer des interfaces utilisateur adaptatives qui s'ajustent en fonction de la taille de l'écran ou de la résolution de l'appareil,
+
+un peu comme quand nous mettons une tablette ou un téléphone en mode paysage. 
 
 Il peut également être utilisé pour créer des mises en page réactives qui changent en fonction des changements de taille du parent ou des contraintes de mise en page.
 
@@ -25,4 +27,4 @@ Il peut également être utilisé pour créer des mises en page réactives qui c
 
 Le `LayoutBuilder` peut être coûteux en termes de performances, car la fonction de rappel est appelée chaque fois que la taille du widget parent change. 
 
-Par conséquent, il est recommandé d'utiliser le LayoutBuilder avec modération et d'optimiser la fonction de rappel autant que possible.
+Par conséquent, il est recommandé d'utiliser le `LayoutBuilder` avec modération et d'optimiser la fonction de rappel autant que possible.
