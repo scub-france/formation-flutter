@@ -13,8 +13,8 @@ dependencies:
   flutter:
     sdk: flutter
   provider:
-  go_router:
-  nanoid:
+  go_router: 6.5.5
+  cupertino_icons: ^1.0.2
 
 dev_dependencies:
   flutter_test:

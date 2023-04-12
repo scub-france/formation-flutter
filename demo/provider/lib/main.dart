@@ -2,63 +2,82 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:nanoid/nanoid.dart';
 import 'package:provider/provider.dart';
 
-///Il s'agit d'une application de vente en ligne, on utilise provider pour
-///communiquer les informations entre le catalogue et le panier.
-
-/// nanoid est un générateur d'ID de chaîne unique
-final generator = nanoid();
-
-/// Construire un Article
-///
+/// Si vous n'estes pas encore familier avec le language
+/// Dart et l'Objet; sachez juste que cette classe a
+/// une factory qui retourne un Article avec un numero unique
+/// et un prix compris entre 0 et 100
 class Article {
-  final String id;
+  final int numero;
   final int prix;
   int quantite = 0;
-
-  /// génère et retourne un article
-  Article({required this.id, required this.prix});
+  ///constructeur génératif
+  Article._internal(this.numero, this.prix);
+  static Iterable<int> numeros = const Iterable.empty();
+  /// génére et retourne un article
+  factory Article([int? numero, int? prix]) {
+    final int prix = Random().nextInt(100)+1;
+    final int numero = Article.uniqueNumero();
+    final Article notreArticle = Article._internal(numero, prix);
+    return (notreArticle);
+  }
+  /// return un numero unique entre 1 et 1001
+  static int uniqueNumero() {
+    late int randomNumero;
+    while (true) {
+      randomNumero = Random().nextInt(1000)+1;
+      if (!Article.numeros.contains(randomNumero)) {
+        numeros=[...numeros, randomNumero];
+        break;
+      }
+    }
+    return randomNumero;
+  }
+  /// adapte l'affichage du prix
+  String tranformNumero() {
+    String result = numero.toString();
+    if (numero < 100) {
+      result = "0$result";
+    }
+    if (numero < 10) {
+      result = "0$result";
+    }
+    return result;
+  }
 }
 
-/// Le fournisseur des articles, il hérite de ChangeNotifier
+/// le fournisseur des articles, il hérite de ChangeNotifier
 /// et peut donc, notifier ses Consumer de ces changements
 /// grace a l'appel de notifyListeners()
 class ArticlesProvider extends ChangeNotifier {
-  final articles = List.generate(
-      50,
-      (_) => Article(
-            prix: Random().nextInt(100) + 1,
-            id: nanoid(10),
-          ));
+  List<Article> articles = [];
   List<Article> panier = [];
-  int prixTotal = 0;
+  int prixTotal=0;
 
   ajoutAuPanier(Article article) {
     article.quantite++;
     if (!panier.contains(article)) {
       panier.add(article);
     }
-    prixTotal += article.prix;
-
-    /// N'oubliez pas de notifier le consumer des changements
+    prixTotal+= article.prix;
+    /// N'oublier pas de notifier le consumer des changements
     notifyListeners();
   }
 
-  retireDuPanier(Article article) {
+  retireDuPanier(Article article){
     article.quantite--;
-    if (article.quantite == 0) {
+    if(article.quantite==0){
       panier.remove(article);
     }
-    prixTotal -= article.prix;
-
-    /// N'oubliez pas de notifier le consumer des changements
+    prixTotal-= article.prix;
+    /// N'oublier pas de notifier le consumer des changements
     notifyListeners();
   }
+
 }
 
-/// Si vous n'êtes pas encore familier avec router(), sachez juste
+/// Si vous n'estes pas encore familier avec router(), sachez juste
 /// que c'est un package responsable de la navigation dans Flutter.
 /// je vous encourage a voir le cours qui traite ce sujet.
 GoRouter router() {
@@ -68,28 +87,39 @@ GoRouter router() {
         path: '/',
         builder: (context, state) => const HomePage(),
       ),
-      GoRoute(
-          path: '/catalogue',
-          builder: (context, state) => const Catalogue(),
-          routes: [
-            GoRoute(
-              path: 'panier',
-              builder: (context, state) => const MonPanier(),
-            ),
-          ])
+      GoRoute(path: '/catalogue', builder: (context, state) => const Catalogue(), routes: [
+        GoRoute(
+          path: 'panier',
+          builder: (context, state) => const MonPanier(),
+        ),
+      ])
     ],
   );
 }
 
-/// On place ici ChangeNotifierProvider comme widget principal dans l'arborescence des widgets.
-/// Les widgets enfants(ici, toute l'application), peuvent accéder et modifier ArticlesProvider !
-/// et tout changement chez ce dernier sera notifié au widgets abonnés.
-void main() => runApp(ChangeNotifierProvider(
-    create: (context) => ArticlesProvider(),
-    child: MaterialApp.router(
-      routerConfig: router(),
-    )));
+void main() {
+  runApp(const MyApp());
+}
 
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  build(context) {
+    /// On place ici ChangeNotifierProvider comme widget principal dans l'arborescence des widgets.
+    /// Les widgets enfants(ici, toute l'application), peuvent accéder et modifier ArticlesProvider !
+    /// et tout changement chez ce dernier sera notifié au widgets abonnés.
+    return ChangeNotifierProvider(
+        create: (context) => ArticlesProvider(),
+        child: MaterialApp.router(
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          routerConfig: router(),
+        ));
+  }
+}
 /// Page catalogue
 class Catalogue extends StatefulWidget {
   const Catalogue({super.key});
@@ -97,20 +127,13 @@ class Catalogue extends StatefulWidget {
   @override
   State<Catalogue> createState() => _Catalogue();
 }
-
-class _Catalogue extends State<Catalogue> {
+class _Catalogue extends State<Catalogue>  {
+  late final ArticlesProvider providerArticles;
   @override
-  build(_) {
-
-    // une premiere facon de consommer un provider
-    final provided = context.read<ArticlesProvider>();
-    final articles = provided.articles;
-
+  build(context) {
     return Scaffold(
         appBar: AppBar(
-          title: Center(
-              child: Text('Catalogue',
-                  style: Theme.of(context).textTheme.displayMedium)),
+          title: Center(child: Text('Catalogue', style: Theme.of(context).textTheme.displayMedium)),
           actions: [
             IconButton(
               iconSize: 50,
@@ -121,15 +144,24 @@ class _Catalogue extends State<Catalogue> {
         ),
         body: Center(
             child: ListView(
-                children: articles
+                children: providerArticles.articles
                     .map((e) => ArticleCard(
                           article: e,
                         ))
                     .toList())));
   }
+
+  @override
+  void initState() {
+    /// J'ai besoin d'initialiser en dehors de la methode build,
+    ///je ne peux utiliser le widget Consummer !
+    /// je dois utiliser Provider.of<T>... pour consommer mon provider
+    providerArticles = Provider.of<ArticlesProvider>(context, listen: false);
+    providerArticles.articles = List.generate(50, (_) => Article());
+    super.initState();
+  }
 }
 
-/// Widget pour afficher un article
 class ArticleCard extends StatelessWidget {
   const ArticleCard({super.key, required this.article});
 
@@ -137,7 +169,7 @@ class ArticleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //une deuxième facon de consommer un provider
+    /// J'utilise ici un Consumer Widget pour consommer mon provider
     return Consumer<ArticlesProvider>(builder: (context, articlePovider, _) {
       return Padding(
         padding: const EdgeInsets.all(20),
@@ -147,49 +179,30 @@ class ArticleCard extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Flexible(
-                  flex:3,
-                  child: Row(children: [
-                  Flexible(
-                      child: Row(
-                        children: [
-                          const Text("N°: ", style: TextStyle(fontSize: 30)),
-                          Text(article.id,
-                              style: const TextStyle(
-                                  fontSize: 20, color: Colors.grey)),
-                        ],
-                      )),
-                  Flexible(
-                      child: Row(
-                        children: [
-                          const Text("Prix: ", style: TextStyle(fontSize: 30)),
-                          Text("${article.prix.toString()}euros",
-                              style: const TextStyle(
-                                  fontSize: 20, color: Colors.grey)),
-                        ],
-                      ))]),
+                Row(
+                  children: [
+                    Text("Numero article: ${article.tranformNumero()}", style: const TextStyle(fontSize: 30)),
+                    const SizedBox(width: 50),
+                    Text("Prix: ${article.prix.toString()}euros")
+                  ],
                 ),
-                Flexible(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.add),
-                        onPressed: () => articlePovider.ajoutAuPanier(article),
-                      ),
-                      Text(article.quantite.toString(),
-                          style: const TextStyle(
-                              fontSize: 20, color: Colors.green)),
-                      const Icon(Icons.shopping_cart),
-                      IconButton(
-                          icon: const Icon(Icons.remove),
-                          onPressed: () {
-                            if (article.quantite > 0) {
-                              articlePovider.retireDuPanier(article);
-                            }
-                          })
-                    ],
-                  ),
+                Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.add),
+                      onPressed: () => articlePovider.ajoutAuPanier(article),
+                    ),
+                    Text(article.quantite.toString(), style:const TextStyle(fontSize: 20, color: Colors.green)),
+                    const Icon(Icons.shopping_cart),
+                    IconButton(
+                      icon: const Icon(Icons.remove),
+                      onPressed: () {
+                        if (article.quantite > 0) {
+                          articlePovider.retireDuPanier(article);
+                        }
+                      }
+                    )
+                  ],
                 ),
               ],
             ),
@@ -200,13 +213,11 @@ class ArticleCard extends StatelessWidget {
   }
 }
 
-///Page panier
 class MonPanier extends StatelessWidget {
   const MonPanier({super.key});
 
   @override
-  build(context) {
-    //une troisième facon de consommer un provider
+  Widget build(BuildContext context) {
     final providerArticles = Provider.of<ArticlesProvider>(context);
     final articles = providerArticles.panier;
     return Scaffold(
@@ -217,38 +228,26 @@ class MonPanier extends StatelessWidget {
         ),
       ),
       body: Center(
-        child: ListView(
-            children: articles.map((e) => ArticleCard(article: e)).toList()),
+        child: ListView(children: articles.map((e) => ArticleCard(article: e)).toList()),
       ),
     );
   }
 }
 
-///Page d'accueil
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  build(context) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-            child: Text('Acceuil',
-                style: Theme.of(context).textTheme.displayMedium)),
+        title: Center(child: Text('Acceuil', style: Theme.of(context).textTheme.displayMedium)),
       ),
       body: Center(
         child: ListView(children: [
-          const SizedBox(
-            height: 200,
-          ),
-          const Text(
-            'ScuBay: application de vente en ligne',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 25),
-          ),
-          const SizedBox(
-            height: 150,
-          ),
+          const SizedBox(height: 200,),
+          const Text('ScuBay: application de vente en ligne', textAlign:TextAlign.center, style: TextStyle(fontSize: 25),),
+          const SizedBox(height: 150,),
           FloatingActionButton(
             child: const Text('Entrez'),
             onPressed: () => context.go('/catalogue'),
