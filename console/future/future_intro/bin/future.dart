@@ -1,13 +1,20 @@
-Future<int> runner() async => Future.value(3);
-
-int calculate() => 6 * 7;
-
 main() async {
+  print('!!!!!!!!!!! Wait !!!!!!!!!!!');
+  exempleWait();
+  print('!!!!!!!!!!! Sync !!!!!!!!!!!');
+  sync();
+  print('!!!!!!!!!!! Value !!!!!!!!!!!');
+  value();
+  print('!!!!!!!!!!! Delayed !!!!!!!!!!!');
+  exempleDelayed();
+  print('!!!!!!!!!!! Error !!!!!!!!!!!');
+  exempleError();
+  print('!!!!!!!!!!! microtask !!!!!!!!!!!');
   microtask();
 }
 
-///exemple d Future.delayed()
-exempleDelayed() {
+/// exemple de Future.delayed()
+void exempleDelayed() {
   print('Avant Future');
   Future.delayed(Duration(seconds: 3), () {
     print('Future terminée');
@@ -15,14 +22,14 @@ exempleDelayed() {
   print('Après Future'); ///<-- cette ligne s'exécute avant la ligne "Future terminée"
 }
 
-///exemple de Future.error()
-exempleError() {
+/// exemple de Future.error()
+void exempleError() {
   print('Avant Future');
   Future.error('Future terminée');
   print('Après Future');
 }
 
-///exemple de Future.microtask()
+/// exemple de Future.microtask()
 void microtask() {
   print('Début du programme');
   Future(() => print('Future exécuté'));
@@ -53,7 +60,7 @@ void sync() async {
 }
 
 /// Future.wait() permet de retourner une valeur après que toutes les futures soient terminées
-exempleWait() {
+void exempleWait() {
   print('Avant Future');
   Future.wait([
     Future.delayed(Duration(seconds: 3), () {
