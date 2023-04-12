@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 
+// INPUT FIELDS
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
 
 
 class MyFormWidget extends StatefulWidget {
-  const MyFormWidget({Key? key}) : super(key: key);
+  const MyFormWidget({super.key});
 
   @override
   MyFormWidgetState createState() => MyFormWidgetState();
@@ -43,7 +44,7 @@ class MyFormWidgetState extends State<MyFormWidget> {
 
   @override
   build(context) => Scaffold(
-    // Créez un widget Form en utilisant la clé _formKey créée ci-dessus.
+    // Créez un widget Form en utilisant la clé formKey créée ci-dessus.
       body: Form(
         key: formKey,
         child: SingleChildScrollView(
