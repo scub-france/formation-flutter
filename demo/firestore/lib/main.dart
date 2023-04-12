@@ -1,115 +1,195 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(const Firestore());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class Firestore extends StatelessWidget {
+  const Firestore({super.key});
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
+  build(_) => MaterialApp(
+        title: 'Firestore Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.grey,
+        ),
+        home: const UserWidget(),
+      );
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+class UserWidget extends StatefulWidget {
+  const UserWidget({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  createState() => _UserWidgetState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _UserWidgetState extends State<UserWidget> {
+  final _controller = TextEditingController();
+  final _name = TextEditingController();
+  final _age = TextEditingController();
+  final _email = TextEditingController();
+  final _address = TextEditingController();
+  final _password = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  @override
+  dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+  build(_) => Scaffold(
+        appBar: AppBar(
+          title: const Text('Firestore Demo'),
+        ),
+        body: Column(
+          children: [
+            Form(
+              key: _formKey,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    CustomTextField(label: 'name', controller: _name),
+                    CustomTextField(label: 'age', controller: _age),
+                    CustomTextField(label: 'email', controller: _email),
+                    CustomTextField(label: 'address', controller: _address),
+                    CustomTextField(label: 'password', controller: _password),
+                  ],
+                ),
+              ),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            Expanded(
+                child: StreamBuilder(
+              stream: FirebaseFirestore.instance.collection('users').snapshots(),
+              builder: (_, snapshot) {
+                if (snapshot.hasError) {
+                  return const Text('Something went wrong');
+                }
+
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Column(
+                    children: const [
+                      CircularProgressIndicator(),
+                      Text("Loading"),
+                    ],
+                  );
+                }
+
+                if (snapshot.data!.docs.isEmpty) {
+                  return Column(
+                    children: [
+                      const Text('No users'),
+                      ElevatedButton(
+                        onPressed: _initDb,
+                        child: const Text('add 10 users'),
+                      ),
+                    ],
+                  );
+                }
+
+                return ListView(
+                  children: snapshot.data!.docs.map((document) {
+                    return ListTile(
+                      title: Text(document.get('name')),
+                      subtitle: Text(document.get('email')),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () async {
+                          await FirebaseFirestore.instance.collection('users').doc(document.id).delete();
+                        },
+                      ),
+                    );
+                  }).toList(),
+                );
+              },
+            )),
           ],
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: _addUser,
+          tooltip: 'Add User',
+          child: const Icon(Icons.add),
+        ),
+      );
+
+  _addUser() async {
+    if (_formKey.currentState!.validate()) {
+      var user = User(
+          name: _name.text,
+          age: int.parse(_age.text),
+          email: _email.text,
+          address: _address.text,
+          password: _password.text);
+      await FirebaseFirestore.instance.collection('users').add(user.toJson());
+      _name.clear();
+      _age.clear();
+      _email.clear();
+      _address.clear();
+      _password.clear();
+    }
+  }
+
+  _initDb() async {
+    for (int i = 0; i < 10; i++) {
+      var user = User(
+          name: faker.person.name(),
+          age: faker.randomGenerator.integer(50),
+          email: faker.internet.email(),
+          address: faker.address.streetAddress(),
+          password: faker.internet.password(length: 5));
+      await FirebaseFirestore.instance.collection('users').add(user.toJson());
+    }
+  }
+
+  Widget CustomTextField({required String label, required TextEditingController controller}) => TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        hintText: label,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'Please enter some text';
+        }
+      });
+}
+
+class User {
+  late String name;
+  late int age;
+  late String email;
+  late String address;
+  late String password;
+
+  User({required this.name, required this.age, required this.email, required this.address, required this.password});
+
+  // User.fromJson(Map<String, dynamic> json) {
+  //   name = json['name'];
+  //   age = json['age'];
+  //   email = json['email'];
+  //   address = json['address'];
+  //   password = json['password'];
+  // }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'age': age,
+      'email': email,
+      'address': address,
+      'password': password,
+    };
   }
 }
