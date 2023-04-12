@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:faker/faker.dart';
+import 'package:firestore/profil.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -62,11 +63,11 @@ class _UserWidgetState extends State<UserWidget> {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    CustomTextField(label: 'name', controller: _name),
-                    CustomTextField(label: 'age', controller: _age),
-                    CustomTextField(label: 'email', controller: _email),
-                    CustomTextField(label: 'address', controller: _address),
-                    CustomTextField(label: 'password', controller: _password),
+                    CustomTextField(label: 'name', controller: _name, needValidator: true),
+                    CustomTextField(label: 'age', controller: _age, needValidator: true),
+                    CustomTextField(label: 'email', controller: _email, needValidator: true),
+                    CustomTextField(label: 'address', controller: _address, needValidator: true),
+                    CustomTextField(label: 'password', controller: _password, needValidator: true),
                   ],
                 ),
               ),
@@ -105,11 +106,24 @@ class _UserWidgetState extends State<UserWidget> {
                     return ListTile(
                       title: Text(document.get('name')),
                       subtitle: Text(document.get('email')),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () async {
-                          await FirebaseFirestore.instance.collection('users').doc(document.id).delete();
-                        },
+                      trailing: SizedBox(
+                        width: 100,
+                        child: Row(
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.edit),
+                              onPressed: () async {
+                                Navigator.push(context, MaterialPageRoute(builder: (_) => Profil(id: document.id)));
+                              },
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.delete),
+                              onPressed: () async {
+                                await FirebaseFirestore.instance.collection('users').doc(document.id).delete();
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   }).toList(),
@@ -153,18 +167,20 @@ class _UserWidgetState extends State<UserWidget> {
       await FirebaseFirestore.instance.collection('users').add(user.toJson());
     }
   }
+}
 
-  Widget CustomTextField({required String label, required TextEditingController controller}) => TextFormField(
-      controller: controller,
-      decoration: InputDecoration(
-        hintText: label,
-      ),
-      validator: (value) {
+Widget CustomTextField({required String label, required TextEditingController controller,required bool needValidator }) => TextFormField(
+    controller: controller,
+    decoration: InputDecoration(
+      hintText: label,
+    ),
+    validator: (value) {
+      if(needValidator) {
         if (value!.isEmpty) {
           return 'Please enter some text';
         }
-      });
-}
+      }
+    });
 
 class User {
   late String name;
@@ -175,13 +191,13 @@ class User {
 
   User({required this.name, required this.age, required this.email, required this.address, required this.password});
 
-  // User.fromJson(Map<String, dynamic> json) {
-  //   name = json['name'];
-  //   age = json['age'];
-  //   email = json['email'];
-  //   address = json['address'];
-  //   password = json['password'];
-  // }
+  User.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    age = json['age'];
+    email = json['email'];
+    address = json['address'];
+    password = json['password'];
+  }
 
   Map<String, dynamic> toJson() {
     return {
