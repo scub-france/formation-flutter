@@ -33,7 +33,7 @@ class _RandomWordPage extends State<RandomWordPage> {
   late String _message;
   late Color _messageColor;
 
-  /// List de mots
+  /// Liste de mots
   static const Iterable<String> mots=["Scub","Web","Flutter","Dart","Widget","Provider","GO Router", "Stateful",
     "stateless", "Random", "createState", "build", "AppBar"];
 
