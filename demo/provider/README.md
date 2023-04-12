@@ -1,6 +1,6 @@
 # Introduction
 
-On a vu dans le cours Statelss/stateful que l'etat d'un statefulWidget peut etre manipulé depuis le widget lui meme
+On a vu dans le cours Stateless/stateful que l'etat d'un statefulWidget peut etre manipulé depuis le widget lui meme
 ou depuis le widget parent.
 
 Vous vous etes certainement demandés comment faire pour changer l'etat d'un widget A depuis un widget B sachant qu'ils n'ont aucun
