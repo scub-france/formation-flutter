@@ -32,13 +32,13 @@ On va s'interesser ici à la création d'un widget sans etat (statefulWidget).
 L'état d'un widget peut être géré de plusieurs manières, mais dans notre exemple, le widget lui-même, FavoriteWidget, 
 gérera son propre état. Dans cet exemple, basculer l'étoile est une action isolée qui n'affecte pas le widget parent ou 
 le reste de l'interface utilisateur, de sorte que le widget peut gérer son état en interne.
-Dans cette section, je vais détailler la création un widget avec état personnalisé. notre wigdet affichera un mot aléatoire
+Dans cette section, je vais détailler la création un widget avec état personnalisé. Notre wigdet affichera un mot aléatoire
 qu'on peut actualiser en cliquant sur un button.
 
 L'implémentation d'un widget avec état personnalisé nécessite la création de deux classes :
 
-    1: Une sous-classe de StatefulWidgetdéfinit le widget.
-    2: Une sous-classe de Statequi contient l'état de ce widget et définit la build()méthode du widget.
+    1: Une sous-classe de StatefulWidget qui définit le widget.
+    2: Une sous-classe de State qui contient l'état de ce widget et définit la build()méthode du widget.
 
 La RandomWordPage gère son propre état, elle se substitue donc createState() pour créer un State objet. Le framework 
 appelle createState() quand il veut construire le widget. Dans cet exemple, createState() renvoie une instance de 
@@ -75,7 +75,7 @@ Cette methode est utile pour se désabonner des abonnements fait dans initState(
 Les implémentations de cette méthode doivent se terminer par un appel à la méthode héritée, comme dans super.dispose().
 
 ## Exemple
-Afficher un mot aléatoire depuis une liste et l'actualiser grace a un button.
+Afficher un mot aléatoire depuis une liste et l'actualiser grâce à un button.
 Le widget TitreDeSorite n'a pas besoin de changer, il est donc stateless.
 Le widget RandomWordPage contient l'element à afficher et qui doit réagir au button ... il est donc stateful
 
