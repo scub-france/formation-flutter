@@ -29,31 +29,58 @@ class RandomWordPage extends StatefulWidget {
 
 /// Définition de l'état qui contient un compteur
 class _RandomWordPage extends State<RandomWordPage> {
-  String _resultat = getRandom();
+  String _resultat = getRandom("");
+  late String _message;
+  late Color _messageColor;
 
-  // List de mots
-  static const Iterable<String> mots=["Scub","Web","Flutter","Dart","widget","provider","GO Router"];
+  /// Liste de mots
+  static const Iterable<String> mots=["Scub","Web","Flutter","Dart","Widget","Provider","GO Router", "Stateful",
+    "stateless", "Random", "createState", "build", "AppBar"];
 
-  // setState demande la mise à jour de notre affichage avec les valeurs à jour
-  void _changer() => setState(() => _resultat=getRandom());
+  /// setState demande la mise à jour de notre affichage avec les valeurs à jour
+  void _changer() => setState(() {
+    _message= "setState()";
+    _messageColor=Colors.deepPurple;
+    _resultat=getRandom(_resultat);
+  });
 
-  // retourne un mot aleatoire
-  static String getRandom()=>mots.elementAt(Random().nextInt(mots.length));
+  /// retourne un mot aleatoire différent de la valeur de _resultat
+  static String getRandom(String lastValue) {
+    String newValue="";
+    while(newValue==""){
+      String randomValue=mots.elementAt(Random().nextInt(mots.length));
+      newValue= lastValue != randomValue ? randomValue : "";
+    }
+    return newValue;
+  }
 
-  // Configurer ce qui sera dessiner à l'écran
+  @override
+  initState(){
+    super.initState();
+    _message="initState()";
+    _messageColor=Colors.green;
+  }
+
+  /// Configurer ce qui sera dessiner à l'écran
   @override
   build(context)=> Scaffold(
       appBar: AppBar(title: const Text("Mots aléatoires !!!")),
-      body: Center(
+      body:
+      Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const TitreDeSorite(),
-            Text(_resultat, style: Theme.of(context).textTheme.headline4),
+            const Text("Ce message nous parvient de la methode:"),
+            Text(_message, style:  TextStyle(color: _messageColor, fontSize: 40)),
+            const SizedBox(height: 100),
+            const TitreDeSortiee(),
+            Text(_resultat, style: Theme.of(context).textTheme.bodyMedium),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        /// Un clic sur ce button change l'état de notre widget grace a l'appel
+        /// de la méthode _changer()
         onPressed: _changer,
         tooltip: 'Nouveau tirage',
         child: const Icon(Icons.update),
@@ -63,9 +90,10 @@ class _RandomWordPage extends State<RandomWordPage> {
 }
 
 /// Contenu permanent
-class TitreDeSorite extends StatelessWidget {
-  const TitreDeSorite({super.key});
+class TitreDeSortiee extends StatelessWidget {
+  const TitreDeSortiee({super.key});
 
   @override
-  Widget build(BuildContext context)=>const Text('Resultat:');
+  Widget build(BuildContext context)=>const Text('Resultat:',style: TextStyle(fontSize: 25));
+
 }
