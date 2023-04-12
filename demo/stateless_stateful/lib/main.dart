@@ -73,7 +73,7 @@ class _RandomWordPage extends State<RandomWordPage> {
             const Text("Ce message nous parvient de la methode:"),
             Text(_message, style:  TextStyle(color: _messageColor, fontSize: 40)),
             const SizedBox(height: 100),
-            const TitreDeSorite(),
+            const TitreDeSortiee(),
             Text(_resultat, style: Theme.of(context).textTheme.headline4),
           ],
         ),
@@ -90,8 +90,8 @@ class _RandomWordPage extends State<RandomWordPage> {
 }
 
 /// Contenu permanent
-class TitreDeSorite extends StatelessWidget {
-  const TitreDeSorite({super.key});
+class TitreDeSortiee extends StatelessWidget {
+  const TitreDeSortiee({super.key});
 
   @override
   Widget build(BuildContext context)=>const Text('Resultat:');
