@@ -1,4 +1,101 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+
+/// Si vous n'estes pas encore familier avec le language
+/// Dart et l'Objet; sachez juste que cette classe a
+/// une factory qui retourne un Article avec un numero unique
+/// et un prix compris entre 0 et 100
+class Article {
+  final int numero;
+  final int prix;
+  int quantite = 0;
+  ///constructeur génératif
+  Article._internal(this.numero, this.prix);
+  static Iterable<int> numeros = const Iterable.empty();
+  /// génére et retourne un article
+  factory Article([int? numero, int? prix]) {
+    final int prix = Random().nextInt(100)+1;
+    final int numero = Article.uniqueNumero();
+    final Article notreArticle = Article._internal(numero, prix);
+    return (notreArticle);
+  }
+  /// return un numero unique entre 1 et 1001
+  static int uniqueNumero() {
+    late int randomNumero;
+    while (true) {
+      randomNumero = Random().nextInt(1000)+1;
+      if (!Article.numeros.contains(randomNumero)) {
+        numeros=[...numeros, randomNumero];
+        break;
+      }
+    }
+    return randomNumero;
+  }
+  /// adapte l'affichage du prix
+  String tranformNumero() {
+    String result = numero.toString();
+    if (numero < 100) {
+      result = "0$result";
+    }
+    if (numero < 10) {
+      result = "0$result";
+    }
+    return result;
+  }
+}
+
+/// le fournisseur des articles, il hérite de ChangeNotifier
+/// et peut donc, notifier ses Consumer de ces changements
+/// grace a l'appel de notifyListeners()
+class ArticlesProvider extends ChangeNotifier {
+  List<Article> articles = [];
+  List<Article> panier = [];
+  int prixTotal=0;
+
+  ajoutAuPanier(Article article) {
+    article.quantite++;
+    if (!panier.contains(article)) {
+      panier.add(article);
+    }
+    prixTotal+= article.prix;
+    /// N'oublier pas de notifier le consumer des changements
+    notifyListeners();
+  }
+
+  retireDuPanier(Article article){
+    article.quantite--;
+    if(article.quantite==0){
+      panier.remove(article);
+    }
+    prixTotal-= article.prix;
+    /// N'oublier pas de notifier le consumer des changements
+    notifyListeners();
+  }
+
+}
+
+/// Si vous n'estes pas encore familier avec router(), sachez juste
+/// que c'est un package responsable de la navigation dans Flutter.
+/// je vous encourage a voir le cours qui traite ce sujet.
+GoRouter router() {
+  return GoRouter(
+    routes: [
+      GoRoute(
+        path: '/',
+        builder: (context, state) => const HomePage(),
+      ),
+      GoRoute(path: '/catalogue', builder: (context, state) => const Catalogue(), routes: [
+        GoRoute(
+          path: 'panier',
+          builder: (context, state) => const MonPanier(),
+        ),
+      ])
+    ],
+  );
+}
 
 void main() {
   runApp(const MyApp());
@@ -7,109 +104,156 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  build(context) {
+    /// On place ici ChangeNotifierProvider comme widget principal dans l'arborescence des widgets.
+    /// Les widgets enfants(ici, toute l'application), peuvent accéder et modifier ArticlesProvider !
+    /// et tout changement chez ce dernier sera notifié au widgets abonnés.
+    return ChangeNotifierProvider(
+        create: (context) => ArticlesProvider(),
+        child: MaterialApp.router(
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          routerConfig: router(),
+        ));
+  }
+}
+/// Page catalogue
+class Catalogue extends StatefulWidget {
+  const Catalogue({super.key});
+
+  @override
+  State<Catalogue> createState() => _Catalogue();
+}
+class _Catalogue extends State<Catalogue>  {
+  late final ArticlesProvider providerArticles;
+  @override
+  build(context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Center(child: Text('Catalogue', style: Theme.of(context).textTheme.displayMedium)),
+          actions: [
+            IconButton(
+              iconSize: 50,
+              icon: const Icon(Icons.shopping_cart),
+              onPressed: () => {context.go('/catalogue/panier')},
+            ),
+          ],
+        ),
+        body: Center(
+            child: ListView(
+                children: providerArticles.articles
+                    .map((e) => ArticleCard(
+                          article: e,
+                        ))
+                    .toList())));
+  }
+
+  @override
+  void initState() {
+    /// J'ai besoin d'initialiser en dehors de la methode build,
+    ///je ne peux utiliser le widget Consummer !
+    /// je dois utiliser Provider.of<T>... pour consommer mon provider
+    providerArticles = Provider.of<ArticlesProvider>(context, listen: false);
+    providerArticles.articles = List.generate(50, (_) => Article());
+    super.initState();
+  }
+}
+
+class ArticleCard extends StatelessWidget {
+  const ArticleCard({super.key, required this.article});
+
+  final Article article;
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+    /// J'utilise ici un Consumer Widget pour consommer mon provider
+    return Consumer<ArticlesProvider>(builder: (context, articlePovider, _) {
+      return Padding(
+        padding: const EdgeInsets.all(20),
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Text("Numero article: ${article.tranformNumero()}", style: const TextStyle(fontSize: 30)),
+                    const SizedBox(width: 50),
+                    Text("Prix: ${article.prix.toString()}euros")
+                  ],
+                ),
+                Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.add),
+                      onPressed: () => articlePovider.ajoutAuPanier(article),
+                    ),
+                    Text(article.quantite.toString(), style:const TextStyle(fontSize: 20, color: Colors.green)),
+                    const Icon(Icons.shopping_cart),
+                    IconButton(
+                      icon: const Icon(Icons.remove),
+                      onPressed: () {
+                        if (article.quantite > 0) {
+                          articlePovider.retireDuPanier(article);
+                        }
+                      }
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    });
+  }
+}
+
+class MonPanier extends StatelessWidget {
+  const MonPanier({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final providerArticles = Provider.of<ArticlesProvider>(context);
+    final articles = providerArticles.panier;
+    return Scaffold(
+      appBar: AppBar(
+        title: Center(
+          child: Text("Total: ${providerArticles.prixTotal}euros",
+              style: Theme.of(context).textTheme.displayMedium),
+        ),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      body: Center(
+        child: ListView(children: articles.map((e) => ArticleCard(article: e)).toList()),
+      ),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Center(child: Text('Acceuil', style: Theme.of(context).textTheme.displayMedium)),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
+        child: ListView(children: [
+          const SizedBox(height: 200,),
+          const Text('ScuBay: application de vente en ligne', textAlign:TextAlign.center, style: TextStyle(fontSize: 25),),
+          const SizedBox(height: 150,),
+          FloatingActionButton(
+            child: const Text('Entrez'),
+            onPressed: () => context.go('/catalogue'),
+          )
+        ]),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
