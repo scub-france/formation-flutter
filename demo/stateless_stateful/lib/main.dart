@@ -74,7 +74,7 @@ class _RandomWordPage extends State<RandomWordPage> {
             Text(_message, style:  TextStyle(color: _messageColor, fontSize: 40)),
             const SizedBox(height: 100),
             const TitreDeSortiee(),
-            Text(_resultat, style: Theme.of(context).textTheme.headline4),
+            Text(_resultat, style: Theme.of(context).textTheme.bodyMedium),
           ],
         ),
       ),
@@ -94,6 +94,6 @@ class TitreDeSortiee extends StatelessWidget {
   const TitreDeSortiee({super.key});
 
   @override
-  Widget build(BuildContext context)=>const Text('Resultat:');
+  Widget build(BuildContext context)=>const Text('Resultat:',style: TextStyle(fontSize: 25));
 
 }
