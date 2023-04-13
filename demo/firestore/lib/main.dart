@@ -43,6 +43,7 @@ class _UserWidgetState extends State<UserWidget> {
   final _address = TextEditingController();
   final _password = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  late  Query<Map<String, dynamic>> _requete = FirebaseFirestore.instance.collection('users');
 
   @override
   dispose() {
@@ -72,9 +73,26 @@ class _UserWidgetState extends State<UserWidget> {
                 ),
               ),
             ),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text('appuyer sur un button pour modifier la requete'),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ListButton(FirebaseFirestore.instance.collection('users'), 'Get all users'),
+                  ListButton(FirebaseFirestore.instance.collection('users').where('age', isEqualTo: 10), 'age = 20'),
+                  ListButton(FirebaseFirestore.instance.collection('users').limit(2), 'limit 2'),
+                  ListButton(FirebaseFirestore.instance.collection('users').orderBy('age'), 'order by age'),
+                  ListButton(FirebaseFirestore.instance.collection('users').orderBy('age', descending: true), 'order by age desc'),
+                ],
+              ),
+            ),
             Expanded(
                 child: StreamBuilder(
-              stream: FirebaseFirestore.instance.collection('users').snapshots(),
+              stream: _requete.snapshots(),
               builder: (_, snapshot) {
                 if (snapshot.hasError) {
                   return const Text('Something went wrong');
@@ -105,7 +123,7 @@ class _UserWidgetState extends State<UserWidget> {
                   children: snapshot.data!.docs.map((document) {
                     return ListTile(
                       title: Text(document.get('name')),
-                      subtitle: Text(document.get('email')),
+                      subtitle: Text('${document.get('email')} \n ${document.get('age')}'),
                       trailing: SizedBox(
                         width: 100,
                         child: Row(
@@ -137,6 +155,15 @@ class _UserWidgetState extends State<UserWidget> {
           tooltip: 'Add User',
           child: const Icon(Icons.add),
         ),
+      );
+
+  Widget ListButton(Query<Map<String, dynamic>> query,String label) => ElevatedButton(
+        onPressed: () {
+          setState(() {
+            _requete = query;
+          });
+        },
+        child: Text(label),
       );
 
   _addUser() async {
