@@ -24,7 +24,14 @@ class _ProfilState extends State<Profil> {
   final _formKey = GlobalKey<FormState>();
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  build(_) => Scaffold(
+    appBar: AppBar(
+          title: const Text('Update User'),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => Navigator.pop(context),
+          )
+        ),
         body: Column(children: [
           StreamBuilder(
             stream: FirebaseFirestore.instance.collection('users').doc(widget.id).snapshots(),
@@ -58,15 +65,11 @@ class _ProfilState extends State<Profil> {
                   address: _address.text,
                   password: _password.text);
               await FirebaseFirestore.instance.collection('users').doc(widget.id).update(user.toJson());
-              _name.clear();
-              _age.clear();
-              _email.clear();
-              _address.clear();
-              _password.clear();
+              _name.clear();_age.clear();_email.clear();_address.clear();_password.clear();
             }
           },
-          tooltip: 'Add User',
-          child: const Icon(Icons.add),
+          tooltip: 'Update User',
+          child: const Icon(Icons.refresh),
         ),
       );
 }

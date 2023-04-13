@@ -43,7 +43,7 @@ class _UserWidgetState extends State<UserWidget> {
   final _address = TextEditingController();
   final _password = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  late  Query<Map<String, dynamic>> _requete = FirebaseFirestore.instance.collection('users');
+  late Query<Map<String, dynamic>> _requete = FirebaseFirestore.instance.collection('users');
 
   @override
   dispose() {
@@ -82,11 +82,12 @@ class _UserWidgetState extends State<UserWidget> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  ListButton(FirebaseFirestore.instance.collection('users'), 'Get all users'),
-                  ListButton(FirebaseFirestore.instance.collection('users').where('age', isEqualTo: 10), 'age = 20'),
-                  ListButton(FirebaseFirestore.instance.collection('users').limit(2), 'limit 2'),
-                  ListButton(FirebaseFirestore.instance.collection('users').orderBy('age'), 'order by age'),
-                  ListButton(FirebaseFirestore.instance.collection('users').orderBy('age', descending: true), 'order by age desc'),
+                  listButton(FirebaseFirestore.instance.collection('users'), 'Get all users'),
+                  listButton(FirebaseFirestore.instance.collection('users').where('age', isEqualTo: 10), 'age = 20'),
+                  listButton(FirebaseFirestore.instance.collection('users').limit(2), 'limit 2'),
+                  listButton(FirebaseFirestore.instance.collection('users').orderBy('age'), 'order by age'),
+                  listButton(FirebaseFirestore.instance.collection('users').orderBy('age', descending: true),
+                      'order by age desc'),
                 ],
               ),
             ),
@@ -157,7 +158,7 @@ class _UserWidgetState extends State<UserWidget> {
         ),
       );
 
-  Widget ListButton(Query<Map<String, dynamic>> query,String label) => ElevatedButton(
+  Widget listButton(Query<Map<String, dynamic>> query, String label) => ElevatedButton(
         onPressed: () {
           setState(() {
             _requete = query;
@@ -197,7 +198,7 @@ class _UserWidgetState extends State<UserWidget> {
 }
 
 Widget customTextField(
-        {required String label, required TextEditingController controller, required bool needValidator}) =>
+    {required String label, required TextEditingController controller, required bool needValidator}) =>
     TextFormField(
         controller: controller,
         decoration: InputDecoration(
