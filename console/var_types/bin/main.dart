@@ -1,4 +1,4 @@
-import 'package:var_types/var_types.dart' as var_types;
+import 'package:var_types/main.dart' as var_types;
 
 void main() {
   // Déclarez une variable `age` et assignez-lui la valeur 25

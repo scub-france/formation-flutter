@@ -1,4 +1,4 @@
-import 'package:var_types/var_types.dart';
+import 'package:var_types/main.dart';
 import 'package:test/test.dart';
 
 void main() {
