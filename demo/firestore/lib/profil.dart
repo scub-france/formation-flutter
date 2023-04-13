@@ -35,11 +35,11 @@ class _ProfilState extends State<Profil> {
                     key: _formKey,
                     child: Column(
                       children: [
-                        CustomTextField(label: user.name, controller: _name, needValidator: true),
-                        CustomTextField(label: '${user.age}', controller: _age, needValidator: true),
-                        CustomTextField(label: user.email, controller: _email, needValidator: true),
-                        CustomTextField(label: user.address, controller: _address, needValidator: true),
-                        CustomTextField(label: user.password, controller: _password, needValidator: true),
+                        customTextField(label: user.name, controller: _name, needValidator: true),
+                        customTextField(label: '${user.age}', controller: _age, needValidator: true),
+                        customTextField(label: user.email, controller: _email, needValidator: true),
+                        customTextField(label: user.address, controller: _address, needValidator: true),
+                        customTextField(label: user.password, controller: _password, needValidator: true),
                       ],
                     ));
               } else {

@@ -64,11 +64,11 @@ class _UserWidgetState extends State<UserWidget> {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    CustomTextField(label: 'name', controller: _name, needValidator: true),
-                    CustomTextField(label: 'age', controller: _age, needValidator: true),
-                    CustomTextField(label: 'email', controller: _email, needValidator: true),
-                    CustomTextField(label: 'address', controller: _address, needValidator: true),
-                    CustomTextField(label: 'password', controller: _password, needValidator: true),
+                    customTextField(label: 'name', controller: _name, needValidator: true),
+                    customTextField(label: 'age', controller: _age, needValidator: true),
+                    customTextField(label: 'email', controller: _email, needValidator: true),
+                    customTextField(label: 'address', controller: _address, needValidator: true),
+                    customTextField(label: 'password', controller: _password, needValidator: true),
                   ],
                 ),
               ),
@@ -196,18 +196,20 @@ class _UserWidgetState extends State<UserWidget> {
   }
 }
 
-Widget CustomTextField({required String label, required TextEditingController controller,required bool needValidator }) => TextFormField(
-    controller: controller,
-    decoration: InputDecoration(
-      hintText: label,
-    ),
-    validator: (value) {
-      if(needValidator) {
-        if (value!.isEmpty) {
-          return 'Please enter some text';
-        }
-      }
-    });
+Widget customTextField(
+        {required String label, required TextEditingController controller, required bool needValidator}) =>
+    TextFormField(
+        controller: controller,
+        decoration: InputDecoration(
+          hintText: label,
+        ),
+        validator: (value) {
+          if (needValidator) {
+            if (value!.isEmpty) {
+              return 'Please enter some text';
+            }
+          }
+        });
 
 class User {
   late String name;
