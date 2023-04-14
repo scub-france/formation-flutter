@@ -80,19 +80,31 @@ class _UserWidgetState extends State<UserWidget> {
                 ),
               ),
             ),
+            //Création d'un bouton qui permet d'ajouter un utilisateur
+            ElevatedButton(
+                onPressed: () => _addUser(),
+                child: const Icon(Icons.add)),
             const Padding(
               padding: EdgeInsets.all(8.0),
-              child: Text('appuyer sur un button pour modifier la requete'),
+              child: Text('appuyer sur un button pour modifier la requete',style:
+                      TextStyle(fontSize: 15,fontWeight: FontWeight.bold,decoration: TextDecoration.underline),),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
+                  //requete qui permet de récupérer tous les utilisateurs
                   listButton(FirebaseFirestore.instance.collection('users'), 'Get all users'),
-                  listButton(FirebaseFirestore.instance.collection('users').where('age', isEqualTo: 10), 'age = 20'),
+                  //requete qui permet de récupérer les utilisateurs dont l'age est égal à 10
+                  listButton(FirebaseFirestore.instance.collection('users').where('age', isEqualTo: 10), 'age = 10'),
+                  //requete qui permet de récupérer 2 users maximum
                   listButton(FirebaseFirestore.instance.collection('users').limit(2), 'limit 2'),
-                  listButton(FirebaseFirestore.instance.collection('users').orderBy('age'), 'order by age'),
+                  //requete qui permet de récupérer les utilisateurs dont l'age est supérieur ou égal à 18
+                  listButton(FirebaseFirestore.instance.collection('users').where('age', isGreaterThanOrEqualTo: 18), 'user majeur'),
+                  //requete qui permet de récupérer les utilisateurs dont l'age est inférieur ou égal à 17
+                  listButton(FirebaseFirestore.instance.collection('users').where('age', isLessThanOrEqualTo: 17), 'user mineur'),
+                  //requete qui permet de classé les utilisateurs par ordre décroissant
                   listButton(FirebaseFirestore.instance.collection('users').orderBy('age', descending: true),
                       'order by age desc'),
                 ],
@@ -168,13 +180,6 @@ class _UserWidgetState extends State<UserWidget> {
               },
             )),
           ],
-        ),
-        //Création d'un bouton qui permet d'ajouter un utilisateur
-        floatingActionButton: FloatingActionButton(
-          //sur un click appel de la fonction _addUser
-          onPressed: _addUser,
-          tooltip: 'Add User',
-          child: const Icon(Icons.add),
         ),
       );
 
@@ -255,7 +260,7 @@ class User {
 
   User.fromFirebase(Map<String, dynamic> data) {
     name = data['name'];
-    age = data['age'];
+    age = int.parse(data['age']);
     email = data['email'];
     address = data['address'];
     password = data['password'];
@@ -264,7 +269,7 @@ class User {
   Map<String, dynamic> toFirebase() {
     return {
       'name': name,
-      'age': age,
+      'age': age as String,
       'email': email,
       'address': address,
       'password': password,
