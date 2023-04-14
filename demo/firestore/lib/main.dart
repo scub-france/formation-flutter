@@ -7,8 +7,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 void main() async {
+  //WidgetsFlutterBinding.ensureInitialized(); s'assure que la liaison de widgets de Flutter est initialisée.
   WidgetsFlutterBinding.ensureInitialized();
+  //await Firebase.initializeApp(); initialise l'application Firebase.
   await Firebase.initializeApp(
+    //récupère les options de configuration par défaut pour la plateforme sur laquelle votre application est exécutée.
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const Firestore());
@@ -17,7 +20,6 @@ void main() async {
 class Firestore extends StatelessWidget {
   const Firestore({super.key});
 
-  // This widget is the root of your application.
   @override
   build(_) => MaterialApp(
         title: 'Firestore Demo',
@@ -36,6 +38,8 @@ class UserWidget extends StatefulWidget {
 }
 
 class _UserWidgetState extends State<UserWidget> {
+
+  //initialise les variables de type TextEditingController
   final _controller = TextEditingController();
   final _name = TextEditingController();
   final _age = TextEditingController();
@@ -43,8 +47,10 @@ class _UserWidgetState extends State<UserWidget> {
   final _address = TextEditingController();
   final _password = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  //initialise la variable de type Query qui permet de récupérer des requetes
   late Query<Map<String, dynamic>> _requete = FirebaseFirestore.instance.collection('users');
 
+  //dispose() est appelé lorsque le widget est supprimé de l'arbre de widgets.
   @override
   dispose() {
     _controller.dispose();
@@ -59,6 +65,7 @@ class _UserWidgetState extends State<UserWidget> {
         body: Column(
           children: [
             Form(
+              //key permet de valider le formulaire
               key: _formKey,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -92,13 +99,18 @@ class _UserWidgetState extends State<UserWidget> {
               ),
             ),
             Expanded(
+              //StreamBuilder est un widget qui construit un widget en fonction de l'état actuel d'un flux asynchrone.
                 child: StreamBuilder(
+                  //snapshot est un objet qui contient les données de la requete
               stream: _requete.snapshots(),
+              //snapshot.data.docs est une liste qui contient les données de la requete(etat de la requete, erreur, chargement,données)
               builder: (_, snapshot) {
+                //si la requete a une erreur
                 if (snapshot.hasError) {
                   return const Text('Something went wrong');
                 }
 
+                //si la requete est en cours de chargement
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Column(
                     children: const [
@@ -108,6 +120,7 @@ class _UserWidgetState extends State<UserWidget> {
                   );
                 }
 
+                //si la requete est vide
                 if (snapshot.data!.docs.isEmpty) {
                   return Column(
                     children: [
@@ -120,7 +133,9 @@ class _UserWidgetState extends State<UserWidget> {
                   );
                 }
 
+                //si la requete est valide et contient des données
                 return ListView(
+                  //snapshot.data!.docs.map((document) -> permet de parcourir la liste des données de la requete et de les traiter
                   children: snapshot.data!.docs.map((document) {
                     return ListTile(
                       title: Text(document.get('name')),
@@ -129,15 +144,18 @@ class _UserWidgetState extends State<UserWidget> {
                         width: 100,
                         child: Row(
                           children: [
+                            //Création d'un bouton qui permet d'aller vers une autre page pour modifier un utilisateur
                             IconButton(
                               icon: const Icon(Icons.edit),
                               onPressed: () async {
                                 Navigator.push(context, MaterialPageRoute(builder: (_) => Profil(id: document.id)));
                               },
                             ),
+                            //Création d'un bouton qui permet de supprimer un utilisateur
                             IconButton(
                               icon: const Icon(Icons.delete),
                               onPressed: () async {
+                                //supprime un utilisateur de la base de données firestore en fonction de son id  
                                 await FirebaseFirestore.instance.collection('users').doc(document.id).delete();
                               },
                             ),
@@ -151,7 +169,9 @@ class _UserWidgetState extends State<UserWidget> {
             )),
           ],
         ),
+        //Création d'un bouton qui permet d'ajouter un utilisateur
         floatingActionButton: FloatingActionButton(
+          //sur un click appel de la fonction _addUser
           onPressed: _addUser,
           tooltip: 'Add User',
           child: const Icon(Icons.add),
@@ -160,22 +180,30 @@ class _UserWidgetState extends State<UserWidget> {
 
   Widget listButton(Query<Map<String, dynamic>> query, String label) => ElevatedButton(
         onPressed: () {
+          //setState permet de mettre à jour l'état du widget
           setState(() {
+            //recupère la requete en fonction du bouton cliqué et la stocke dans la variable _requete
             _requete = query;
           });
         },
+        //affiche le label du bouton
         child: Text(label),
       );
 
   _addUser() async {
+    //si le formulaire est valide
     if (_formKey.currentState!.validate()) {
+      //création d'un utilisateur avec les données du formulaire
       var user = User(
           name: _name.text,
           age: int.parse(_age.text),
           email: _email.text,
           address: _address.text,
           password: _password.text);
-      await FirebaseFirestore.instance.collection('users').add(user.toJson());
+      //ajout de l'utilisateur dans la base de données firestore grâce à la méthode add de CollectionReference
+      //utilisation de la méthode toJson() pour convertir l'objet en Map<String, dynamic>
+      await FirebaseFirestore.instance.collection('users').add(user.toFirebase());
+      //vider les champs du formulaire
       _name.clear();
       _age.clear();
       _email.clear();
@@ -184,6 +212,7 @@ class _UserWidgetState extends State<UserWidget> {
     }
   }
 
+  //fonction qui permet d'ajouter 10 utilisateurs dans la base de données firestore si la base de données est vide
   _initDb() async {
     for (int i = 0; i < 10; i++) {
       var user = User(
@@ -192,7 +221,7 @@ class _UserWidgetState extends State<UserWidget> {
           email: faker.internet.email(),
           address: faker.address.streetAddress(),
           password: faker.internet.password(length: 5));
-      await FirebaseFirestore.instance.collection('users').add(user.toJson());
+      await FirebaseFirestore.instance.collection('users').add(user.toFirebase());
     }
   }
 }
@@ -212,6 +241,9 @@ Widget customTextField(
           }
         });
 
+///Classe User qui permet de créer un utilisateur avec les champs name, age, email, address, password
+///et de convertir l'objet en Map<String, dynamic> pour l'ajouter dans la base de données firestore
+///et de convertir un Map<String, dynamic> en objet User pour récupérer les données de la base de données firestore
 class User {
   late String name;
   late int age;
@@ -221,15 +253,15 @@ class User {
 
   User({required this.name, required this.age, required this.email, required this.address, required this.password});
 
-  User.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    age = json['age'];
-    email = json['email'];
-    address = json['address'];
-    password = json['password'];
+  User.fromFirebase(Map<String, dynamic> data) {
+    name = data['name'];
+    age = data['age'];
+    email = data['email'];
+    address = data['address'];
+    password = data['password'];
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toFirebase() {
     return {
       'name': name,
       'age': age,

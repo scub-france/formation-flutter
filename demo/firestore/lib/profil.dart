@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 import 'main.dart';
 
+/// Profil Page pour modifier les données de l'utilisateur
+/// en récupérant son id dans les paramètres
 class Profil extends StatefulWidget {
   final String id;
 
@@ -16,6 +18,7 @@ class Profil extends StatefulWidget {
 class _ProfilState extends State<Profil> {
   _ProfilState(String id);
 
+  // Déclaration des variables
   final _name = TextEditingController();
   final _age = TextEditingController();
   final _email = TextEditingController();
@@ -27,6 +30,7 @@ class _ProfilState extends State<Profil> {
   build(_) => Scaffold(
     appBar: AppBar(
           title: const Text('Update User'),
+          // Bouton pour revenir en arrière (vers la page précédente) grâce à la fonction pop de Navigator
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () => Navigator.pop(context),
@@ -34,10 +38,11 @@ class _ProfilState extends State<Profil> {
         ),
         body: Column(children: [
           StreamBuilder(
+            // Récupération des données de l'utilisateur grâce à son id
             stream: FirebaseFirestore.instance.collection('users').doc(widget.id).snapshots(),
             builder: (_, snapshot) {
               if (snapshot.hasData) {
-                var user = User.fromJson(snapshot.data?.data() as Map<String, dynamic>);
+                var user = User.fromFirebase(snapshot.data?.data() as Map<String, dynamic>);
                 return Form(
                     key: _formKey,
                     child: Column(
@@ -64,7 +69,7 @@ class _ProfilState extends State<Profil> {
                   email: _email.text,
                   address: _address.text,
                   password: _password.text);
-              await FirebaseFirestore.instance.collection('users').doc(widget.id).update(user.toJson());
+              await FirebaseFirestore.instance.collection('users').doc(widget.id).update(user.toFirebase());
               _name.clear();_age.clear();_email.clear();_address.clear();_password.clear();
             }
           },
