@@ -25,9 +25,8 @@ class _ProfilState extends State<Profil> {
   final _address = TextEditingController();
   final _password = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-
   @override
-  build(_) => Scaffold(
+  build(context) => Scaffold(
     appBar: AppBar(
           title: const Text('Update User'),
           // Bouton pour revenir en arrière (vers la page précédente) grâce à la fonction pop de Navigator
@@ -42,16 +41,16 @@ class _ProfilState extends State<Profil> {
             stream: FirebaseFirestore.instance.collection('users').doc(widget.id).snapshots(),
             builder: (_, snapshot) {
               if (snapshot.hasData) {
-                var user = User.fromFirebase(snapshot.data?.data() as Map<String, dynamic>);
+                var user = User.fromFirebase(snapshot.data!.data()!);
                 return Form(
                     key: _formKey,
                     child: Column(
                       children: [
-                        customTextField(label: user.name, controller: _name, needValidator: true),
-                        customTextField(label: '${user.age}', controller: _age, needValidator: true),
-                        customTextField(label: user.email, controller: _email, needValidator: true),
-                        customTextField(label: user.address, controller: _address, needValidator: true),
-                        customTextField(label: user.password, controller: _password, needValidator: true),
+                        customTextField(label: user.name, controller: _name, needValidator: false),
+                        customTextField(label: '${user.age}', controller: _age, needValidator: false),
+                        customTextField(label: user.email, controller: _email, needValidator: false),
+                        customTextField(label: user.address, controller: _address, needValidator: false),
+                        customTextField(label: user.password, controller: _password, needValidator: false),
                       ],
                     ));
               } else {
@@ -61,16 +60,17 @@ class _ProfilState extends State<Profil> {
           ),
         ]),
         floatingActionButton: FloatingActionButton(
-          onPressed: () async {
+          onPressed: ()  {
             if (_formKey.currentState!.validate()) {
-              var user = User(
-                  name: _name.text,
-                  age: int.parse(_age.text),
-                  email: _email.text,
-                  address: _address.text,
-                  password: _password.text);
-              await FirebaseFirestore.instance.collection('users').doc(widget.id).update(user.toFirebase());
+              if(_name.text.isNotEmpty)  FirebaseFirestore.instance.collection('users').doc(widget.id).update({'name': _name.text});
+              if(_age.text.isNotEmpty)  FirebaseFirestore.instance.collection('users').doc(widget.id).update({'age': _age.text});
+              if(_email.text.isNotEmpty)  FirebaseFirestore.instance.collection('users').doc(widget.id).update({'email': _email.text});
+              if(_age.text.isNotEmpty)  FirebaseFirestore.instance.collection('users').doc(widget.id).update({'age': _age.text});
+              if(_password.text.isNotEmpty)  FirebaseFirestore.instance.collection('users').doc(widget.id).update({'password': _password.text});
+
               _name.clear();_age.clear();_email.clear();_address.clear();_password.clear();
+
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const Firestore()));
             }
           },
           tooltip: 'Update User',
