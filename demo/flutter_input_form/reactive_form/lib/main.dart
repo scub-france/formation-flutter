@@ -9,15 +9,20 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  build(context) {
-    return MaterialApp(
+  build(context) => MaterialApp(
       theme: ThemeData(appBarTheme: const AppBarTheme(color: Colors.indigo)),
       title: 'My app',
       home: Scaffold(
-        body: MyForm(),
+        body: Column(
+          children: [
+            MyForm(),
+            const Divider(height: 20, thickness: 5, color: Colors.black),
+            const Text('A VOUS DE JOUER'),
+            MyExerciseForm(),
+          ],
+        ),
       ),
     );
-  }
 }
 class MyForm extends StatelessWidget {
   MyForm({super.key});
@@ -39,7 +44,7 @@ class MyForm extends StatelessWidget {
   });
 
   @override
-  Widget build(context) {
+  build(context) {
     // Nous retournons un Widget 'ReactiveForm' afin d'utiliser tout ce que propose le package
     return ReactiveForm(
       formGroup: form, // Utilisation du formGroup défini ci-dessus
@@ -50,7 +55,7 @@ class MyForm extends StatelessWidget {
             padding: EdgeInsets.all(1),
             child: Text('Nom'),
           ),
-          // ReactiveTextField est un widget qui s'adapte automatiquement aux modifications de la valeur de son contrôle, c'est-à-dire du formaulaire,
+          // ReactiveTextField est un widget qui s'adapte automatiquement aux modifications de la valeur de son contrôle, c'est-à-dire du formulaire,
           // et peut afficher des erreurs de validation en temps réel
           ReactiveTextField(
             // 'formControlName' est utillisé pour pour lier un contrôle de formulaire à un champ de saisie
@@ -92,4 +97,29 @@ class MyForm extends StatelessWidget {
   }
 }
 
+
+// A VOUS DE JOUER
+// Créez un nouveau formulaire qui contient un champ 'username' et un champ 'age'.
+// Le champ 'username' doit être requis, tandis que le champ 'age' doit être un entier supérieur à 18.
+// Utilisez les widgets ReactiveTextField pour créer les champs de saisie.
+// N'oubliez pas de gérer les messages d'erreur de validation pour chaque champ.
+
+
+
+class MyExerciseForm extends StatelessWidget {
+  final form = FormGroup({
+    // TODO SOMETHING HERE
+  });
+
+  @override
+  build(context) {
+    return ReactiveForm(
+      formGroup: form,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        // TODO SOMETHING HERE
+      ),
+    );
+  }
+}
 
