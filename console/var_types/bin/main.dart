@@ -1,4 +1,3 @@
-import 'package:var_types/main.dart' as var_types;
 
 void main() {
   // Déclarez une variable `age` et assignez-lui la valeur 25
@@ -33,9 +32,6 @@ void main() {
   // Multipliez le montant par 1.1 (10% de pourboire) et affichez le résultat
   montant *= 1.1;
   print('Le montant total avec le pourboire est de $montant euros.');
-
-  // Déclarez une variable `age2` et essayez de la modifier dans un bloc try/catch
-  final int age2 = 30;
 
   // Déclare une variable `type` et affiche son type, déduit par Dart
   var type = "value";
