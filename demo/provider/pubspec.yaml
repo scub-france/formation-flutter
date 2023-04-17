@@ -13,7 +13,8 @@ dependencies:
   flutter:
     sdk: flutter
   provider:
-  go_router: 6.5.5
+  go_router:
+  nanoid:
 
 dev_dependencies:
   flutter_test:
