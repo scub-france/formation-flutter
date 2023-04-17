@@ -183,17 +183,19 @@ class _UserWidgetState extends State<UserWidget> {
         ),
       );
 
-  Widget listButton(Query<Map<String, dynamic>> query, String label) => ElevatedButton(
-        onPressed: () {
-          //setState permet de mettre à jour l'état du widget
-          setState(() {
-            //recupère la requete en fonction du bouton cliqué et la stocke dans la variable _requete
-            _requete = query;
-          });
-        },
-        //affiche le label du bouton
-        child: Text(label),
-      );
+  Widget listButton(Query<Map<String, dynamic>> query, String label) => Flexible(
+    child: ElevatedButton(
+          onPressed: () {
+            //setState permet de mettre à jour l'état du widget
+            setState(() {
+              //recupère la requete en fonction du bouton cliqué et la stocke dans la variable _requete
+              _requete = query;
+            });
+          },
+          //affiche le label du bouton
+          child: Text(label),
+        ),
+  );
 
   _addUser() async {
     //si le formulaire est valide
