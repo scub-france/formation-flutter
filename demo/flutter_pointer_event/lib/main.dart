@@ -8,8 +8,8 @@ void main() => runApp(const PointerEventApp());
 /// Le Widget1 contient un Texte dont la taille est modifiable grace
 /// a la molette de la souris.
 ///
-/// Le Widget2 comprend un compteur du nombres de presses sur la souris,
-/// un compteur de releases ainsi que la position du curseur.
+/// Le Widget2 comprend un compteur du nombres de pressions sur la souris,
+/// un compteur de relâchement ainsi que la position du curseur.
 ///
 /// La couleur du widget dépend de la position du curseur.
 
@@ -41,8 +41,7 @@ class PrincipalWidget extends StatefulWidget {
 
 /// Notre widget principal
 class _PrincipalWidgetState extends State<PrincipalWidget> {
-
-  // Compteur des presses
+  // Compteur de pressions
   int _downCounter = 0;
 
   // Compteur des releases
@@ -62,7 +61,7 @@ class _PrincipalWidgetState extends State<PrincipalWidget> {
   /// incrémente _downCounter et appelle _updateLocation
   void _incrementDown(_) {
     _updateLocation(_);
-    setState(()=>_downCounter++);
+    setState(() => _downCounter++);
   }
 
   /// incrémente _upCounter et appelle _updateLocation
@@ -82,35 +81,23 @@ class _PrincipalWidgetState extends State<PrincipalWidget> {
   /// met a jour la couleur d'un widget quand le curseur le quitte
   void _exitAction(PointerEvent details) {
     // On se sert du paramètre buttons pour identifier  un événement
-    if (details.buttons == 1) {
-      setState(() => couleurWidget1 = Colors.deepOrangeAccent);
-    }
-    if (details.buttons == 2) {
-      setState(() => couleurWidget2 = Colors.deepOrangeAccent);
-    }
+    if (details.buttons == 1) setState(() => couleurWidget1 = Colors.deepOrangeAccent);
+    if (details.buttons == 2) setState(() => couleurWidget2 = Colors.deepOrangeAccent);
   }
 
   /// met a jour la couleur d'un widget quand le curseur est en dessus
   void _hoverAction(PointerEvent details) {
     // On se sert du paramètre buttons pour identifier  un événement
-    if (details.buttons == 1) {
-      setState(() => couleurWidget1 = Colors.greenAccent);
-    }
-    if (details.buttons == 2) {
-      setState(() => couleurWidget2 = Colors.greenAccent);
-    }
+    if (details.buttons == 1) setState(() => couleurWidget1 = Colors.greenAccent);
+    if (details.buttons == 2) setState(() => couleurWidget2 = Colors.greenAccent);
   }
 
   /// Permet de changer la taille du texte en manipulons la molette de la souris
   void _signalAction(PointerScrollEvent details) => setState(() {
         double taille = tailleTexte;
         // taille minimale du Text == 8 pour éviter que le widget disparaisse
-        if (details.scrollDelta.dy > 0 && taille >= 8) {
-          taille = taille - 1;
-        }
-        if (details.scrollDelta.dy < 0) {
-          taille = taille + 1;
-        }
+        if (details.scrollDelta.dy > 0 && taille >= 8) taille = taille - 1;
+        if (details.scrollDelta.dy < 0) taille = taille + 1;
         setState(() => tailleTexte = taille);
       });
 
@@ -124,20 +111,18 @@ class _PrincipalWidgetState extends State<PrincipalWidget> {
             decoration: BoxDecoration(color: couleurWidget1),
             child: Listener(
               // capturer les évènements de la molette de la souris
-              onPointerSignal: (signal) =>
-                  _signalAction(signal as PointerScrollEvent),
+              onPointerSignal: (signal) => _signalAction(signal as PointerScrollEvent),
 
               // les méthodes de Listener ne répondent pas a tout nos besoins
               // c'est pour cela qu'on a besoin de MouseRegion
               child: MouseRegion(
-                  onEnter: (_) =>
-                      _hoverAction(const PointerHoverEvent(buttons: 1)),
-                  onExit: (_) =>
-                      _exitAction(const PointerHoverEvent(buttons: 1)),
-                  child: Text(
-                    'Taille modifiable',
-                    style: TextStyle(fontSize: tailleTexte),
-                  )),
+                  onEnter: (_) => _hoverAction(const PointerHoverEvent(
+                      // On identifie explicitement
+                      buttons: 1)),
+                  onExit: (_) => _exitAction(const PointerHoverEvent(
+                      // On identifie explicitement
+                      buttons: 1)),
+                  child: Text('Taille modifiable', style: TextStyle(fontSize: tailleTexte))),
             )),
 
         // Widget2
@@ -147,18 +132,22 @@ class _PrincipalWidgetState extends State<PrincipalWidget> {
             onPointerDown: _incrementDown,
             onPointerMove: _updateLocation,
             onPointerUp: _incrementUp,
-            onPointerHover: (_) =>
-                _hoverAction(const PointerHoverEvent(buttons: 2)),
+            onPointerHover: (_) => _hoverAction(const PointerHoverEvent(
+                // On identifie explicitement
+                buttons: 2)),
             child: MouseRegion(
-              onEnter: (_) => _hoverAction(const PointerHoverEvent(buttons: 2)),
-              onExit: (_) => _exitAction(const PointerHoverEvent(buttons: 2)),
+              onEnter: (_) => _hoverAction(const PointerHoverEvent(
+                  // On identifie explicitement
+                  buttons: 2)),
+              onExit: (_) => _exitAction(const PointerHoverEvent(
+                  // On identifie explicitement
+                  buttons: 2)),
               child: Container(
                 color: couleurWidget2,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('Vous avez effectué le nombre de pressions ou '
-                        'libérations suivant:'),
+                    const Text('Vous avez effectué le nombre de pressions/libérations suivant:'),
                     Text(
                       '$_downCounter pressions\n$_upCounter libérations',
                       style: Theme.of(context).textTheme.headlineMedium,
