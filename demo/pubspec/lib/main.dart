@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Vous trouverez touts les explications sur le `pubspeck` dans le README
 void main() {
   runApp(const MyApp());
 }
