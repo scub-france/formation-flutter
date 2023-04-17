@@ -87,10 +87,6 @@ class ProviderApp extends StatelessWidget {
     return ChangeNotifierProvider(
         create: (context) => ArticlesProvider(),
         child: MaterialApp.router(
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
           routerConfig: router(),
         ));
   }
@@ -138,7 +134,7 @@ class ArticleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /// J'utilise ici un Consumer Widget pour consommer mon provider
+    /// un Consumer Widget pour lire mon provider
     return Consumer<ArticlesProvider>(builder: (context, articlePovider, _) {
       return Padding(
         padding: const EdgeInsets.all(20),
