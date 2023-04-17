@@ -1,19 +1,20 @@
 # Introduction
 
-On a vu dans le cours Stateless/stateful que l'etat d'un statefulWidget peut etre manipulé depuis le widget lui meme
+On a vu dans le cours stateless/stateful que l'état d'un `StatefulWidget` peut être manipulé depuis le widget lui-même
 ou depuis le widget parent.
 
-Vous vous etes certainement demandés comment faire pour changer l'etat d'un widget A depuis un widget B sachant qu'ils n'ont aucun
-lien de parenté... Flutter nous propose les InheritedWidgets, ceux-ci permettent de partager des informations dans 
-l'arborescence des widgets. Néanmoins, les InheritedWidgets sont difficiles à mettre en œuvre.
+Vous vous êtes certainement demandés comment faire pour changer l'état d'un widget A depuis un widget B alors qu'ils ne partagent pas de lien 
+direct. 
+
+Flutter nous propose les InheritedWidgets, ceux-ci permettent de partager des informations dans 
+l'arborescence des widgets. Néanmoins, les InheritedWidgets sont laborieux à mettre en œuvre.
 
 # Le package Provider
 
-Pour répondre a nos besoins d'une manière facile et optimale, le package Provider (fournisseur) a commencé comme une extension de 
-InheritedWidget, facilitant la gestion des informations dans l'arborescence des widgets. 
 
-Il suffit de placer notre PROVIDER comme parent de nos widgets, il pourra ainsi diffuser les informations a ses enfants
-qu'on appellera CONSUMER (Consommateur) et ses derniers peuvent aussi mettre a jour les informations de leurs PROVIDER.
+Le package `Provider` réponds à ce besoins. Il suffit de placer notre `Provider` comme parent de nos widgets, il pourra ainsi transmettre les 
+informations aux enfants que nous appellerons `Consumer`et ses derniers peuvent aussi mettre à jour les informations de leurs 
+parent.
 
 Le package Provider nous fournit plusieurs outils :
 
@@ -31,27 +32,32 @@ d'état et écouter les changements.
 
 ```
 class CompteurProvider extends ChangeNotifier {
+
+// Valeur managée
 int valeur=0;
+
 void incrementeCompteur() {
     valeur++;
+    // prévenir les consumers de la mise à jour
     notifyListeners();
    }
  }
 ```
 
-Le provider doit étendre ChangeNotifier, de cette maniere, CompteurProvider partage un compteur avec ses descendants.
-Notez l'appel a notifyListeners() qui est nécessaire pour notifier les abonnés des changements. 
+Le provider doit étendre `ChangeNotifier`, de cette manière, `CompteurProvider` partage un compteur avec ses widgets enfants.
+Notez l'appel à `notifyListeners()` qui est nécessaire pour notifier les abonnés des changements. 
 
 #### Consommer notre provider
 
 ```
 class ExampleCompteur extends StatelessWidget {
-const ExampleCompteur({Key? key}) : super(key: key);
 
-@override
-Widget build(BuildContext context) {
-return ChangeNotifierProvider(create:  (context) => CompteurProvider(),
-child: MaterialApp(......
+  const ExampleCompteur({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(create:  (context) => CompteurProvider(),
+    child: MaterialApp(......
 ```
 
 Ici, ChangeNotifierProvider est le widget parent de tous les widgets. Notre provider aura ainsi, dans notre exemple,
@@ -59,9 +65,9 @@ la portée sur toute application. On peut Consommer notre provider de deux mani�
 - *Via le Consumer widget :* 
     ```
     return Consumer<CompteurProvider>(
-    builder: (context, compteur, child) {
-    return Text('Valeur compteur: ${compteur.valeur}');
-    },
+      builder: (context, compteur, child) {
+        return Text('Valeur compteur: ${compteur.valeur}');
+      },
     );
     ```
     Consumer est un widget qui écoute un Provider et transfère ses informations au constructeur. Grace a ça,
@@ -77,8 +83,8 @@ la portée sur toute application. On peut Consommer notre provider de deux mani�
 
 #### MultiProvider
 
-Selon les cas, on peut avoir besoin de plusieurs Provider ! le package Provider nous propose MultiProvider pour repondre
-a notre besoin.
+Selon les cas, on peut avoir besoin de plusieurs Provider ! le package Provider nous propose MultiProvider pour répondre
+à notre besoin.
     
 ```
     class ExampleProvider extends StatelessWidget {
@@ -106,11 +112,11 @@ Le Provider comprend de nombreuses variantes :
 - StreamProvider
 - FutureProvider
 
-Pour chacune de ces variantes du Provider, lorsque la “valeur fournie” change, vous avez la possibilité de notifier 
+Pour chacune de ces variantes de `Provider`, lorsque la “valeur fournie” change, vous avez la possibilité de notifier 
 les Widgets qui font partie de l’arborescence dont le Provider est à l’origine, sous les conditions suivantes :
 
-La “classe fournie” demande à notifier (via le notifyListeners()) ou est un Stream ou une Future qui se termine
-La méthode externe facultative updateShouldNotify renvoie true (ou est absente).
-Vous avez un Widget Consumer ou des widgets qui ont appelé le Provider.of<…>(context, listen: true) (avec le paramètre 
-facultatif listen == true).
+La “classe fournie” demande à notifier (via le 'notifyListeners()') ou est un Stream ou une Future qui se termine
+La méthode externe facultative 'updateShouldNotify' renvoie true (ou est absente).
+Vous avez un Widget Consumer ou des widgets qui ont appelé le 'Provider.of<…>(context, listen: true)' (avec le paramètre 
+facultatif 'listen == true').
 
