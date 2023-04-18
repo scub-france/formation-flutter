@@ -21,7 +21,7 @@ class B extends A{
   }
 }
 
-/// Appel des méthodes
+/// Appel des méthodes des classes A et B
 void main() {
   // Instanciation de la classe B
   B b = new B();
