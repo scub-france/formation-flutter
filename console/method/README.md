@@ -1,5 +1,5 @@
-# Methodes
 
+# Methodes
 En Dart, une méthode est un bloc de code qui effectue une action ou un calcul spécifique. Elle est
 définie à l'intérieur d'une classe et peut être appelée sur une instance de cette classe pour
 réaliser l'opération souhaitée.
