@@ -1,37 +1,35 @@
-A sample command-line application with an entrypoint in `bin/`, library code
-in `lib/`, and example unit test in `test/`.
+# Methodes
 
-## Method
+En Dart, une méthode est un bloc de code qui effectue une action ou un calcul spécifique. Elle est
+définie à l'intérieur d'une classe et peut être appelée sur une instance de cette classe pour
+réaliser l'opération souhaitée.
 
-En Dart, les méthodes de la console sont utilisées pour interagir avec la console du système d'exploitation, où vous pouvez entrer des commandes et obtenir des résultats. Dart fournit une classe appelée dart:io qui contient des méthodes pour travailler avec la console. Voici quelques-unes des méthodes les plus couramment utilisées :
-
-    - stdout.write() : Cette méthode permet d'écrire une chaîne de caractères dans la sortie standard de la console. Par exemple, stdout.write("Bonjour"); affichera "Bonjour" dans la console.
-
-    - stdout.writeln() : Cette méthode permet d'écrire une chaîne de caractères suivie d'un saut de ligne dans la sortie standard de la console. Par exemple, stdout.writeln("Bonjour"); affichera "Bonjour" suivi d'un saut de ligne dans la console.
-
-    - stdin.readLineSync() : Cette méthode permet de lire une ligne de texte entrée par l'utilisateur dans l'entrée standard de la console. Par exemple, var ligne = stdin.readLineSync(); lira une ligne de tex`te entrée par l'utilisateur et stockera cette ligne dans la variable ligne.
-
-    - stdout.writeAll() : Cette méthode permet d'écrire une liste de chaînes de caractères dans la sortie standard de la console, séparées par un caractère spécifié. Par exemple, stdout.writeAll(["Bonjour", "monde"], " "); affichera "Bonjour monde" dans la console.
-
-    - stdout.clearScreen() : Cette méthode permet d'effacer le contenu de la console. Par exemple, 
-    stdout.clearScreen(); effacera tout le contenu de la console.
-
-    - exit() : Cette méthode permet de quitter le programme. Par exemple, exit(0); quittera le programme avec un code de retour 0.
-
-Voici un exemple d'utilisation de ces méthodes dans un programme Dart :
+Pour déclarer une méthode en Dart, on doit spécifier son nom, ses paramètres d'entrée (s'il y en a)
+et son type de retour (s'il y en a). Par exemple, voici une méthode simple qui prend deux entiers et
+retourne leur somme :
 
 ```dart
+ int additionner(int a, int b) {
+  return a + b;
+}
+```  
 
-import 'dart:io';
+On peut appeler cette méthode sur une instance de la classe où elle est définie ou de manière
+statique sur la classe elle-même, en fonction de la façon dont elle est déclarée.
 
-void main() {
-  stdout.writeln("Quel est votre nom ?");
-  var nom = stdin.readLineSync();
-  stdout.writeAll(["Bonjour", nom], " ");
-  stdout.writeln("!");
+Les méthodes en Dart peuvent également être utilisées pour modifier l'état interne d'une instance de
+classe, ce qui peut être utile pour réaliser des opérations plus complexes. Dans ce cas, on peut
+utiliser le mot-clé "void" pour indiquer qu'elle ne renvoie rien :
+
+```dart
+void incrementer() {
+  _compteur++;
 }
 ```
 
-Dans cet exemple, le programme demande le nom de l'utilisateur à l'aide de la méthode stdin.readLineSync() et utilise ensuite les méthodes stdout.writeAll() et stdout.writeln() pour afficher le message "Bonjour <nom> !" dans la console.
+Ici, la méthode "incrementer" incrémente un compteur privé appelé "_compteur". On peut l'appeler sur
+une instance de la classe pour modifier cet état interne.
 
-J'espère que cela vous a aidé à comprendre les méthodes de la console en Dart !
+En résumé, les méthodes en Dart sont des blocs de code qui effectuent des opérations spécifiques,
+définies à l'intérieur d'une classe et appelées sur des instances de cette classe pour réaliser des
+tâches.
