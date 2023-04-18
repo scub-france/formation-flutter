@@ -14,12 +14,16 @@ class Layout extends StatelessWidget {
       title: 'Layout et mise en page',
       home: Scaffold(
         body: Column(
+          // grâce à [CrossAxisAlignment.start] on aligne les éléments de la colonne à gauche(au début), par défaut ils sont centrés
+          // [CrossAxisAlignment.center] gere les elements sur l'axe vertical
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const ListTile(
               title: Text('Alignement'),
               subtitle: Text('Début, Centré, Fin'),
             ),
+            // On applique les 3 modes d'alignement sur une [Row]
+            // [MainAxisAlignment.start] gere les elements sur l'axe horizontal
             repartition([MainAxisAlignment.start, MainAxisAlignment.center, MainAxisAlignment.end]),
             const ListTile(
               title: Text('Répartition'),
