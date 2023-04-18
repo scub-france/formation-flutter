@@ -5,9 +5,13 @@ import 'package:go_router/go_router.dart';
 import 'package:nanoid/nanoid.dart';
 import 'package:provider/provider.dart';
 
+///Il s'agit d'une application de vente en ligne, on utilise provider pour
+///communiquer les informations entre le catalogue et le panier.
+
+/// nanoid est un générateur d'ID de chaîne unique
 final generator = nanoid();
 
-/// Constuire un Article
+/// Construire un Article
 ///
 class Article {
   final String id;
@@ -38,7 +42,7 @@ class ArticlesProvider extends ChangeNotifier {
     }
     prixTotal += article.prix;
 
-    /// N'oublier pas de notifier le consumer des changements
+    /// N'oubliez pas de notifier le consumer des changements
     notifyListeners();
   }
 
@@ -49,12 +53,12 @@ class ArticlesProvider extends ChangeNotifier {
     }
     prixTotal -= article.prix;
 
-    /// N'oublier pas de notifier le consumer des changements
+    /// N'oubliez pas de notifier le consumer des changements
     notifyListeners();
   }
 }
 
-/// Si vous n'estes pas encore familier avec router(), sachez juste
+/// Si vous n'êtes pas encore familier avec router(), sachez juste
 /// que c'est un package responsable de la navigation dans Flutter.
 /// je vous encourage a voir le cours qui traite ce sujet.
 GoRouter router() {
@@ -64,33 +68,27 @@ GoRouter router() {
         path: '/',
         builder: (context, state) => const HomePage(),
       ),
-      GoRoute(path: '/catalogue', builder: (context, state) => const Catalogue(), routes: [
-        GoRoute(
-          path: 'panier',
-          builder: (context, state) => const MonPanier(),
-        ),
-      ])
+      GoRoute(
+          path: '/catalogue',
+          builder: (context, state) => const Catalogue(),
+          routes: [
+            GoRoute(
+              path: 'panier',
+              builder: (context, state) => const MonPanier(),
+            ),
+          ])
     ],
   );
 }
 
-void main() => runApp(Provider(create: (_) => ArticlesProvider, child: const ProviderApp()));
-
-class ProviderApp extends StatelessWidget {
-  const ProviderApp({super.key});
-
-  @override
-  build(context) {
-    /// On place ici ChangeNotifierProvider comme widget principal dans l'arborescence des widgets.
-    /// Les widgets enfants(ici, toute l'application), peuvent accéder et modifier ArticlesProvider !
-    /// et tout changement chez ce dernier sera notifié au widgets abonnés.
-    return ChangeNotifierProvider(
-        create: (context) => ArticlesProvider(),
-        child: MaterialApp.router(
-          routerConfig: router(),
-        ));
-  }
-}
+/// On place ici ChangeNotifierProvider comme widget principal dans l'arborescence des widgets.
+/// Les widgets enfants(ici, toute l'application), peuvent accéder et modifier ArticlesProvider !
+/// et tout changement chez ce dernier sera notifié au widgets abonnés.
+void main() => runApp(ChangeNotifierProvider(
+    create: (context) => ArticlesProvider(),
+    child: MaterialApp.router(
+      routerConfig: router(),
+    )));
 
 /// Page catalogue
 class Catalogue extends StatefulWidget {
@@ -102,13 +100,17 @@ class Catalogue extends StatefulWidget {
 
 class _Catalogue extends State<Catalogue> {
   @override
-  build(context) {
+  build(_) {
+
+    // une premiere facon de consommer un provider
     final provided = context.read<ArticlesProvider>();
     final articles = provided.articles;
 
     return Scaffold(
         appBar: AppBar(
-          title: Center(child: Text('Catalogue', style: Theme.of(context).textTheme.displayMedium)),
+          title: Center(
+              child: Text('Catalogue',
+                  style: Theme.of(context).textTheme.displayMedium)),
           actions: [
             IconButton(
               iconSize: 50,
@@ -127,6 +129,7 @@ class _Catalogue extends State<Catalogue> {
   }
 }
 
+/// Widget pour afficher un article
 class ArticleCard extends StatelessWidget {
   const ArticleCard({super.key, required this.article});
 
@@ -134,7 +137,7 @@ class ArticleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /// un Consumer Widget pour lire mon provider
+    //une deuxième facon de consommer un provider
     return Consumer<ArticlesProvider>(builder: (context, articlePovider, _) {
       return Padding(
         padding: const EdgeInsets.all(20),
@@ -144,29 +147,49 @@ class ArticleCard extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    Text("Numero article: ${article.id}", style: const TextStyle(fontSize: 30)),
-                    const SizedBox(width: 50),
-                    Text("Prix: ${article.prix.toString()}euros")
-                  ],
+                Flexible(
+                  flex:3,
+                  child: Row(children: [
+                  Flexible(
+                      child: Row(
+                        children: [
+                          const Text("N°: ", style: TextStyle(fontSize: 30)),
+                          Text(article.id,
+                              style: const TextStyle(
+                                  fontSize: 20, color: Colors.grey)),
+                        ],
+                      )),
+                  Flexible(
+                      child: Row(
+                        children: [
+                          const Text("Prix: ", style: TextStyle(fontSize: 30)),
+                          Text("${article.prix.toString()}euros",
+                              style: const TextStyle(
+                                  fontSize: 20, color: Colors.grey)),
+                        ],
+                      ))]),
                 ),
-                Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.add),
-                      onPressed: () => articlePovider.ajoutAuPanier(article),
-                    ),
-                    Text(article.quantite.toString(), style: const TextStyle(fontSize: 20, color: Colors.green)),
-                    const Icon(Icons.shopping_cart),
-                    IconButton(
-                        icon: const Icon(Icons.remove),
-                        onPressed: () {
-                          if (article.quantite > 0) {
-                            articlePovider.retireDuPanier(article);
-                          }
-                        })
-                  ],
+                Flexible(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.add),
+                        onPressed: () => articlePovider.ajoutAuPanier(article),
+                      ),
+                      Text(article.quantite.toString(),
+                          style: const TextStyle(
+                              fontSize: 20, color: Colors.green)),
+                      const Icon(Icons.shopping_cart),
+                      IconButton(
+                          icon: const Icon(Icons.remove),
+                          onPressed: () {
+                            if (article.quantite > 0) {
+                              articlePovider.retireDuPanier(article);
+                            }
+                          })
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -177,34 +200,41 @@ class ArticleCard extends StatelessWidget {
   }
 }
 
+///Page panier
 class MonPanier extends StatelessWidget {
   const MonPanier({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  build(context) {
+    //une troisième facon de consommer un provider
     final providerArticles = Provider.of<ArticlesProvider>(context);
     final articles = providerArticles.panier;
     return Scaffold(
       appBar: AppBar(
         title: Center(
-          child: Text("Total: ${providerArticles.prixTotal}euros", style: Theme.of(context).textTheme.displayMedium),
+          child: Text("Total: ${providerArticles.prixTotal}euros",
+              style: Theme.of(context).textTheme.displayMedium),
         ),
       ),
       body: Center(
-        child: ListView(children: articles.map((e) => ArticleCard(article: e)).toList()),
+        child: ListView(
+            children: articles.map((e) => ArticleCard(article: e)).toList()),
       ),
     );
   }
 }
 
+///Page d'accueil
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  build(context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('Acceuil', style: Theme.of(context).textTheme.displayMedium)),
+        title: Center(
+            child: Text('Acceuil',
+                style: Theme.of(context).textTheme.displayMedium)),
       ),
       body: Center(
         child: ListView(children: [
