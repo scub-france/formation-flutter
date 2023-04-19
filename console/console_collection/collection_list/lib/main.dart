@@ -23,15 +23,15 @@ void main() {
 
     print('---');
 
-    // On merge la seconde liste à la première
+    // On concataine les deux listes
     myList.addAll(myList2);
 
     /*
-    Depuis Dart 2 on peut aussi faire : myList = myList + myList2;
-    Depuis Dart 2.3 on peut aussi faire : myList = [...myList, ...myList2];
+    Depuis Dart 2 on peut aussi concatainer de cette façon : myList = myList + myList2;
+    Depuis Dart 2.3 on peut aussi utiliser le spread operator : myList = [...myList, ...myList2];
     */
 
-    print("La nouvelle liste mergée : ");
+    print("La nouvelle liste concatainée : ");
     print(myList);
     print("La longeur de la nouvelle liste est : ${myList.length} ");
 
