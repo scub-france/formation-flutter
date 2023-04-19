@@ -9,7 +9,7 @@ import 'main.dart';
 class Profil extends StatefulWidget {
   final String id;
 
-  const Profil({Key? key, required this.id}) : super(key: key);
+  const Profil({super.key, required this.id});
 
   @override
   State<Profil> createState() => _ProfilState(id);
