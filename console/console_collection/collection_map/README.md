@@ -57,8 +57,6 @@ Quelques propriétés qui s'appliquent aux dictionnaires :
 | Propriétés    |   Informations    |
 |---            |:-                 |
 |   length      | retourne le nombre d'élément du dictionnaire  |
-|   keys       | retourne un itérable des clés du dictionnaire  |
-|   values        | retourne un itérable des valeurs du dictionnaire  |
 |   isEmpty     | retourne true s'il n'y a pas d'éléments dans la liste et false si il y a au moins un élémentretourne true s'il n'y a pas d'éléments dans le dictionnaire et false si il y a au moins un élément |
 
 ## La méthode forEach pour les dictionnaires
