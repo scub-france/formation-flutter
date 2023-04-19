@@ -1,22 +1,89 @@
-
-
-
-//Voici un exemple de test de widget simple
-// qui teste qu'un widget de texte affiche le texte correctement
-
 import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
 
-void main() {
-  testWidgets('Text widget displays correct text', (WidgetTester tester) async {
+void main() => runApp(MyApp());
 
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Navigation Demo',
+      home: HomeScreen(),
+      routes: {
+        '/second': (context) => SecondScreen(),
+        '/third': (context) => ThirdScreen(),
+      },
+    );
   }
+}
 
-
-    await tester.pumpWidget(
-      MaterialApp(
-        home: Scaffold(
-          body: Text('Hello, world!'),
+class HomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Home')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              child: Text('Go to Second Screen'),
+              onPressed: () {
+                Navigator.pushNamed(context, '/second');
+              },
+            ),
+          ],
         ),
       ),
     );
+  }
+}
+
+class SecondScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Second Screen')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              child: Text('Go to Third Screen'),
+              onPressed: () {
+                Navigator.pushNamed(context, '/third');
+              },
+            ),
+            ElevatedButton(
+              child: Text('Go back to Home'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ThirdScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Third Screen')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              child: Text('Go back to Home'),
+              onPressed: () {
+                Navigator.popUntil(context, ModalRoute.withName('/'));
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
