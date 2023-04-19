@@ -81,8 +81,10 @@ GoRouter router() {
   );
 }
 
-/// On place ici ChangeNotifierProvider comme widget principal dans l'arborescence des widgets.
-/// Les widgets enfants(ici, toute l'application), peuvent accéder et modifier ArticlesProvider !
+/// On place ici ChangeNotifierProvider comme widget principal dans
+/// l'arborescence des widgets.
+/// Les widgets enfants(ici, toute l'application), peuvent accéder
+/// et modifier ArticlesProvider !
 /// et tout changement chez ce dernier sera notifié au widgets abonnés.
 void main() => runApp(ChangeNotifierProvider(
     create: (context) => ArticlesProvider(),
@@ -153,19 +155,19 @@ class ArticleCard extends StatelessWidget {
                   Flexible(
                       child: Row(
                         children: [
-                          const Text("N°: ", style: TextStyle(fontSize: 30)),
+                          const Text("N°: ", style: TextStyle(fontSize: 25)),
                           Text(article.id,
                               style: const TextStyle(
-                                  fontSize: 20, color: Colors.grey)),
+                                  fontSize: 17, color: Colors.grey)),
                         ],
                       )),
                   Flexible(
                       child: Row(
                         children: [
-                          const Text("Prix: ", style: TextStyle(fontSize: 30)),
+                          const Text("Prix: ", style: TextStyle(fontSize: 25)),
                           Text("${article.prix.toString()}euros",
                               style: const TextStyle(
-                                  fontSize: 20, color: Colors.grey)),
+                                  fontSize: 17, color: Colors.grey)),
                         ],
                       ))]),
                 ),
