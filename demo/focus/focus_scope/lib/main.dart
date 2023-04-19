@@ -22,7 +22,7 @@ class _FocusAppState extends State<FocusApp> {
   @override
   build(_) {
     final checkbox1 = Row(children: [
-      const Text('Le scope ne peut demander le focus que si la case est cochée'),
+      const Text('Demander le focus'),
       Checkbox(
           checkColor: Colors.white,
           value: isScope1canRequestFocus,
@@ -34,7 +34,7 @@ class _FocusAppState extends State<FocusApp> {
     ]);
 
     final checkbox2 = Row(children: [
-      const Text('  Le scope ne peut demander le focus que si la case est cochée'),
+      const Text('Demander le focus'),
       Checkbox(
           checkColor: Colors.white,
           value: isScope2canRequestFocus,
