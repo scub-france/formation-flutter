@@ -4,7 +4,7 @@ Gestion firestore
 
 ### Qu'est-ce que c'est ?
 
-Il est conçu pour stocker et gérer des données structurées et non structurées dans le cloud de
+Firestore est conçu pour stocker et gérer des données structurées et non structurées dans le cloud de
 manière efficace et évolutive. Avec Firestore, vous pouvez stocker des données sous forme de
 documents JSON, qui sont organisés en collections et sous-collections. Ces documents peuvent être
 consultés, mis à jour et supprimés en temps réel, ce qui permet à votre application de réagir
