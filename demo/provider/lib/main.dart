@@ -121,13 +121,12 @@ class _Catalogue extends State<Catalogue> {
             ),
           ],
         ),
-        body: Center(
-            child: ListView(
-                children: articles
-                    .map((e) => ArticleCard(
-                          article: e,
-                        ))
-                    .toList())));
+        body: ListView(
+            children: articles
+                .map((e) => ArticleCard(
+                      article: e,
+                    ))
+                .toList()));
   }
 }
 
@@ -141,60 +140,57 @@ class ArticleCard extends StatelessWidget {
   Widget build(BuildContext context) {
     //une deuxième facon de consommer un provider
     return Consumer<ArticlesProvider>(builder: (context, articlePovider, _) {
-      return Padding(
-        padding: const EdgeInsets.all(20),
-        child: Card(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+      return Card(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                flex:3,
+                child: Row(children: [
                 Flexible(
-                  flex:3,
-                  child: Row(children: [
-                  Flexible(
-                      child: Row(
-                        children: [
-                          const Text("N°: ", style: TextStyle(fontSize: 25)),
-                          Text(article.id,
-                              style: const TextStyle(
-                                  fontSize: 17, color: Colors.grey)),
-                        ],
-                      )),
-                  Flexible(
-                      child: Row(
-                        children: [
-                          const Text("Prix: ", style: TextStyle(fontSize: 25)),
-                          Text("${article.prix.toString()}euros",
-                              style: const TextStyle(
-                                  fontSize: 17, color: Colors.grey)),
-                        ],
-                      ))]),
-                ),
+                    child: Row(
+                      children: [
+                        const Text("N°: ", style: TextStyle(fontSize: 25)),
+                        Text(article.id,
+                            style: const TextStyle(
+                                fontSize: 17, color: Colors.grey)),
+                      ],
+                    )),
                 Flexible(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.add),
-                        onPressed: () => articlePovider.ajoutAuPanier(article),
-                      ),
-                      Text(article.quantite.toString(),
-                          style: const TextStyle(
-                              fontSize: 20, color: Colors.green)),
-                      const Icon(Icons.shopping_cart),
-                      IconButton(
-                          icon: const Icon(Icons.remove),
-                          onPressed: () {
-                            if (article.quantite > 0) {
-                              articlePovider.retireDuPanier(article);
-                            }
-                          })
-                    ],
-                  ),
+                    child: Row(
+                      children: [
+                        const Text("Prix: ", style: TextStyle(fontSize: 25)),
+                        Text("${article.prix.toString()}euros",
+                            style: const TextStyle(
+                                fontSize: 17, color: Colors.grey)),
+                      ],
+                    ))]),
+              ),
+              Flexible(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.add),
+                      onPressed: () => articlePovider.ajoutAuPanier(article),
+                    ),
+                    Text(article.quantite.toString(),
+                        style: const TextStyle(
+                            fontSize: 20, color: Colors.green)),
+                    const Icon(Icons.shopping_cart),
+                    IconButton(
+                        icon: const Icon(Icons.remove),
+                        onPressed: () {
+                          if (article.quantite > 0) {
+                            articlePovider.retireDuPanier(article);
+                          }
+                        })
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       );
