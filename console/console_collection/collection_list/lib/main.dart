@@ -2,16 +2,19 @@ void main() {
 
     // Déclaration de ma liste
     var myList = [5, 12, 14];
-    print("Ma liste mergée : ");
+    print("Ma liste : ");
     print(myList);
 
-    print("La longeur de ma liste est : ${myList.length} ");
+    print("La longueur de ma liste est : ${myList.length} ");
+    print("Le premier élément : ${myList.first} ");
+    print("Le dernier élément : ${myList.last} ");
 
     // J'ajoute un élément à ma liste
     myList.add(19);
 
-    print("La longeur de ma nouvelle liste est : ${myList.length} ");
+    print("La longueur de ma liste est désormais : ${myList.length} ");
     print("Pour l'indice 2, la valeur de l'élément est : ${myList[2]} ");
+
 
     print('---');
 
@@ -33,7 +36,8 @@ void main() {
 
     print("La nouvelle liste concatainée : ");
     print(myList);
-    print("La longeur de la nouvelle liste est : ${myList.length} ");
+    print("La longueur de la nouvelle liste est : ${myList.length} ");
+
 
 
 }
