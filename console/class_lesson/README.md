@@ -49,4 +49,27 @@ Le polymorphisme permet à une classe de se comporter comme une autre classe en 
 Cela permet d'écrire du code générique qui peut fonctionner avec plusieurs types de classes différentes.
 
 
+## factory method
+
+En Dart, les factories sont définies à l'aide du mot-clé `factory` et renvoient une instance de la classe en utilisant le constructeur approprié. 
+
+Les factories peuvent être utilisées pour fournir des instances de sous-classes ou d'autres classes apparentées, ou pour fournir des instances de classes qui utilisent des caches ou d'autres techniques pour optimiser la création d'objets.
+
+Il est important de noter que les factories peuvent également être utilisées en conjonction avec des classes abstraites ou des interfaces, en permettant de fournir des implémentations différentes pour les différentes classes qui implémentent l'interface ou héritent de la classe abstraite.
+
+
+
+## Les champs calculées
+
+En programmation, un champ calculé (ou propriété calculée) est une propriété qui n'est pas stockée directement dans un champ de données, mais qui est calculée dynamiquement à partir d'autres champs. 
+
+Cela peut être utile pour fournir des données dérivées ou pour effectuer des opérations de calcul sur des champs de données existants.
+
+Les champs calculés sont souvent implémentés sous la forme de méthodes d'accès, telles que des getters, qui renvoient une valeur calculée à partir d'autres champs ou de données.
+
+Un exemple courant de champ calculé est le calcul d'une moyenne à partir d'un ensemble de données numériques. 
+
+Plutôt que de stocker la moyenne directement dans un champ de données, elle peut être calculée dynamiquement à partir des valeurs stockées dans d'autres champs.
+
+
 ### NOTE IMPORTANTE: A chaque cours, il faut isoler ceux ci et mettre la methode main et non main + un chiffre comme montré de ce cours

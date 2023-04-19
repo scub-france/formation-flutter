@@ -60,7 +60,7 @@ class _BarApp extends State<BarApp>
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(isKeepAlive ? "Le widget est réinitialisé a chaque affichage": "l'état du widget est maintenu"),
+          Text(isKeepAlive ?  "l'état du widget est maintenu" : "Le widget est réinitialisé a chaque affichage"),
           Text(affichage.toString(),style:const  TextStyle (color :  Colors .green, fontSize :  100 )),
           GestureDetector(
             onTap: () => setState(() {

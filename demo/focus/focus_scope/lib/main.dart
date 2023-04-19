@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+///L'exemple suivant comporte deux Groupe de bouton
+///chaque groupe a son focusScope
+///On peut activer ou désactiver le focus grace sur chaque groupe grace aux cases a cocher
+
 void main() => runApp(const MaterialApp(home: Scaffold(body: FocusApp())));
 
 class FocusApp extends StatefulWidget {
@@ -18,7 +22,7 @@ class _FocusAppState extends State<FocusApp> {
   @override
   build(_) {
     final checkbox1 = Row(children: [
-      const Text('Le scope ne peut demander le focus que si la case est cochée'),
+      const Text('Demander le focus'),
       Checkbox(
           checkColor: Colors.white,
           value: isScope1canRequestFocus,
@@ -30,7 +34,7 @@ class _FocusAppState extends State<FocusApp> {
     ]);
 
     final checkbox2 = Row(children: [
-      const Text('  Le scope ne peut demander le focus que si la case est cochée'),
+      const Text('Demander le focus'),
       Checkbox(
           checkColor: Colors.white,
           value: isScope2canRequestFocus,
@@ -46,7 +50,7 @@ class _FocusAppState extends State<FocusApp> {
     final scope2 = FocusScope(canRequestFocus: isScope2canRequestFocus, child: const GroupeButtonWidget());
     return Center(
       child: Column(children: [
-        Text(intruduction),
+        Text(introduction),
         sizeBox,
         checkbox1,
         Expanded(child: scope1),
@@ -127,19 +131,22 @@ class _FocusButton extends State<FocusButton> {
   build(_) {
     /// Garantit que le FocusNode attaché à ce point d'attachement a le bon nœud parent, en le modifiant si nécessaire.
     _nodeAttachment.reparent();
-
-    return AspectRatio(aspectRatio: 1, child: GestureDetector(
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    return GestureDetector(
       /// permet d'avoir la main sur le focus grace au clics souris
       onTap: () => isFocused ? _node.unfocus() : _node.requestFocus(),
       child: Center(
         child: DecoratedBox(
           decoration: BoxDecoration(color: isFocused ? Colors.green : Colors.orangeAccent),
-          child: Center(
-            child: isFocused ? const Text("Focus") : Text("Click Me"),
+          child: SizedBox(
+            width: width/4,
+            height: height/4,
+            child: Center(child: isFocused ? const Text("Focus") : const Text("Click Me")),
           ),
         ),
       ),
-    ));
+    );
   }
 }
 
