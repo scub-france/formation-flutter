@@ -152,21 +152,15 @@ class ArticleCard extends StatelessWidget {
                 Flexible(
                     child: Row(
                       children: [
-                        const Text("N°: ", style: TextStyle(fontSize: 25)),
+                        const Text("N°: ", style: TextStyle(fontSize: 10)),
                         Text(article.id,
                             style: const TextStyle(
                                 fontSize: 17, color: Colors.grey)),
                       ],
                     )),
-                Flexible(
-                    child: Row(
-                      children: [
-                        const Text("Prix: ", style: TextStyle(fontSize: 25)),
-                        Text("${article.prix.toString()}euros",
-                            style: const TextStyle(
-                                fontSize: 17, color: Colors.grey)),
-                      ],
-                    ))]),
+                Text("${article.prix.toString()}euros",
+                    style: const TextStyle(
+                        fontSize: 17, color: Colors.grey))]),
               ),
               Flexible(
                 child: Row(
