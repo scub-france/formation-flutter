@@ -74,9 +74,7 @@ Le framework appellera cette méthode exactement une fois pour chaque objet Stat
 Cette methode est utile pour se désabonner des abonnements fait dans initState()... on évite ainsi les fuites mémoires.
 Les implémentations de cette méthode doivent se terminer par un appel à la méthode héritée, comme dans super.dispose().
 
-## Exemple
-Afficher un mot aléatoire depuis une liste et l'actualiser grâce à un button.
-Le widget TitreDeSorite n'a pas besoin de changer, il est donc stateless.
-Le widget RandomWordPage contient l'element à afficher et qui doit réagir au button ... il est donc stateful
+
+
 
 
