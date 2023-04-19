@@ -1,6 +1,7 @@
 void main() {
 
     // Déclaration de ma liste
+    print('--- Déclaration ---');
     var myList = [5, 12, 14];
     print("Ma liste : ");
     print(myList);
@@ -38,6 +39,11 @@ void main() {
     print(myList);
     print("La longueur de la nouvelle liste est : ${myList.length} ");
 
-
+    // Itération
+    print('');
+    print('--- Boucle for each ---');
+    myList.forEach((value) =>
+        print("La valeur est \"${value}\" ")
+    );
 
 }

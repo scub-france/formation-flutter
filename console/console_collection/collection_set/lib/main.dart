@@ -1,6 +1,7 @@
 void main() {
 
   // Déclaration d'un ensemble
+  print('--- Déclaration ---');
   var mySet = {
     'londres',
     'paris',
@@ -18,10 +19,18 @@ void main() {
   print("Le dernier élément : ${mySet.last} ");
   print("L'élément à l'indice 1 : ${mySet.elementAt(1)}");
 
-  // Supreesion de tous les éléments
+  // Itération
+  print('');
+  print('--- Boucle for each ---');
+  mySet.forEach((value) =>
+      print("La valeur est \"${value}\" ")
+  );
+
+  // Supression de tous les éléments
+  print('');
+  print('--- Suppression ---');
   mySet.clear();
   print("La longueur de mon nouvel ensemble est : ${mySet.length}");
-
 
 
 
