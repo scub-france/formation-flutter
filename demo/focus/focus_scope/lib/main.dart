@@ -48,18 +48,15 @@ class _FocusAppState extends State<FocusApp> {
     /// tout se joue ici ! on crée ainsi deux FocusScope...
     final scope1 = FocusScope(canRequestFocus: isScope1canRequestFocus, child: const GroupeButtonWidget());
     final scope2 = FocusScope(canRequestFocus: isScope2canRequestFocus, child: const GroupeButtonWidget());
-    return Center(
-      child: Column(children: [
-        Text(introduction),
-        sizeBox,
-        checkbox1,
-        Expanded(child: scope1),
-        sizeBox,
-        checkbox2,
-        Expanded(child: scope2)
-      ]),
-
-    );
+    return Column(children: [
+      Text(introduction),
+      sizeBox,
+      checkbox1,
+      Expanded(child: scope1),
+      sizeBox,
+      checkbox2,
+      Expanded(child: scope2)
+    ]);
   }
 }
 
@@ -136,14 +133,12 @@ class _FocusButton extends State<FocusButton> {
     return GestureDetector(
       /// permet d'avoir la main sur le focus grace au clics souris
       onTap: () => isFocused ? _node.unfocus() : _node.requestFocus(),
-      child: Center(
-        child: DecoratedBox(
-          decoration: BoxDecoration(color: isFocused ? Colors.green : Colors.orangeAccent),
-          child: SizedBox(
-            width: width/4,
-            height: height/4,
-            child: Center(child: isFocused ? const Text("Focus") : const Text("Click Me")),
-          ),
+      child: DecoratedBox(
+        decoration: BoxDecoration(color: isFocused ? Colors.green : Colors.orangeAccent),
+        child: SizedBox(
+          width: width/4,
+          height: height/4,
+          child: Center(child: isFocused ? const Text("Focus") : const Text("Click Me")),
         ),
       ),
     );
