@@ -62,7 +62,6 @@ class _FocusAppState extends State<FocusApp> {
         Expanded(child: scope2)
       ]),
     );
-
   }
 }
 
@@ -139,7 +138,6 @@ class _FocusButton extends State<FocusButton> {
       child: DecoratedBox(
         decoration: BoxDecoration(color: isFocused ? Colors.green : Colors.orangeAccent),
         child: Center(child: isFocused ? const Text("Focus") : const Text("Click Me")),
-
       ),
     );
   }
