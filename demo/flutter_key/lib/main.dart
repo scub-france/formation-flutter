@@ -37,7 +37,7 @@ name: person.name,
 // nous nous assurons que Flutter peut mettre à jour efficacement l'arborescence du widget lorsque la liste des objets Person change,
 // par exemple lorsqu'une nouvelle Person est ajoutée ou qu'une Person existante est mise à jour.
 
-## GlobalKEY
+## Global KEY
 
 //Pour utiliser une GlobalKey, vous pouvez créer une instance de GlobalKey dans votre classe de widget :
 GlobalKey<MyWidgetState> myWidgetKey = GlobalKey<MyWidgetState>();
