@@ -8,6 +8,7 @@ void main() {
     var myList = [5, 12, 14];
 
     // Ma liste
+
     print(myList);
 
     print("La longueur de ma liste est : ${myList.length} ");
@@ -25,6 +26,7 @@ void main() {
 
     // Déclaration d'une nouvelle liste
     var myList2 = [21, 23, 27];
+    print("Ma deuxième liste : ");
     print(myList2);
 
     print('---');
@@ -37,16 +39,15 @@ void main() {
     Depuis Dart 2.3 on peut aussi utiliser le spread operator : myList = [...myList, ...myList2];
     */
 
+    print("La nouvelle liste concatainée : ");
     print(myList);
     print("La longueur de la nouvelle liste est : ${myList.length} ");
 
-    /**
-     * Itération
-     */
-
-    print('--- Boucle for ---');
-    for(int i=0; i<myList.length; i++) {
-        print("Pour l'indice $i la valeur valeur est ${myList[i]}");
-    }
+    // Itération
+    print('');
+    print('--- Boucle for each ---');
+    myList.forEach((value) =>
+        print("La valeur est \"${value}\" ")
+    );
 
 }

@@ -10,13 +10,15 @@ void main() {
     'paris',
     'turin',
   };
-  // Mon ensemble
+
+// Mon ensemble
   print(mySet);
   print("La longueur de mon ensemble est : ${mySet.length}");
 
   // L'action ci-dessous sera ignorée car les éléments dans un ensemble sont uniques
   mySet.add('paris');
-  // Mon ensemble ne change pas
+
+// Mon ensemble ne change pas
   print(mySet);
   print("La longueur de mon ensemble est toujours : ${mySet.length}");
 
@@ -41,6 +43,7 @@ void main() {
   mySet.clear();
   // Mon ensemble vidé
   print(mySet);
+
   print("La longueur de mon nouvel ensemble est : ${mySet.length}");
 
 

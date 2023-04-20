@@ -2,7 +2,10 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-// Démarrer notre application
+// Afficher un mot aléatoire depuis une liste et l'actualiser grâce à un button.
+// Le widget TitreDeSorite n'a pas besoin de changer, il est donc stateless.
+// Le widget RandomWordPage contient l'élément à afficher et qui doit réagir au
+// button ... il est donc stateful
 void main() => runApp(const SansEtat());
 
 /// Un widget qui affiche un contenu permanent
@@ -35,7 +38,7 @@ class _RandomWordPage extends State<RandomWordPage> {
 
   /// Liste de mots
   static const Iterable<String> mots=["Scub","Web","Flutter","Dart","Widget","Provider","GO Router", "Stateful",
-    "stateless", "Random", "createState", "build", "AppBar"];
+    "Stateless", "Random", "CreateState", "Build", "AppBar"];
 
   /// setState demande la mise à jour de notre affichage avec les valeurs à jour
   void _changer() => setState(() {
@@ -71,10 +74,10 @@ class _RandomWordPage extends State<RandomWordPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text("Ce message nous parvient de la methode:"),
-            Text(_message, style:  TextStyle(color: _messageColor, fontSize: 40)),
+            Text(_message, style:  TextStyle(color: _messageColor, fontSize: 50)),
             const SizedBox(height: 100),
             const TitreDeSortiee(),
-            Text(_resultat, style: Theme.of(context).textTheme.bodyMedium),
+            Text(_resultat, style: TextStyle(fontSize: 50)),
           ],
         ),
       ),
@@ -94,6 +97,6 @@ class TitreDeSortiee extends StatelessWidget {
   const TitreDeSortiee({super.key});
 
   @override
-  Widget build(BuildContext context)=>const Text('Resultat:',style: TextStyle(fontSize: 25));
+  Widget build(BuildContext context)=>const Text('Resultat:',style: TextStyle(fontSize: 20));
 
 }
