@@ -1,9 +1,14 @@
 void main() {
 
-    // Déclaration de ma liste
+    /**
+     * Déclaration de ma liste
+     */
+
     print('--- Déclaration ---');
     var myList = [5, 12, 14];
-    print("Ma liste : ");
+
+    // Ma liste
+
     print(myList);
 
     print("La longueur de ma liste est : ${myList.length} ");
@@ -21,7 +26,6 @@ void main() {
 
     // Déclaration d'une nouvelle liste
     var myList2 = [21, 23, 27];
-
     print("Ma deuxième liste : ");
     print(myList2);
 

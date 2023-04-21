@@ -1,6 +1,9 @@
 void main() {
 
-  // Déclaration de mon dictionnaire
+  /**
+   * Déclaration de mon dictionnaire
+   */
+
   print('--- Déclaration ---');
   var myMap = {
     'one': 'paris',
@@ -20,8 +23,10 @@ void main() {
 
   print("Pour la clé \"two\", la valeur est ${myMap['two']} ");
 
-  // Itération
-  print('');
+  /**
+   * Itération
+   */
+
   print('--- Boucle for each ---');
   myMap.forEach((key, name) =>
       print("Pour la clé \"${key}\", la valeur est \"${name}\" ")
