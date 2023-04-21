@@ -17,6 +17,9 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/**
+ * Widget écran
+ */
 class FirstScreen extends StatelessWidget {
   const FirstScreen({super.key});
 
@@ -30,6 +33,9 @@ class FirstScreen extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
+                /**
+                 * Navigue vers un nouvel écran en l'ajoutant à la pile de navigation.
+                 */
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => const SecondScreen(),
@@ -45,6 +51,9 @@ class FirstScreen extends StatelessWidget {
   }
 }
 
+/**
+ * Widget écran
+ */
 class SecondScreen extends StatelessWidget {
   const SecondScreen({super.key});
 
@@ -58,6 +67,9 @@ class SecondScreen extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
+                /**
+                 * Navigue vers un nouvel écran en l'ajoutant à la pile de navigation.
+                 */
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => const ThirdScreen(),
@@ -66,9 +78,12 @@ class SecondScreen extends StatelessWidget {
               },
               child: const Text('Aller au troisième écran'),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 20), // Séparateur
             ElevatedButton(
               onPressed: () {
+                /**
+                 * Ferme l'écran en le supprimant de la pile de navigation.
+                 */
                 Navigator.pop(context);
               },
               child: const Text('Retour à l\'écran précédent'),
@@ -80,6 +95,9 @@ class SecondScreen extends StatelessWidget {
   }
 }
 
+/**
+ * Widget écran
+ */
 class ThirdScreen extends StatelessWidget {
   const ThirdScreen({super.key});
 
@@ -93,6 +111,9 @@ class ThirdScreen extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
+                /**
+                 * Ferme l'écran en le supprimant de la pile de navigation.
+                 */
                 Navigator.pop(context);
               },
               child: const Text('Retour à l\'écran précédent'),

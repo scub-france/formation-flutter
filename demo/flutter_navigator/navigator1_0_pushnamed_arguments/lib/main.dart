@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 /**
  * Navigator 1.0
- * Cette démo montre un exemple de navigation vers une route nommée avec passe de paramètre
- * Avec passage d'arguments.
+ * Cette démo montre un exemple de navigation vers une route nommée.
+ * Avec passage d'argument typé.
  */
 void main() {
   runApp(const MyApp());
@@ -51,7 +51,8 @@ class _FirstScreenState extends State<FirstScreen> {
                 /**
                  * Navigue vers une route nommée.
                  * Le paramètre optionnel arguments est passé.
-                 * Un résultat de type Object est attendu.
+                 * Ici on utilise ScreenArguments qui permet de transmettre un type complexe avec plusieurs propriétés.
+                 * Un résultat de type Object/dynamic est attendu.
                  */
                 dynamic result = await Navigator.pushNamed(
                   context,
@@ -63,6 +64,9 @@ class _FirstScreenState extends State<FirstScreen> {
                 );
 
                 setState(() {
+                  /**
+                   * Affiche l'argument passé à la fermeture de la seconde fenêtre, en modifiant l'état du widget
+                   */
                   _resultPopScreen = result.toString();
                 });
               },
@@ -86,10 +90,11 @@ class SecondScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-          title: Text(args.title),
+          title: Text(args.title), // provient de l'argument de type ScreenArguments
           leading: BackButton(
               /**
-               * Ferme l'écran et retourne un argument
+               * Ferme l'écran en le supprimant de la pile de navigation.
+               * Un argmument (String) est retournée.
                */
               onPressed: () => Navigator.pop(context,
                   "La seconde fenêtre a été fermée par le premier bouton"))),
@@ -100,15 +105,16 @@ class SecondScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 /**
-                 * Ferme l'écran et retourne un argument
+                 * Ferme l'écran en le supprimant de la pile de navigation.
+                 * Un argmument (String) est retournée.
                  */
                 Navigator.pop(context,
                     "La seconde fenêtre a été fermée par le deuxième bouton");
               },
               child: const Text('Retour à l\'écran précédent'),
             ),
-            SizedBox(height: 20),
-            Text(args.message)
+            SizedBox(height: 20), // Séparateur
+            Text(args.message) // provient de l'argument de type ScreenArguments
           ],
         ),
       ),
@@ -116,6 +122,10 @@ class SecondScreen extends StatelessWidget {
   }
 }
 
+/**
+ * Définit un type d'argument complexe comportant deux propriétés.
+ * Ce type peut être utilisé comme argument pour la navigation vers une route nommée.
+ */
 class ScreenArguments {
   final String title;
   final String message;
