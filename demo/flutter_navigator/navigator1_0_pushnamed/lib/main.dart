@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 /**
  * Navigator 1.0
- * Cette démo montre un exemple de navigation vers une route nommée avec passe de paramètre
+ * Cette démo montre un exemple de navigation vers une route nommée.
  */
 void main() {
   runApp(const MyApp());
@@ -42,7 +42,7 @@ class FirstScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 /**
-                 * Navigue vers une route nommée.
+                 * Navigue vers une route nommée an l'ajoutant à la pile de navigation.
                  */
                 Navigator.pushNamed(context, '/second');
               },
@@ -69,7 +69,7 @@ class SecondScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 /**
-                 * Navigue vers une route nommée.
+                 * Navigue vers une route nommée an l'ajoutant à la pile de navigation.
                  */
                 Navigator.pushNamed(
                   context,
@@ -78,9 +78,12 @@ class SecondScreen extends StatelessWidget {
               },
               child: const Text('Aller au troisième écran'),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 20), // Séparateur
             ElevatedButton(
               onPressed: () {
+                /**
+                 * Ferme l'écran en le supprimant de la pile de navigation.
+                 */
                 Navigator.pop(context);
               },
               child: const Text('Retour à l\'écran précédent'),
@@ -106,7 +109,7 @@ class ThirdScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 /**
-                 * Dépile les routes jusqu'à la racine.
+                 * Ferme l'écran et retourne à la racine.
                  */
                 Navigator.popUntil(context, ModalRoute.withName('/'));
               },
