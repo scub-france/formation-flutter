@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 /**
  * Navigator 1.0
- * Cette démo montre un exemple de navigation vers un autre écran.
+ * Cette démo montre un exemple de navigation vers un widget.
  */
 void main() {
   runApp(const MyApp());

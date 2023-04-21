@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 /**
  * Navigator 1.0
- * Cette démo montre un exemple de navigation vers une route nommée.
+ * Cette démo montre un exemple de navigation vers une route nommée avec passe de paramètre
  */
 void main() {
   runApp(const MyApp());

@@ -1,115 +1,252 @@
-import 'package:flutter/material.dart';
+import 'dart:math';
 
-void main() {
-  runApp(const MyApp());
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:nanoid/nanoid.dart';
+import 'package:provider/provider.dart';
+
+///Il s'agit d'une application de vente en ligne, on utilise provider pour
+///communiquer les informations entre le catalogue et le panier.
+
+/// nanoid est un générateur d'ID de chaîne unique
+final generator = nanoid();
+
+/// Construire un Article
+///
+class Article {
+  final String id;
+  final int prix;
+  int quantite = 0;
+
+  /// génère et retourne un article
+  Article({required this.id, required this.prix});
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+/// Le fournisseur des articles, il hérite de ChangeNotifier
+/// et peut donc, notifier ses Consumer de ces changements
+/// grace a l'appel de notifyListeners()
+class ArticlesProvider extends ChangeNotifier {
+  final articles = List.generate(
+      50,
+      (_) => Article(
+            prix: Random().nextInt(100) + 1,
+            id: nanoid(10),
+          ));
+  List<Article> panier = [];
+  int prixTotal = 0;
 
-  // This widget is the root of your application.
+  ajoutAuPanier(Article article) {
+    article.quantite++;
+    if (!panier.contains(article)) {
+      panier.add(article);
+    }
+    prixTotal += article.prix;
+
+    /// N'oubliez pas de notifier le consumer des changements
+    notifyListeners();
+  }
+
+  retireDuPanier(Article article) {
+    article.quantite--;
+    if (article.quantite == 0) {
+      panier.remove(article);
+    }
+    prixTotal -= article.prix;
+
+    /// N'oubliez pas de notifier le consumer des changements
+    notifyListeners();
+  }
+}
+
+/// Si vous n'êtes pas encore familier avec router(), sachez juste
+/// que c'est un package responsable de la navigation dans Flutter.
+/// je vous encourage a voir le cours qui traite ce sujet.
+GoRouter router() {
+  return GoRouter(
+    routes: [
+      GoRoute(
+        path: '/',
+        builder: (context, state) => const HomePage(),
+      ),
+      GoRoute(
+          path: '/catalogue',
+          builder: (context, state) => const Catalogue(),
+          routes: [
+            GoRoute(
+              path: 'panier',
+              builder: (context, state) => const MonPanier(),
+            ),
+          ])
+    ],
+  );
+}
+
+/// On place ici ChangeNotifierProvider comme widget principal dans
+/// l'arborescence des widgets.
+/// Les widgets enfants(ici, toute l'application), peuvent accéder
+/// et modifier ArticlesProvider !
+/// et tout changement chez ce dernier sera notifié au widgets abonnés.
+void main() => runApp(ChangeNotifierProvider(
+    create: (context) => ArticlesProvider(),
+    child: MaterialApp.router(
+      routerConfig: router(),
+    )));
+
+/// Page catalogue
+class Catalogue extends StatefulWidget {
+  const Catalogue({super.key});
+
+  @override
+  State<Catalogue> createState() => _Catalogue();
+}
+
+class _Catalogue extends State<Catalogue> {
+  @override
+  build(_) {
+
+    // une premiere facon de consommer un provider
+    final provided = context.read<ArticlesProvider>();
+    final articles = provided.articles;
+
+    return Scaffold(
+        appBar: AppBar(
+          title: Center(
+              child: Text('Catalogue',
+                  style: Theme.of(context).textTheme.displayMedium)),
+          actions: [
+            IconButton(
+              iconSize: 50,
+              icon: const Icon(Icons.shopping_cart),
+              onPressed: () => {context.go('/catalogue/panier')},
+            ),
+          ],
+        ),
+        body: ListView(
+            children: articles
+                .map((e) => ArticleCard(
+                      article: e,
+                    ))
+                .toList()));
+  }
+}
+
+/// Widget pour afficher un article
+class ArticleCard extends StatelessWidget {
+  const ArticleCard({super.key, required this.article});
+
+  final Article article;
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+    //une deuxième facon de consommer un provider
+    return Consumer<ArticlesProvider>(builder: (context, articlePovider, _) {
+      return Card(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                flex:3,
+                child: Row(children: [
+                Flexible(
+                    child: Row(
+                      children: [
+                        const Text("N°: ", style: TextStyle(fontSize: 10)),
+                        Text(article.id,
+                            style: const TextStyle(
+                                fontSize: 17, color: Colors.grey)),
+                      ],
+                    )),
+                Text("${article.prix.toString()}euros",
+                    style: const TextStyle(
+                        fontSize: 17, color: Colors.grey))]),
+              ),
+              Flexible(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.add),
+                      onPressed: () => articlePovider.ajoutAuPanier(article),
+                    ),
+                    Text(article.quantite.toString(),
+                        style: const TextStyle(
+                            fontSize: 20, color: Colors.green)),
+                    const Icon(Icons.shopping_cart),
+                    IconButton(
+                        icon: const Icon(Icons.remove),
+                        onPressed: () {
+                          if (article.quantite > 0) {
+                            articlePovider.retireDuPanier(article);
+                          }
+                        })
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    });
+  }
+}
+
+///Page panier
+class MonPanier extends StatelessWidget {
+  const MonPanier({super.key});
+
+  @override
+  build(context) {
+    //une troisième facon de consommer un provider
+    final providerArticles = Provider.of<ArticlesProvider>(context);
+    final articles = providerArticles.panier;
+    return Scaffold(
+      appBar: AppBar(
+        title: Center(
+          child: Text("Total: ${providerArticles.prixTotal}euros",
+              style: Theme.of(context).textTheme.displayMedium),
+        ),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      body: Center(
+        child: ListView(
+            children: articles.map((e) => ArticleCard(article: e)).toList()),
+      ),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+///Page d'accueil
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+  build(context) {
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Center(
+            child: Text('Acceuil',
+                style: Theme.of(context).textTheme.displayMedium)),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
+        child: ListView(children: [
+          const SizedBox(
+            height: 200,
+          ),
+          const Text(
+            'ScuBay: application de vente en ligne',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 25),
+          ),
+          const SizedBox(
+            height: 150,
+          ),
+          FloatingActionButton(
+            child: const Text('Entrez'),
+            onPressed: () => context.go('/catalogue'),
+          )
+        ]),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
