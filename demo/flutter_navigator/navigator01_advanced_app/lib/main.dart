@@ -39,7 +39,12 @@ class FirstPage extends StatefulWidget {
 
 class _FirstPageState extends State<FirstPage> {
   final Color INITIAL_COLOR = Colors.grey;
+  final double INITIAL_WIDTH = 100;
   final double INITIAL_HEIGHT = 100;
+  final double TOP_HEIGHT = 200;
+  final double BOTTOM_HEIGHT = 150;
+  final int ANIMATION_DURATION = 1;
+
   int _resultPopPage = 0;
 
   @override
@@ -76,11 +81,11 @@ class _FirstPageState extends State<FirstPage> {
             const SizedBox(height: 20),
             Center(
               child: AnimatedContainer(
-                width: 200,
-                height: _resultPopPage == 0 ? INITIAL_HEIGHT : _resultPopPage == ReturnedArguments.TOP ? 150.0 : 200.0,
+                width: INITIAL_WIDTH,
+                height: _resultPopPage == 0 ? INITIAL_HEIGHT : _resultPopPage == ReturnedArguments.TOP ? TOP_HEIGHT : BOTTOM_HEIGHT,
                 color: _resultPopPage == 0 ? INITIAL_COLOR : _resultPopPage == ReturnedArguments.TOP ? Colors.red : Colors.blue,
                 alignment: AlignmentDirectional.topCenter,
-                duration: const Duration(seconds: 1),
+                duration: Duration(seconds: ANIMATION_DURATION),
                 curve: Curves.fastOutSlowIn,
                 child: Padding(
                     padding: const EdgeInsets.all(20.0),
