@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 /**
  * Navigator 1.0
  * Cette démo est un exemple de navigation d'une page vers une autre.
- * Utilisation de routes nommées.
+ * Utilisation de PageBuilder avec transition animée.
  * Passage d'arguments typés.
  * Retour d'arguments typés.
  */
@@ -16,17 +16,8 @@ class Navigator01AdvancedApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /**
-     * MaterialApp est ici utilisé avec la propriété routes.
-     * Le paramètre routes contient une map associant des routes à des widgets.
-     */
-    return MaterialApp(
-      title: 'Navigator 1.0 Demo',
-      home: const FirstPage(),
-      routes: {
-        '/second': (context) => const SecondPage(),
-      },
-    );
+
+    return const MaterialApp(title: 'Navigator 1.0 Demo', home: FirstPage());
   }
 }
 
@@ -38,13 +29,6 @@ class FirstPage extends StatefulWidget {
 }
 
 class _FirstPageState extends State<FirstPage> {
-  final Color INITIAL_COLOR = Colors.grey;
-  final double INITIAL_WIDTH = 100;
-  final double INITIAL_HEIGHT = 100;
-  final double TOP_HEIGHT = 200;
-  final double BOTTOM_HEIGHT = 150;
-  final int ANIMATION_DURATION = 1;
-
   int _resultPopPage = 0;
 
   @override
@@ -57,21 +41,10 @@ class _FirstPageState extends State<FirstPage> {
           children: [
             ElevatedButton(
               onPressed: () async {
-                /**
-                 * Navigue vers une route nommée.
-                 * Le paramètre optionnel arguments est passé.
-                 * Ici on utilise CalledArguments qui permet de transmettre un type complexe avec plusieurs propriétés.
-                 * Un résultat de type ReturnedArguments est attendu.
-                 */
-                final ReturnedArguments result = await Navigator.pushNamed(
-                  context,
-                  '/second',
-                  arguments: const CalledArguments(
-                    'Titre de la seconde page',
-                    'Message de la seconde page.',
-                  ),
-                ) as ReturnedArguments;
+                final result =
+                    await Navigator.of(context).push(_createRoute());
 
+                // On change l'état du widget pour afficher la valeur de l'argument retourné.
                 setState(() {
                   _resultPopPage = result.position;
                 });
@@ -80,18 +53,11 @@ class _FirstPageState extends State<FirstPage> {
             ),
             const SizedBox(height: 20),
             Center(
-              child: AnimatedContainer(
-                width: INITIAL_WIDTH,
-                height: _resultPopPage == 0 ? INITIAL_HEIGHT : _resultPopPage == ReturnedArguments.TOP ? TOP_HEIGHT : BOTTOM_HEIGHT,
-                color: _resultPopPage == 0 ? INITIAL_COLOR : _resultPopPage == ReturnedArguments.TOP ? Colors.red : Colors.blue,
-                alignment: AlignmentDirectional.topCenter,
-                duration: Duration(seconds: ANIMATION_DURATION),
-                curve: Curves.fastOutSlowIn,
-                child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Text(_resultPopPage == 0 ? "Zone de message retour" : _resultPopPage == ReturnedArguments.TOP ? "La seconde page a été fermée avec le bouton HAUT" : "La seconde page a été fermée avec le bouton BAS")
-                ),
-              ),
+              child: _resultPopPage == 0
+                  ? const Text("Zone de retour après fermeture")
+                  : _resultPopPage == ReturnedArguments.top
+                      ? const Text("La seconde page a été fermée avec le bouton HAUT")
+                      : const Text("La seconde page a été fermée avec le bouton BAS"),
             )
           ],
         ),
@@ -100,13 +66,31 @@ class _FirstPageState extends State<FirstPage> {
   }
 }
 
+Route _createRoute() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) =>
+        SecondPage(args: const CalledArguments("Titre de ma deuxième page", "Message de ma deuxième page")),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(0.0, 1.0);
+      const end = Offset.zero;
+      final tween = Tween(begin: begin, end: end);
+      final offsetAnimation = animation.drive(tween);
+
+      return SlideTransition(
+        position: offsetAnimation,
+        child: child,
+      );
+    },
+  );
+}
+
 class SecondPage extends StatelessWidget {
-  const SecondPage({super.key});
+  final args;
+
+  SecondPage({required this.args, super.key});
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as CalledArguments;
-
     return Scaffold(
       appBar: AppBar(
           title: Text(args.title),
@@ -114,11 +98,10 @@ class SecondPage extends StatelessWidget {
           leading: BackButton(
               /**
              * Ferme la page en la supprimant de la pile de navigation.
-             * Un argmument (String) est retournée.
+             * Un argmument typé est retourné.
              */
               onPressed: () => Navigator.pop(
-                  context,
-                  ReturnedArguments(ReturnedArguments.TOP)))),
+                  context, const ReturnedArguments(ReturnedArguments.top)))),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -126,17 +109,20 @@ class SecondPage extends StatelessWidget {
             ElevatedButton(
               /**
                * Ferme la page en la supprimant de la pile de navigation.
-               * Un argmument (String) est retournée.
+               * Un argmument typé est retournée.
                */
               onPressed: () => Navigator.pop(
-                  context,
-                  ReturnedArguments(ReturnedArguments.BOTTOM)),
+                  context, const ReturnedArguments(ReturnedArguments.bottom)),
               child: const Text('Retour à la page précédente'),
             ),
-            const SizedBox(height: 20), // Séparateur
-            Text(args.message), // provient de l'argument de type CalledArguments
-            const SizedBox(height: 20), // Séparateur
-            const Text("Pour revenir à la première page, cliquez sur le bouton ci-dessus, ou sur l'icône flèche, en haut à gauche."),
+            const SizedBox(height: 20),
+            // Séparateur
+            Text(args.message),
+            // provient de l'argument de type CalledArguments
+            const SizedBox(height: 20),
+            // Séparateur
+            const Text(
+                "Pour revenir à la première page, cliquez sur le bouton ci-dessus, ou sur l'icône flèche, en haut à gauche."),
           ],
         ),
       ),
@@ -149,8 +135,8 @@ class SecondPage extends StatelessWidget {
  * Ce type peut être utilisé comme argument pour la navigation vers une route nommée.
  */
 class CalledArguments {
-  final String title;
-  final String message;
+  final title;
+  final message;
 
   const CalledArguments(this.title, this.message);
 }
@@ -160,10 +146,10 @@ class CalledArguments {
  * Ce type peut être utilisé comme argument de retour lorsqu'une page est fermée.
  */
 class ReturnedArguments {
-  static const int TOP = 1;
-  static const int BOTTOM = 2;
+  static const top = 1;
+  static const bottom = 2;
 
-  final int position;
+  final position;
 
   const ReturnedArguments(this.position);
 }
