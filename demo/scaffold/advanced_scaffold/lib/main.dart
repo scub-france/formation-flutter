@@ -13,15 +13,21 @@ class ScaffoldWidget extends StatefulWidget {
 
 /// Dans cet exemple, nous utiliserons toujours [Scaffold] mais avec un peu plus de complexité
 class _ScaffoldWidgetState extends State<ScaffoldWidget> {
+  // création d'une clé pour accéder au ScaffoldMessengerState
+  final _messangerKey = GlobalKey<ScaffoldMessengerState>();
+
   // création d'une variable qui va permettre de savoir si la barre de recherche est visible ou non
   bool _searchVisible = false;
+
   // création d'une variable qui va permettre de savoir quel page est affiché
   int item = 0;
+
   // création d'une [List] qui va contenir les pages
   late final List page = [_page1(), _page2(), _page3()];
 
   @override
   build(_) => MaterialApp(
+      scaffoldMessengerKey: _messangerKey,
       title: 'Scaffold Widget Demo',
       theme: ThemeData(
         primarySwatch: Colors.grey,
@@ -72,13 +78,13 @@ class _ScaffoldWidgetState extends State<ScaffoldWidget> {
         // Utilisation de [floatingActionButton] pour ajouter un bouton flottant
         // qui lors du clic affiche un message en bas de l'écran grâce à [ScaffoldMessenger]
         floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Message affiché'),
-              ),
-            );
-          },
+          // Utilisation de _messangerKey pour accéder à ScaffoldMessengerState et afficher le message en bas de l'écran
+          // grâce à [showSnackBar]
+          onPressed: () => _messangerKey.currentState?.showSnackBar(
+            const SnackBar(
+              content: Text('Message affiché'),
+            ),
+          ),
           // Utilisation de [backgroundColor] pour changer la couleur du bouton flottant
           backgroundColor: Colors.blue,
           foregroundColor: Colors.white,
@@ -166,7 +172,7 @@ class _ScaffoldWidgetState extends State<ScaffoldWidget> {
         // Utilisation de [drawerEdgeDragWidth] pour changer la largeur du glissement pour ouvrir le drawer
         drawerEdgeDragWidth: 200.0,
         // Utilisation de [drawerDragStartBehavior] pour changer le comportement du glissement pour ouvrir le drawer (sur desktop)
-        endDrawerEnableOpenDragGesture :true,
+        endDrawerEnableOpenDragGesture: true,
       ));
 
   // Utilisation de [Widget] afin de simuler des pages
@@ -190,5 +196,4 @@ class _ScaffoldWidgetState extends State<ScaffoldWidget> {
           style: TextStyle(fontSize: 24.0),
         ),
       );
-
 }
