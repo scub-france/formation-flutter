@@ -20,7 +20,6 @@ class MyImages extends StatelessWidget {
   build(context) {
 
 
-
     const imageUrl = 'https://picsum.photos/200/300';
 
     return MaterialApp(
