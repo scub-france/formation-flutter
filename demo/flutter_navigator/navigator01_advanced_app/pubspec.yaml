@@ -1,5 +1,5 @@
-name: navigator1_0_pushnamed_arguments
-description: Gestion navigator1.0 push et pop avec variables
+name: navigator01_advanced_app
+description: navigator01_advanced_app
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
