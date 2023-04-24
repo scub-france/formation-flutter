@@ -258,10 +258,10 @@ class _ParentButton extends State<ParentButton> {
               affichageParDefaut: 'Filtre chiffres',
             ),
           )),
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Card(child: Text(affichageStatic, style: const TextStyle(fontSize: 18))),
-      ),
+      Card(child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Text(affichageStatic, style: const TextStyle(fontSize: 18)),
+      )),
       Text(
         affichageDynamic,
         style: const TextStyle(color: Colors.red, fontSize: 70),
