@@ -72,7 +72,7 @@ class MyImages extends StatelessWidget {
               children: [
                 const Text('Ajout d\'une image avec chargement asynchrone'),
                 FadeInImage.assetNetwork(
-                  placeholder: '../assets/mountains.jpg',
+                  placeholder: '/assets/mountains.jpg',
                   image: imageUrl,
                   width: 200,
                   height: 200,
