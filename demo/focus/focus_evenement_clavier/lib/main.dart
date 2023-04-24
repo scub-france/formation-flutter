@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-/// Je vous propose cet exemple qui contient trois filtres.
+/// Cet exemple contient trois filtres.
 /// Chaque filtre a son noeud de focus et les trois noeuds ont comme
 /// parent notre widget principale qui contient le focus parent.
-/// On constatera ainsi comment chaque focus traite les évenements
+/// On constatera ainsi comment chaque focus traite les évènements
 /// clavier et/ou les renvois au scope parent
 
 void main() => runApp(const MaterialApp(home: Scaffold(body: AlphaNumeriqueFilter())));
@@ -22,8 +22,16 @@ class ChildButton extends StatefulWidget {
 }
 
 class _ChildButtonState extends State<ChildButton> {
-  late FocusNode _node;
+
+  // Chaque FocusButton possède son propre noeud de focus
+  final FocusNode _node= FocusNode();
+
+  // Cet variable permets de savoir si le focus a changé on la comparent
+  // a _node.hasFocus ! Permet de changer l'état du widget qu'en cas
+  // du changement du focus
   bool _focused = false;
+
+  // Cet attribut est initialisé et expliqué dans la methode initState()
   late FocusAttachment _nodeAttachment;
   Color _color = Colors.white;
   String affichage = "";
@@ -31,11 +39,16 @@ class _ChildButtonState extends State<ChildButton> {
   @override
   void initState() {
     super.initState();
-    _node = FocusNode();
+
+    // Si vous souhaitez être averti chaque fois que Focus change, enregistrez un écouteur avec addListener
     _node.addListener(_handleFocusChange);
+
+    // Une fois créé, un FocusNode doit être attaché à l'arborescence du widget par
+    // son hôte StatefulWidget via un objet FocusAttachment
     _nodeAttachment = _node.attach(context, onKey: _handleKeyPress);
   }
 
+  /// Change l'état de notre widget si le changement du focus le concerne
   void _handleFocusChange() {
     if (_node.hasFocus != _focused) {
       setState(() {
@@ -46,42 +59,50 @@ class _ChildButtonState extends State<ChildButton> {
     }
   }
 
-  /// Cette methode est appelée a chaque evenement du clavier,
+  /// Cette methode est appelée a chaque évènement du clavier,
   /// l'appel a la methode se fait grace a l'attribut onKey de
   /// la methode attach voir plus haut dans initState()
   KeyEventResult _handleKeyPress(FocusNode node, RawKeyEvent event) {
     if (event is RawKeyDownEvent) {
-      /// on ignore l'evenement "Tab" pour garder la fonctionalité tabulation
+      // on ignore l'événement "Tab" pour garder la fonctionalité tabulation
       if (event.logicalKey.keyLabel == "Tab") {
         return KeyEventResult.ignored;
       }
       if (widget.alphanumerique.contains(event.logicalKey.keyLabel)) {
         setState(() {
-          /// On traite le cas des numpad
+          /// On traite le cas des numPad
           affichage = affichage + event.logicalKey.keyLabel.replaceAll('Numpad ', '');
           _color = Colors.green;
         });
 
-        /// On prévient le FocusManager que l'évenement est traité et stoppera ainsi la propagation
+        // On prévient le FocusManager que l'événement est traité et stoppera
+        // ainsi la propagation
         return KeyEventResult.handled;
       } else if (!widget.alphanumerique.contains(event.logicalKey.keyLabel)) {
         setState(() {
           _color = Colors.red;
         });
+
+        // On prévient le FocusManager que l'événement n'a pas été traité pour
+        // qu'il n'arrête pas ainsi la propagation
         return KeyEventResult.ignored;
       }
     }
     setState(() {
       _color = node.hasFocus ? Colors.lightBlueAccent : Colors.white;
     });
+
+    // On prévient le FocusManager que l'événement n'a pas été traité pour
+    // qu'il n'arrête pas ainsi la propagation
     return KeyEventResult.ignored;
   }
 
-  /// oublions pas de liberer la memoire
+  /// oublions pas de libérer la memoire
   @override
   void dispose() {
     _node.removeListener(_handleFocusChange);
-    // The attachment will automatically be detached in dispose().
+
+    // l'attachement sera automatiquement détaché grace a FocusNode.dispose().
     _node.dispose();
     super.dispose();
   }
@@ -156,17 +177,17 @@ class _ParentButton extends State<ParentButton> {
     _nodeAttachmentParent = _nodeParent.attach(context, onKey: _handleKeyPressParent);
   }
 
-  /// Cette methode est appelée a chque evenement du clavier, l'appel a la methode se
+  /// Cette methode est appelée a chaque évènement du clavier, l'appel a la methode se
   /// fait grace a l'attribut onKey de la methode attach voir plus haut dans initState()
-  /// a ce niveau (noeud parent), seul les evenements ignorés pas le noeud enfant seront traités
+  /// a ce niveau (noeud parent), seul les évènements ignorés pas le noeud enfant seront traités
   KeyEventResult _handleKeyPressParent(FocusNode node, RawKeyEvent event) {
     if (event is RawKeyDownEvent) {
-      /// on ignore l'evenement "Tab" pour garder la fonctionalité tabulation
+      // on ignore l'évènement "Tab" pour garder la fonctionalité tabulation
       if (event.logicalKey.keyLabel == "Tab") {
         return KeyEventResult.ignored;
       }
 
-      /// Ici, on traite les caractéres refusé par nos filtres
+      // Ici, on traite les caractères refusé par nos filtres
       if (voyelles.contains(event.logicalKey.keyLabel) ||
           consonnes.contains(event.logicalKey.keyLabel) ||
           numerique.contains(event.logicalKey.keyLabel)) {
@@ -175,8 +196,8 @@ class _ParentButton extends State<ParentButton> {
       return KeyEventResult.handled;
     }
 
-    /// Tout évenement qui ne parvient pas du clavier sera ignoré par notre widget et sera
-    /// ainsi traité a un niveau plus haut de l'application
+    // Tout évènement qui ne parvient pas du clavier sera ignoré par notre widget et sera
+    // ainsi traité a un niveau plus haut de l'application
     return KeyEventResult.ignored;
   }
 
@@ -189,6 +210,8 @@ class _ParentButton extends State<ParentButton> {
 
   @override
   build(_) {
+    // Garantit que le FocusNode attaché à ce point d'attachement a le bon nœud
+    // parent, en le modifiant si nécessaire.
     _nodeAttachmentParent.reparent();
     return Center(
         child: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -197,7 +220,7 @@ class _ParentButton extends State<ParentButton> {
         child: Text(titre),
       ),
 
-      /// c'est ici qu'on crée le liens de parenté entre notre noeud parent et enfant
+      // On crée le liens de parenté entre notre noeud parent et enfant
       Focus(
           parentNode: _nodeParent,
           child: Padding(
@@ -209,7 +232,7 @@ class _ParentButton extends State<ParentButton> {
             ),
           )),
 
-      /// c'est ici qu'on crée le liens de parenté entre notre noeud parent et enfant
+      // On crée le liens de parenté entre notre noeud parent et enfant
       Focus(
           parentNode: _nodeParent,
           child: Padding(
@@ -221,7 +244,7 @@ class _ParentButton extends State<ParentButton> {
             ),
           )),
 
-      /// c'est ici qu'on crée le liens de parenté entre notre noeud parent et enfant
+      // on crée le liens de parenté entre notre noeud parent et enfant
       Focus(
           parentNode: _nodeParent,
           child: Padding(
