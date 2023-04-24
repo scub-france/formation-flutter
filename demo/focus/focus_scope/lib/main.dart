@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 ///L'exemple suivant comporte deux Groupe de bouton
 ///chaque groupe a son focusScope
-///On peut activer ou désactiver le focus grace sur chaque groupe grace aux cases a cocher
+///On peut activer ou désactiver le focus sur chaque groupe grace aux cases a cocher
 
 void main() => runApp(const MaterialApp(home: Scaffold(body: FocusApp())));
 
@@ -14,15 +14,19 @@ class FocusApp extends StatefulWidget {
 }
 
 class _FocusAppState extends State<FocusApp> {
-  final introduction =
-      "Voyons comment réagira notre application avec deux focusScope (groupes de focus).\n pour chaque focusScope, on lie un checkbox pour controller le parametre canRequestFocus de notre focusScope, on peut ainsi permettre/empécher le focusScope de demander le focus.";
+
+  // la case a cocher du premier groupe est cochée par défaut
   bool isScope1canRequestFocus = true;
+
+  // la case a cocher du deuxième groupe est décochée par défaut
   bool isScope2canRequestFocus = false;
 
   @override
   build(_) {
     final checkbox1 = Row(children: [
       const Text('Demander le focus'),
+      // la valeur de isScope1canRequestFocus permet de savoir si
+      // l'utilisateur veut permettre le focus sur le groupe
       Checkbox(
           checkColor: Colors.white,
           value: isScope1canRequestFocus,
@@ -51,8 +55,6 @@ class _FocusAppState extends State<FocusApp> {
     final scope2 = FocusScope(canRequestFocus: isScope2canRequestFocus, child: const GroupeButtonWidget());
     return Center(
       child: Column(children: [
-        Text(introduction),
-        sizeBox,
         checkbox1,
         Expanded(child: scope1),
         sizeBox,
@@ -105,8 +107,11 @@ class _FocusButton extends State<FocusButton> {
   void initState() {
     super.initState();
 
-    /// Si vous souhaitez être averti chaque fois que Focus change, enregistrez un écouteur avec addListener
+    // Si vous souhaitez être averti chaque fois que Focus change, enregistrez un écouteur avec addListener
     _node.addListener(_handleFocusChange);
+
+    // Une fois créé, un FocusNode doit être attaché à l'arborescence du widget par
+    // son hôte StatefulWidget via un objet FocusAttachment
     _nodeAttachment = _node.attach(context);
   }
 
@@ -115,17 +120,17 @@ class _FocusButton extends State<FocusButton> {
   /// nettoyez le nœud de focus lorsque le formulaire est éliminé
   @override
   void dispose() {
-    /// Vous devez vous désinscrire avec removeListener pour éviter les fuites de mémoire
+    // Vous devez vous désinscrire avec removeListener pour éviter les fuites de mémoire
     _node.removeListener(_handleFocusChange);
 
-    /// attachment sera detaché sur appel de dispose().
+    // attachment sera detaché sur appel de dispose().
     _node.dispose();
     super.dispose();
   }
 
   @override
   build(_) {
-    /// Garantit que le FocusNode attaché à ce point d'attachement a le bon nœud parent, en le modifiant si nécessaire.
+    // Garantit que le FocusNode attaché à ce point d'attachement a le bon nœud parent, en le modifiant si nécessaire.
     _nodeAttachment.reparent();
     return GestureDetector(
       /// permet d'avoir la main sur le focus grace au clics souris
