@@ -2,13 +2,13 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-//On a pas besoin d'une UI pour tester du Dart....
+/// Combiner GET avec le parsing JSON
 main() async {
   List<Photo> photos = await fetchPhotos(http.Client());
   photos.forEach((photo) => print(photo.title));
 }
 
-//la classe photo represente notre model de donnée
+/// Model de donnée cible
 class Photo {
   final int albumId;
   final int id;
@@ -24,9 +24,9 @@ class Photo {
     required this.thumbnailUrl,
   });
 
-  //La factory permet de construire un objet Photo depuis json (Map<clef, valeur>)...
-  factory Photo.fromJson(Map<String, dynamic> json) {
-    return Photo(
+  /// Une factory comme constructeur
+  factory Photo.fromJson(Map<String, dynamic> json) =>
+    Photo(
       //as permet de profiter de la puissance des langages typés
       albumId: json['albumId'] as int,
       id: json['id'] as int,
@@ -34,17 +34,17 @@ class Photo {
       url: json['url'] as String,
       thumbnailUrl: json['thumbnailUrl'] as String,
     );
-  }
+ 
 }
 
-//Collecte des données sous forme d'une Future
+// Appel http et parsing
 Future<List<Photo>> fetchPhotos(http.Client client) async {
   final response = await client.get(Uri.parse('https://jsonplaceholder.typicode.com/photos'));
 
   return parsePhotos(response.body);
 }
 
-// fonction pour convertir la reponse Json en une liste de photos
+// Convertion du corps de la réponse http vers Json.
 List<Photo> parsePhotos(String responseBody) {
   final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
 
