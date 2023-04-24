@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 /// On constatera ainsi comment chaque focus traite les évènements
 /// clavier et/ou les renvois au scope parent
 
-void main() => runApp(const MaterialApp(home: Scaffold(body: AlphaNumeriqueFilter())));
+void main() => runApp(const MaterialApp(home: Scaffold(body: SingleChildScrollView(child: AlphaNumeriqueFilter()))));
 
 /// Notre fabrique de filtres,
 class ChildButton extends StatefulWidget {
