@@ -47,7 +47,7 @@ class MyImages extends StatelessWidget {
                 const Text(
                     'Ajout d\'image depuis les ressources de l\'application'),
                 Image.asset(
-                  '../assets/poulet.jpg',
+                  '/assets/poulet.jpg',
                   width: 200,
                   height: 200,
                 ),
@@ -72,7 +72,7 @@ class MyImages extends StatelessWidget {
               children: [
                 const Text('Ajout d\'une image avec chargement asynchrone'),
                 FadeInImage.assetNetwork(
-                  placeholder: '../assets/mountains.jpg',
+                  placeholder: '/assets/mountains.jpg',
                   image: imageUrl,
                   width: 200,
                   height: 200,

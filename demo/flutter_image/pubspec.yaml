@@ -1,7 +1,7 @@
 name: flutter_image
 description: Gestion flutter_image
 
-publish_to: 'none'
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 
 version: 1.0.0+1
@@ -32,4 +32,5 @@ flutter:
 
   uses-material-design: true
 
-
+  assets:
+    - assets/
