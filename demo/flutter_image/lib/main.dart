@@ -47,7 +47,7 @@ class MyImages extends StatelessWidget {
                 const Text(
                     'Ajout d\'image depuis les ressources de l\'application'),
                 Image.asset(
-                  '../assets/poulet.jpg',
+                  '/assets/poulet.jpg',
                   width: 200,
                   height: 200,
                 ),
