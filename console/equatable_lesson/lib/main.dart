@@ -1,7 +1,6 @@
-import 'package:equatable/equatable.dart';
 
 // La classe Person hérite de la classe Equatable
-class Person extends Equatable {
+class Person  {
   // Les champs de la classe Person
   final String name;
   final int age;
