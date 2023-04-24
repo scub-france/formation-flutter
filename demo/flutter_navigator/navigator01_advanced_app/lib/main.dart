@@ -93,6 +93,7 @@ class SecondPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          backgroundColor: Colors.deepPurpleAccent,
           title: Text(args.title),
           // provient de l'argument de type CalledArguments
           leading: BackButton(
