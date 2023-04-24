@@ -62,8 +62,6 @@ Cette valeur est stockée dans le champ _resultat :
     }
 ```
 
-Je vous laisse le soin de voir le code proposé dans main(), les commentaires sont là pour vous aider a la compréhension.
-
 #### La methode initState()
 Le framework appellera cette méthode exactement une fois pour chaque objet State qu'il crée.
 Cette methode est utile si on doit s'abonner a un Listener par exemple....
@@ -74,9 +72,26 @@ Le framework appellera cette méthode exactement une fois pour chaque objet Stat
 Cette methode est utile pour se désabonner des abonnements fait dans initState()... on évite ainsi les fuites mémoires.
 Les implémentations de cette méthode doivent se terminer par un appel à la méthode héritée, comme dans super.dispose().
 
-## Exemple
-Afficher un mot aléatoire depuis une liste et l'actualiser grâce à un button.
-Le widget TitreDeSorite n'a pas besoin de changer, il est donc stateless.
-Le widget RandomWordPage contient l'element à afficher et qui doit réagir au button ... il est donc stateful
+#### La méthode setState()
+Avertissez le framework que l'état interne de cet objet a changé.
+
+Chaque fois que vous modifiez l'état interne d'un objet State , effectuez la modification dans une fonction que vous
+transmettez à setState :
+```Dart
+setState(() { _uneVariable = nouvelleValeur; });
+```
+
+Le rappel fourni est immédiatement appelé de manière synchrone. Il ne doit pas renvoyer un futur (le rappel ne peut pas
+être async), car il serait alors difficile de savoir quand l'état a été réellement défini.
+
+L'appel de setState informe le framework que l'état interne de cet objet a changé d'une manière qui pourrait avoir un
+impact sur l'interface utilisateur dans cette sous-arborescence, ce qui amène le framework à planifier une génération
+pour cet objet State.
+
+Si vous modifiez simplement l'état directement sans appeler setState, le framework peut ne pas planifier de build et
+l'interface utilisateur de cette sous-arborescence peut ne pas être mise à jour pour refléter le nouvel état.
+
+
+
 
 

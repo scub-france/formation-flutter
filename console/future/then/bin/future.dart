@@ -1,3 +1,5 @@
+import 'package:future/main.dart' as future;
+
 class User {
   int userId;
   int id;
