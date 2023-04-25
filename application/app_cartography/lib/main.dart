@@ -85,65 +85,61 @@ class CartographyState extends State<Cartography> {
 
   @override
   build(context) => Scaffold(
-    body: Stack(
-      children: [
-        MapLayout(
-          controller: controller,
-          builder: (_, transformer) {
-            final markerWidgets = Desk.values
-                .map((desk) => _buildMarkerWidget(
-              desk,
-              transformer.toOffset(desk.coords),
-              Colors.red,
-            ))
-                .toList();
+    body: MapLayout(
+      controller: controller,
+      builder: (_, transformer) {
+        final markerWidgets = Desk.values
+            .map((desk) => _buildMarkerWidget(
+          desk,
+          transformer.toOffset(desk.coords),
+          Colors.red,
+        ))
+            .toList();
 
-            return GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onDoubleTapDown: (details) =>
-                  _onDoubleTap(transformer, details.localPosition),
-              onScaleStart: _onScaleStart,
-              onScaleUpdate: (details) => _onScaleUpdate(details, transformer),
-              child: Listener(
-                behavior: HitTestBehavior.opaque,
-                onPointerSignal: (event) {
-                  if (event is PointerScrollEvent) {
-                    setState(() {
-                      final delta = event.scrollDelta.dy / -1000.0;
-                      final zoom = clamp(controller.zoom + delta, 2, 18);
-                      transformer.setZoomInPlace(zoom, event.localPosition);
-                    });
-                  }
-                },
-                child: Stack(
-                  children: [
-                    TileLayer(
-                      builder: (context, x, y, z) {
-                        final tilesInZoom = pow(2.0, z).floor();
+        return GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onDoubleTapDown: (details) =>
+              _onDoubleTap(transformer, details.localPosition),
+          onScaleStart: _onScaleStart,
+          onScaleUpdate: (details) => _onScaleUpdate(details, transformer),
+          child: Listener(
+            behavior: HitTestBehavior.opaque,
+            onPointerSignal: (event) {
+              if (event is PointerScrollEvent) {
+                setState(() {
+                  final delta = event.scrollDelta.dy / -1000.0;
+                  final zoom = clamp(controller.zoom + delta, 2, 18);
+                  transformer.setZoomInPlace(zoom, event.localPosition);
+                });
+              }
+            },
+            child: Stack(
+              children: [
+                TileLayer(
+                  builder: (context, x, y, z) {
+                    final tilesInZoom = pow(2.0, z).floor();
 
-                        while (x < 0) {
-                          x += tilesInZoom;
-                        }
-                        while (y < 0) {
-                          y += tilesInZoom;
-                        }
+                    while (x < 0) {
+                      x += tilesInZoom;
+                    }
+                    while (y < 0) {
+                      y += tilesInZoom;
+                    }
 
-                        x %= tilesInZoom;
-                        y %= tilesInZoom;
+                    x %= tilesInZoom;
+                    y %= tilesInZoom;
 
-                        return CachedNetworkImage(
-                            imageUrl: google(z, x, y), fit: BoxFit.cover);
-                      },
-                    ),
-                    ...markerWidgets
-                  ],
+                    return CachedNetworkImage(
+                        imageUrl: google(z, x, y), fit: BoxFit.cover);
+                  },
                 ),
-              ),
-            );
-          },
-        ),
-        const Align(alignment: Alignment.bottomCenter, child: Destinations())
-      ],
+                ...markerWidgets,
+                const Align(alignment: Alignment.bottomCenter, child: Destinations())
+              ],
+            ),
+          ),
+        );
+      },
     ),
     floatingActionButton: FloatingActionButton(
       onPressed: center,
