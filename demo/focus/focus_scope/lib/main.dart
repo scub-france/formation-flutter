@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 ///L'exemple suivant comporte deux Groupe de bouton
 ///chaque groupe a son focusScope
-///On peut activer ou désactiver le focus grace sur chaque groupe grace aux cases a cocher
+///On peut activer ou désactiver le focus sur chaque groupe grace aux cases a cocher
 
 void main() => runApp(const MaterialApp(home: Scaffold(body: FocusApp())));
 
@@ -14,15 +14,19 @@ class FocusApp extends StatefulWidget {
 }
 
 class _FocusAppState extends State<FocusApp> {
-  final introduction =
-      "Voyons comment réagira notre application avec deux focusScope (groupes de focus).\n pour chaque focusScope, on lie un checkbox pour controller le parametre canRequestFocus de notre focusScope, on peut ainsi permettre/empécher le focusScope de demander le focus.";
+
+  // la case a cocher du premier groupe est cochée par défaut
   bool isScope1canRequestFocus = true;
+
+  // la case a cocher du deuxième groupe est décochée par défaut
   bool isScope2canRequestFocus = false;
 
   @override
   build(_) {
     final checkbox1 = Row(children: [
       const Text('Demander le focus'),
+      // la valeur de isScope1canRequestFocus permet de savoir si
+      // l'utilisateur veut permettre le focus sur le groupe
       Checkbox(
           checkColor: Colors.white,
           value: isScope1canRequestFocus,
@@ -45,20 +49,18 @@ class _FocusAppState extends State<FocusApp> {
           })
     ]);
     const sizeBox = SizedBox(width: 2, height: 50);
+
     /// tout se joue ici ! on crée ainsi deux FocusScope...
     final scope1 = FocusScope(canRequestFocus: isScope1canRequestFocus, child: const GroupeButtonWidget());
     final scope2 = FocusScope(canRequestFocus: isScope2canRequestFocus, child: const GroupeButtonWidget());
     return Center(
       child: Column(children: [
-        Text(introduction),
-        sizeBox,
         checkbox1,
         Expanded(child: scope1),
         sizeBox,
         checkbox2,
         Expanded(child: scope2)
       ]),
-
     );
   }
 }
@@ -73,22 +75,17 @@ class GroupeButtonWidget extends StatefulWidget {
 class _GroupeButtonWidget extends State<GroupeButtonWidget> {
   final children = List.generate(
       3,
-          (index) =>
-      const Padding(
-        padding: EdgeInsets.all(2.0),
-        child: FocusButton(),
+      (index) => const Expanded(
+        child: Padding(
+              padding: EdgeInsets.all(2.0),
+              child: FocusButton(),
+            ),
       ));
 
   @override
-  build(_) =>
-      Scaffold(
-        body: Center(
-          child: Row(
-            children: children,
-          ),
-        ),
-      );
-
+  build(_) => Row(
+    children: children,
+  );
 }
 
 class FocusButton extends StatefulWidget {
@@ -101,7 +98,6 @@ class FocusButton extends StatefulWidget {
 class _FocusButton extends State<FocusButton> {
   final FocusNode _node = FocusNode();
 
-
   bool get isFocused => _node.hasFocus;
   late FocusAttachment _nodeAttachment;
 
@@ -110,8 +106,12 @@ class _FocusButton extends State<FocusButton> {
   @override
   void initState() {
     super.initState();
-    /// Si vous souhaitez être averti chaque fois que Focus change, enregistrez un écouteur avec addListener
+
+    // Si vous souhaitez être averti chaque fois que Focus change, enregistrez un écouteur avec addListener
     _node.addListener(_handleFocusChange);
+
+    // Une fois créé, un FocusNode doit être attaché à l'arborescence du widget par
+    // son hôte StatefulWidget via un objet FocusAttachment
     _nodeAttachment = _node.attach(context);
   }
 
@@ -120,33 +120,25 @@ class _FocusButton extends State<FocusButton> {
   /// nettoyez le nœud de focus lorsque le formulaire est éliminé
   @override
   void dispose() {
-    /// Vous devez vous désinscrire avec removeListener pour éviter les fuites de mémoire
+    // Vous devez vous désinscrire avec removeListener pour éviter les fuites de mémoire
     _node.removeListener(_handleFocusChange);
-    /// attachment sera detaché sur appel de dispose().
+
+    // attachment sera detaché sur appel de dispose().
     _node.dispose();
     super.dispose();
   }
 
   @override
   build(_) {
-    /// Garantit que le FocusNode attaché à ce point d'attachement a le bon nœud parent, en le modifiant si nécessaire.
+    // Garantit que le FocusNode attaché à ce point d'attachement a le bon nœud parent, en le modifiant si nécessaire.
     _nodeAttachment.reparent();
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
     return GestureDetector(
       /// permet d'avoir la main sur le focus grace au clics souris
       onTap: () => isFocused ? _node.unfocus() : _node.requestFocus(),
-      child: Center(
-        child: DecoratedBox(
-          decoration: BoxDecoration(color: isFocused ? Colors.green : Colors.orangeAccent),
-          child: SizedBox(
-            width: width/4,
-            height: height/4,
-            child: Center(child: isFocused ? const Text("Focus") : const Text("Click Me")),
-          ),
-        ),
+      child: DecoratedBox(
+        decoration: BoxDecoration(color: isFocused ? Colors.green : Colors.orangeAccent),
+        child: Center(child: isFocused ? const Text("Focus") : const Text("Click Me")),
       ),
     );
   }
 }
-
