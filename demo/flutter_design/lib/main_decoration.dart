@@ -18,18 +18,22 @@ class DecoratedApp extends StatelessWidget {
               position: DecorationPosition.background,
               decoration: BoxDecoration(
                   backgroundBlendMode: BlendMode.multiply,
-                  gradient: const LinearGradient(
+                  gradient: LinearGradient(
                       // Définir la direction de notre gradient
                       begin: Alignment.bottomCenter,
                       end: Alignment.topCenter,
                       // Couleur de départ et arrivée
-                      colors: [Colors.white70, Color(0xFFB39DDB), Color(0xFFB3EEDB)],
+                      colors: [
+                        Color.lerp(const Color(0xFFB39DDB), Colors.white70, .7)!,
+                        const Color(0xFFB39DDB),
+                        const Color(0xFFB3EEDB)
+                      ],
                       // Décalage du dégradé, on donne plus d'espace à la couleur
-                      // de départ (.3) et on finit plus tôt (.9)
+                      // de départ (.25) et on finit plus tôt (.95)
                       // Le tableau correspond au nombre de couleurs
-                      stops: [0, .25, .9],
+                      stops: const [0, .25, .95],
                       // Rotation de notre gradient par Transformation
-                      transform: GradientRotation(pi / 6)),
+                      transform: const GradientRotation(pi / 6)),
                   // Ajoutons 2 ombres superposés
                   boxShadow: [
                     BoxShadow(
@@ -42,7 +46,7 @@ class DecoratedApp extends StatelessWidget {
                       color: Color.lerp(const Color(0xFFB39DDB), Colors.black, .05)!,
                     ),
                     BoxShadow(
-                      blurStyle: BlurStyle.normal,
+                      blurStyle: BlurStyle.outer,
                       // Niveau de diffusion
                       blurRadius: 1.4,
                       // Décalage par le bas et à droite
