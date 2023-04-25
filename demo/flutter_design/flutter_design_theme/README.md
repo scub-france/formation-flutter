@@ -1,6 +1,6 @@
-# flutter_design
+# flutter_design_theme
 
-Gestion flutter_design
+Gestion flutter_design_theme
 
 ## Getting Started
 
