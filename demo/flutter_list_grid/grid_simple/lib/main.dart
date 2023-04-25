@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
-/**
- * Cette démo présente l'utilisation d'une gridview simple.
- * Avec un nombre fixe (7) d'item dans la gridview.
- */
+/// Cette démo présente l'utilisation d'une GridView simple.
+/// Avec un nombre fixe (7) d'items.
 void main() => runApp(const GridSimpleApp());
 
 class GridSimpleApp extends StatelessWidget {
@@ -12,88 +10,56 @@ class GridSimpleApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      title: 'Démo List - Gridview',
+      title: 'Démo List - GridView',
       home: HomePage(),
     );
   }
 }
 
+/// Widget page
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("GridSimpleApp"),
-      ),
       body: Center(
           child: GridView.count(
-            primary: false,
             padding: const EdgeInsets.all(20),
-            crossAxisSpacing: 10, // Espacement horizontal entre les éléments de la gridview
-            mainAxisSpacing: 20, // Espacement vertical entre les éléments de la gridview
+            crossAxisSpacing: 10, // Espacement horizontal entre les éléments de la GridView
+            mainAxisSpacing: 20, // Espacement vertical entre les éléments de la GridView
             crossAxisCount: 3,
-            // maxCrossAxisExtent: 500,
-            children: const [
-              GridItem(title: 'Willow'),
-              GridItem(title: 'E.T.'),
-              GridItem(title: 'Le professionnel'),
-              GridItem(title: 'Highlander'),
-              GridItem(title: 'Goonies'),
-              GridItem(title: 'Start Wars'),
-              GridItem(title: 'Mad Max'),
+            children: const [ // Tableaux de Widgets constituant la GridView
+              GridItem(num: 1),
+              GridItem(num: 2),
+              GridItem(num: 3),
+              GridItem(num: 4),
+              GridItem(num: 5),
+              GridItem(num: 6),
+              GridItem(num: 7),
             ],
           )),
     );
   }
 }
 
+/// Ce widget représente un carré simple avec du texte au centre.
+/// C'est un élément de la GridView
 class GridItem extends StatelessWidget {
-  final title;
+  final num;
 
-  const GridItem({required this.title, super.key});
+  const GridItem({required this.num, super.key});
 
   @override
   Widget build(BuildContext context) {
 
-    const decoration = BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          stops: [
-            0.1,
-            0.4,
-            0.6,
-            0.9,
-          ],
-          colors: [
-            Colors.yellow,
-            Colors.red,
-            Colors.indigo,
-            Colors.teal,
-          ],
-        )
-    );
-
-    return Stack(
-      children: <Widget>[
-        Container(
-          decoration: decoration,
-          width: 400,
-          height: 400,
-        ),
-        Container(
-          width: 400,
-          height: 150,
-          child: Center(
-            child: Text(
-              title,
-              style: const TextStyle(color: Colors.white, fontSize: 20),
-            ),
-          ),
-        ),
-      ],
+    return Container(
+      width: 400,
+      height: 400,
+      color: Colors.blueGrey,
+      child: Center(
+        child: Text(num.toString()),
+      ),
     );
 
   }
