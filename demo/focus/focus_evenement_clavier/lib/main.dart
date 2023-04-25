@@ -7,8 +7,6 @@ import 'package:flutter/services.dart';
 /// On constatera ainsi comment chaque focus traite les évenements
 /// clavier et/ou les renvois au scope parent
 
-void main() => runApp(const MaterialApp(home: Scaffold(body: AlphaNumeriqueFilter())));
-
 /// Notre fabrique de filtres,
 class ChildButton extends StatefulWidget {
   const ChildButton(
@@ -51,10 +49,9 @@ class _ChildButtonState extends State<ChildButton> {
   /// la methode attach voir plus haut dans initState()
   KeyEventResult _handleKeyPress(FocusNode node, RawKeyEvent event) {
     if (event is RawKeyDownEvent) {
-      /// on ignore l'evenement "Tab" pour garder la fonctionalité tabulation
-      if (event.logicalKey.keyLabel == "Tab") {
-        return KeyEventResult.ignored;
-      }
+      /// on ignore l'evt "Tab" pour garder la fonctionnalité tabulation
+      if (event.logicalKey.keyLabel == "Tab") return KeyEventResult.ignored;
+
       if (widget.alphanumerique.contains(event.logicalKey.keyLabel)) {
         setState(() {
           /// On traite le cas des numpad
@@ -250,3 +247,6 @@ class AlphaNumeriqueFilter extends StatelessWidget {
         child: const ParentButton(),
       );
 }
+
+void main() => runApp(const MaterialApp(home: Scaffold(body: AlphaNumeriqueFilter())));
+
