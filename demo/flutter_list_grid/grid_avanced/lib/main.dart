@@ -26,15 +26,15 @@ class GridWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     /// Collection d'objets servant à alimenter GridView
     final List<Movie> movies = [
-      const Movie(title: 'Willow', imageUrl: "../assets/willow.jpg"),
-      const Movie(title: 'E.T.', imageUrl: "../assets/et.jpg"),
+      const Movie(title: 'Willow', imageUrl: "assets/../assets/willow.jpg"),
+      const Movie(title: 'E.T.', imageUrl: "assets/../assets/et.jpg"),
       const Movie(
           title: 'Le professionnel',
-          imageUrl: "../assets/le-professionnel.jpg"),
-      const Movie(title: 'Highlander', imageUrl: "../assets/highlander.jpg"),
-      const Movie(title: 'Goonies', imageUrl: "../assets/goonies.jpg"),
-      const Movie(title: 'Start Wars', imageUrl: "../assets/starwars.jpg"),
-      const Movie(title: 'Mad Max', imageUrl: "../assets/madmax.jpg"),
+          imageUrl: "assets/../assets/le-professionnel.jpg"),
+      const Movie(title: 'Highlander', imageUrl: "assets/../assets/highlander.jpg"),
+      const Movie(title: 'Goonies', imageUrl: "assets/../assets/goonies.jpg"),
+      const Movie(title: 'Start Wars', imageUrl: "assets/../assets/starwars.jpg"),
+      const Movie(title: 'Mad Max', imageUrl: "assets/../assets/madmax.jpg"),
     ];
 
     /// Le builder
