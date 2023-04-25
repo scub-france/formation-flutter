@@ -108,13 +108,15 @@ class DataService {
 
      */
 
-    final products = await FirebaseFirestore.instance.collection(Collection.products.name).get();
+    //final products = await FirebaseFirestore.instance.collection(Collection.products.name).get();
 
-    print("products ${products.docs.length} loaded");
+    //print("products ${products.docs.length} loaded");
 
-    final nrows = products.docs
+    final test=List.generate(10, (index) => index.toString());
+
+    final nrows = test
         .map((e) => PlutoRow(
-              key: ValueKey(e.id),
+              key: ValueKey(e),
               cells: {
                 Field.entry.name: PlutoCell(value: .8),
                 Field.level.name: PlutoCell(value: 2),
@@ -122,13 +124,14 @@ class DataService {
               },
             ))
         .toList();
-
+    print(nrows);
     final candidats = await PlutoGridStateManager.initializeRowsAsync(columns, nrows);
 
-    _stateManager!
-      ..refRows.addAll(FilteredList(initialList: candidats))
-      ..notifyListenersOnPostFrame()
-      ..onSelected!((PlutoGridOnSelectedEvent event) {
+    _stateManager!..refRows.addAll(FilteredList(initialList: candidats));
+    print("1");
+      _stateManager!..notifyListenersOnPostFrame();
+    print("2");
+    _stateManager!..onSelected!((PlutoGridOnSelectedEvent event) {
         // TODO Beware the wolf
         final fieldName = event.cell!.column.field;
         final columnIdx = _stateManager!.refColumns.indexWhere((c) => c.field == fieldName);
@@ -141,8 +144,8 @@ class DataService {
         final currentFormula = formulasProvider.formulas[formulaKey]?.content ?? '-';
 
         ref.read(formulaProvider.notifier).displayFormula(currentFormula);
-      })
-      ..OnChanged((PlutoGridOnChangedEvent pe) {
+      } as PlutoGridOnSelectedEvent)
+      ..onChanged!((PlutoGridOnChangedEvent pe) {
         //gridEventStream.add(GridEvent.rowAdded(pe.value));
 
         final eventCell = "${pe.columnIdx}:${pe.rowIdx}";
@@ -163,7 +166,7 @@ class DataService {
 
         //_estimate(pe.columnIdx!, pe.rowIdx!, pe.value);
         //_syncRemote(_getDocIdByEvent(pe), _getFieldName(pe), pe.value);
-      });
+      } as PlutoGridOnChangedEvent);
   }
 
   void _syncRemote(String did, String field, Object value) {
