@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
-/**
- * Navigator 1.0
- * Cette démo est un exemple simple de navigation d'une page vers une autre.
- */
+/// Navigator 1.0
+/// Cette démo est un exemple simple de navigation d'une page vers une autre.
 void main() {
   runApp(const Navigator01App());
 }
@@ -17,9 +15,7 @@ class Navigator01App extends StatelessWidget {
   }
 }
 
-/**
- * Widget page
- */
+/// Widget page
 class FirstPage extends StatelessWidget {
   const FirstPage({super.key});
 
@@ -32,9 +28,7 @@ class FirstPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
-              /**
-               * Navigue vers une nouvelle page en l'ajoutant à la pile de navigation.
-               */
+               /// Navigue vers une nouvelle page en l'ajoutant à la pile de navigation.
               onPressed: () => Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => const SecondPage(),
@@ -49,9 +43,7 @@ class FirstPage extends StatelessWidget {
   }
 }
 
-/**
- * Widget page
- */
+/// Widget page
 class SecondPage extends StatelessWidget {
   const SecondPage({super.key});
 
@@ -66,9 +58,7 @@ class SecondPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
-              /**
-               * Ferme la page en la supprimant de la pile de navigation.
-               */
+               /// Ferme la page en la supprimant de la pile de navigation.
               onPressed: () => Navigator.pop(context),
               child: const Text('Retour à la page précédente'),
             ),
