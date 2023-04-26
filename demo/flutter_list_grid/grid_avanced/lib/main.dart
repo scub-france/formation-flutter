@@ -73,12 +73,10 @@ class GridItem extends StatelessWidget {
         Container(
           decoration: decoration,
         ),
-        Container(
-          child: Center(
-            child: Text(
-              movie.title,
-              style: const TextStyle(color: Colors.white, fontSize: 20),
-            ),
+        Center(
+          child: Text(
+            movie.title,
+            style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         ),
       ],
