@@ -11,7 +11,6 @@ void main() {
   }
 
   var age = 24;
-
   // les ASSERTIONS (assert) sont utilisées pour vérifier les conditions qui doivents être vraies pour que votre code fonctionne correctement
   // Essayez de changer les valeurs de l'assert ou de la variable 'age' pour ne pas remplir la condition et compilez le code
   assert(age >= 18); // L'assertion vérifie que l'âge est supérieur ou égal à 18 dans ce cas
