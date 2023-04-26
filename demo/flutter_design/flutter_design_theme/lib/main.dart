@@ -59,6 +59,7 @@ class ThemedPage extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             Flexible(
+              flex: 4,
               child: Card(
                 child: SizedBox.expand(
                   child: Container(
@@ -71,6 +72,7 @@ class ThemedPage extends StatelessWidget {
               ),
             ),
             Flexible(
+              flex: 5,
               child: Theme(
                 // En dessous de ce widget le theme général n'est plus actif
                 // Le theme alternatif prend la priorité
@@ -82,7 +84,26 @@ class ThemedPage extends StatelessWidget {
                   ),
                 ),
               ),
-            )
+            ),
+            Flexible(
+                flex: 1,
+                // On peut aussi définir un thème pour un widget particulier
+                child: ElevatedButtonTheme(
+                  data: ElevatedButtonThemeData(
+                    // Avec [styleForm] on peut définir un style pour nos boutons
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      foregroundColor: Colors.white,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                  ),
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: const Text("Un bouton"),
+                  ),
+                ))
           ],
         ),
       );
