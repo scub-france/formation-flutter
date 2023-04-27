@@ -67,6 +67,8 @@ class _HomePageState extends State<HomePage> {
               childCount: 20,
             ),
           ),
+          /// SliverToBoxAdapter est ici uniquement utilisé pour permettre de scroller l'écran
+          /// en augmentant la hauteur de la zone inférieur du CustomScrollView
           const SliverToBoxAdapter(
             child: SizedBox(
               height: 1500,

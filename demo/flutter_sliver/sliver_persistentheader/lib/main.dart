@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+/// Cette démo illustre l'intégration du SliverPersistentHeader dans un CustomScrollView.
+/// SliverPersistentHeader est à comparer avec SliverAppBar.
 void main() => runApp(const SliverPersistentHeaderApp());
 
 class SliverPersistentHeaderApp extends StatelessWidget {
@@ -29,6 +31,8 @@ class _HomePageState extends State<HomePage> {
             floating: false,
             delegate: MyDelegate(),
           ),
+          /// SliverToBoxAdapter est ici uniquement utilisé pour permettre de scroller l'écran
+          /// en augmentant la hauteur de la zone inférieur du CustomScrollView
           const SliverToBoxAdapter(
             child: SizedBox(
               height: 1500,

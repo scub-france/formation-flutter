@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+
+/// Cette démo illustre l'intégration du SliverList dans un CustomScrollView.
+/// SliverList est à comparer avec SliverFixedExtentList.
 void main() => runApp(SliverListApp());
 
 class SliverListApp extends StatelessWidget {
@@ -51,6 +54,8 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           SliverList(
+            /// SliverChildListDelegate est rempli de widget dont le contenu est différent.
+            /// Il faut noter que chaque widget aura une hauteur en fonction de son contenu.
             delegate: SliverChildListDelegate([
               _buildList(Colors.cyan, "Cyan"),
               _buildList(Colors.blue, "Blue"),
@@ -59,6 +64,8 @@ class _HomePageState extends State<HomePage> {
               _buildList(Colors.green, "Green"),
             ]),
           ),
+          /// SliverToBoxAdapter est ici uniquement utilisé pour permettre de scroller l'écran
+          /// en augmentant la hauteur de la zone inférieur du CustomScrollView
           const SliverToBoxAdapter(
             child: SizedBox(
               height: 1500,
