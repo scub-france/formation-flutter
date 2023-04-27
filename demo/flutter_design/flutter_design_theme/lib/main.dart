@@ -85,21 +85,9 @@ class ThemedPage extends StatelessWidget {
                 // Le theme alternatif prend la priorité
                 // De plus nous overridons la propriété focusColor
                 data: alternativeTheme.copyWith(focusColor: Colors.greenAccent),
-                child: Card(
+                child: const Card(
                   child: Card(
-                    child: SizedBox.expand(child: Column(
-                      children:  [
-                        const Model(content: "Zone rendue par un sous-thème"),
-                        const Spacer(),
-                        Theme(
-                            data: alternativeTheme.copyWith(),
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              child: const Text("Un bouton"),
-                            )
-                            )
-                      ],
-                    )),
+                    child: SizedBox.expand(child: Model(content: "Zone rendue par un sous-thème")),
                   ),
                 ),
               ),
@@ -124,6 +112,11 @@ class Model extends StatelessWidget {
           TextFormField(
             controller: TextEditingController(text: "Un champs texte"),
           ),
+          const Spacer(),
+          ElevatedButton(
+            onPressed: () {},
+            child: const Text("Un bouton"),
+          )
         ],
       );
 }
