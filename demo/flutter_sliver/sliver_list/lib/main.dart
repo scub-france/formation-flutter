@@ -17,7 +17,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Widget _buildFixedList(Color color, String _text) {
+  Widget _buildList(Color color, String _text) {
     return Container(
       color: color,
       child: Center(
@@ -52,11 +52,11 @@ class _HomePageState extends State<HomePage> {
           ),
           SliverList(
             delegate: SliverChildListDelegate([
-              _buildFixedList(Colors.cyan, "Cyan"),
-              _buildFixedList(Colors.blue, "Blue"),
-              _buildFixedList(Colors.green, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum pretium risus at auctor iaculis. Donec viverra diam id odio hendrerit, sit amet maximus felis mattis. "),
-              _buildFixedList(Colors.orange, "Orange"),
-              _buildFixedList(Colors.green, "Green"),
+              _buildList(Colors.cyan, "Cyan"),
+              _buildList(Colors.blue, "Blue"),
+              _buildList(Colors.green, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum pretium risus at auctor iaculis. Donec viverra diam id odio hendrerit, sit amet maximus felis mattis. "),
+              _buildList(Colors.orange, "Orange"),
+              _buildList(Colors.green, "Green"),
             ]),
           ),
           const SliverToBoxAdapter(
