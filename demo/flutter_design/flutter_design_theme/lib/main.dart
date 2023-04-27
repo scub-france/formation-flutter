@@ -26,6 +26,15 @@ final globalTheme = ThemeData(
     colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromRGBO(90, 60, 125, 1)));
 
 final alternativeTheme = ThemeData(
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: Colors.black45,
+      foregroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
+    ),
+  ),
   cardColor: Colors.blueGrey,
   textTheme: const TextTheme(
     bodyMedium: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
@@ -59,7 +68,6 @@ class ThemedPage extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             Flexible(
-              flex: 4,
               child: Card(
                 child: SizedBox.expand(
                   child: Container(
@@ -72,38 +80,30 @@ class ThemedPage extends StatelessWidget {
               ),
             ),
             Flexible(
-              flex: 5,
               child: Theme(
                 // En dessous de ce widget le theme général n'est plus actif
                 // Le theme alternatif prend la priorité
                 // De plus nous overridons la propriété focusColor
                 data: alternativeTheme.copyWith(focusColor: Colors.greenAccent),
-                child: const Card(
+                child: Card(
                   child: Card(
-                    child: SizedBox.expand(child: Model(content: "Zone rendue par un sous-thème")),
+                    child: SizedBox.expand(child: Column(
+                      children:  [
+                        const Model(content: "Zone rendue par un sous-thème"),
+                        const Spacer(),
+                        Theme(
+                            data: alternativeTheme.copyWith(),
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              child: const Text("Un bouton"),
+                            )
+                            )
+                      ],
+                    )),
                   ),
                 ),
               ),
             ),
-            Flexible(
-                flex: 1,
-                // On peut aussi définir un thème pour un widget particulier
-                child: ElevatedButtonTheme(
-                  data: ElevatedButtonThemeData(
-                    // Avec [styleForm] on peut définir un style pour nos boutons
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      foregroundColor: Colors.white,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                    ),
-                  ),
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text("Un bouton"),
-                  ),
-                ))
           ],
         ),
       );
