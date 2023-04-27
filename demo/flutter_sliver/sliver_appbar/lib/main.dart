@@ -38,7 +38,6 @@ class _HomePageState extends State<HomePage> {
                     fontSize: 30),
               ),
             ),
-            //collapsedHeight: 100,
           ),
           SliverToBoxAdapter(
             child: SizedBox(

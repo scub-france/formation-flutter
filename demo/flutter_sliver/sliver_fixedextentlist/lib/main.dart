@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
       child: Center(
         child: Text(
           _text,
-          style: TextStyle(color: Colors.white, fontSize: 25),
+          style: const TextStyle(color: Colors.white, fontSize: 25),
         ),
       ),
     );
@@ -48,7 +48,6 @@ class _HomePageState extends State<HomePage> {
                     fontSize: 30),
               ),
             ),
-            //collapsedHeight: 100,
           ),
           SliverFixedExtentList(
             itemExtent: 70,
@@ -60,7 +59,7 @@ class _HomePageState extends State<HomePage> {
               _buildFixedList(Colors.green, "Green"),
             ]),
           ),
-          SliverToBoxAdapter(
+          const SliverToBoxAdapter(
             child: SizedBox(
               height: 1500,
               child: Padding(
