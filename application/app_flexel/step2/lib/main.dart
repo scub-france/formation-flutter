@@ -42,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     const param1 = 10;
     const param2 = 5;
-    // Appel a la methode  SUM(), notez qu'on doit mettre les paramètres
+    // Appel de la methode  SUM(), notez qu'on doit mettre les paramètres
     // dans une liste.
     // Vous trouverez sur ce lien la liste des méthodes existantes:
     // https://formulajs.info/functions/
