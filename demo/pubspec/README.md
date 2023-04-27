@@ -13,13 +13,15 @@ Il contient des informations sur les packages tiers que vous avez ajoutés à vo
 
 Voici un exemple de fichier `pubspec.yaml` de base :
 
-`name: mon_application
+```dart
+name: mon_application
 description: "Ceci est une application de démonstration"
 version: 1.0.0
 dependencies:
     flutter:
         sdk: flutter
-    cupertino_icons: ^1.0.3`
+    cupertino_icons: ^1.0.3
+```
 
 
 Dans cet exemple, nous avons défini le nom de l'application, sa description et sa version. 
@@ -46,19 +48,23 @@ Voici un exemple de la façon d'ajouter le package http à votre projet Flutter 
 1.Ouvrez le fichier `pubspec.yaml` de votre projet.
 2.Sous la clé `dependencies`, ajoutez le package http :
 
-`dependencies:
+```dart
+dependencies:
     flutter:
         sdk: flutter
-    http: ^0.13.3`
+    http: ^0.13.3
+```
 
 Dans cet exemple, nous avons ajouté la dépendance http avec la version 0.13.3.
 
 Pour être à jour, vous pouvez ajouter des dépendances en ne mettant aucune version, de cette façon:
 
-`dependencies:
+```dart
+dependencies:
     flutter:
         sdk: flutter
-    http:`
+    http:
+```
 
 De cette façon, la dernière version du package `http` sera installé, et cela, à chaque fois que vous relancerez la commande `flutter pub get`.
 
@@ -67,13 +73,17 @@ De cette façon, la dernière version du package `http` sera installé, et cela,
 Alternativement, vous pouvez ajouter la dépendance `http` en utilisant la commande `flutter pub add` dans votre terminal :
 
 
-`flutter pub add http`
+```dart
+flutter pub add http
+```
 
 Une fois que vous avez ajouté un package à votre projet, vous pouvez l'importer dans vos fichiers Dart en utilisant la directive import. 
 
 Par exemple, pour importer le package http, vous pouvez ajouter la ligne suivante au début de votre fichier Dart :
 
-`import 'package:http/http.dart' as http;`
+```dart
+import 'package:http/http.dart' as http;
+```
 
 Cela importera le package http dans votre fichier Dart et vous permettra d'utiliser ses fonctionnalités dans votre code.
 
