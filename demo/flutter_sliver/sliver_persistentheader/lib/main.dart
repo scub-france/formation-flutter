@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-/// Cette démo illustre l'intégration du SliverPersistentHeader dans un CustomScrollView.
-/// SliverPersistentHeader est à comparer avec SliverAppBar.
+/// Cette démo illustre l'intégration d'un SliverPersistentHeader dans un CustomScrollView.
+/// SliverPersistentHeader est un sliver dont la taille peut varier en fonction du défilement de la CustomScrollView.
+/// Il est à comparer à SliverAppBar, qui dispose de plus de fonctionnalités.
+/// Il s'agit de la primitive de layout que SliverAppBar utilise pour ses effets de distorsion.
 void main() => runApp(const SliverPersistentHeaderApp());
 
 class SliverPersistentHeaderApp extends StatelessWidget {
