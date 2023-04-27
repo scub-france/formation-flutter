@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // Vous trouverez sur ce lien la liste des méthodes existantes:
     // https://formulajs.info/functions/
     final result= js.context.callMethod('eval',['formulajs.SUM([$param1, $param2])']);
-    print(result);
+    print('Resultat de la methode SUM(): $result');
     compRow = 1;
   }
 
