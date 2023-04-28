@@ -8,25 +8,20 @@ import 'package:pluto_grid/pluto_grid.dart';
 /// a son import (voir plus haut).
 /// Dans ce step, on commence par la création d'un widget simple,
 /// on verra la gestion des saisies et des évènements dans le step2.
-void main() {
-  runApp( MaterialApp(
-    title: 'Flutter Demo',
+void main() => runApp( MaterialApp(
     theme: ThemeData(
       primarySwatch: Colors.blue,
     ),
-    home: const MyHomePage(title: 'Flutter Demo Home Page'),));
-}
+    home: const PlutoGridPage(),));
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+class PlutoGridPage extends StatefulWidget {
+  const PlutoGridPage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<PlutoGridPage> createState() => _PlutoGridPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _PlutoGridPageState extends State<PlutoGridPage> {
   late int compRow;
   final int totalJourHomme=0;
 
@@ -44,6 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // une liste de PlutoColumn.
     List<PlutoColumn> columns = [
       PlutoColumn(
+        width: 80,
         // Le contenu de title sera affiché dans la vue
         title: 'Sprint',
 
@@ -56,6 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
 
       PlutoColumn(
+          width: 90,
           title: 'Nbr_dev',
           field: 'nbrDev',
 
@@ -66,6 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
           type: PlutoColumnType.text()),
 
       PlutoColumn(
+        width: 90,
         title: 'Nbr_jour',
         field: 'nbrJour',
 
@@ -77,7 +75,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
 
       PlutoColumn(
-        title: 'jours/homme',
+        width: 130,
+        title: 'Jours/Homme',
         field: 'jourHomme',
 
         // Le contenu de Nbr_dev est logiquement un nombre, on aurait pu
@@ -99,9 +98,9 @@ class _MyHomePageState extends State<MyHomePage> {
         );
     PlutoRow totalRow = PlutoRow(
       cells: {
-        'sprint': PlutoCell(value: "*****"),
-        'nbrDev': PlutoCell(value: "*****"),
-        'nbrJour': PlutoCell(value: "*****"),
+        'sprint': PlutoCell(value: ""),
+        'nbrDev': PlutoCell(value: ""),
+        'nbrJour': PlutoCell(value: "TOTAL"),
         'jourHomme': PlutoCell(value: 0),
       },
     );
