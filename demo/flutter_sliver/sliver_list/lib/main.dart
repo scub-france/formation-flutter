@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-
 /// Cette démo illustre l'intégration du SliverList dans un CustomScrollView.
-/// SliverList est à comparer avec SliverFixedExtentList.
+/// SliverList est un silver qui permet de construire une liste de widget scrollable.
+/// Les éléments de SliverList peuvent être de dimension différentes.
+/// SliverList est à comparer à SliverFixedExtentList.
 void main() => runApp(SliverListApp());
 
 class SliverListApp extends StatelessWidget {

@@ -34,6 +34,15 @@ class DemoScroll extends StatefulWidget {
 class _DemoScrollState extends State<DemoScroll> {
   final ScrollController _scrollController = ScrollController();
 
+  @override
+  void initState() {
+    super.initState();
+    // [addPostFrameCallback] permet d'exécuter une fonction après le premier build du widget
+    //  [jumpTo] permet de sauter à une position donnée, ici la fin du scroll
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _scrollController.position.jumpTo(_scrollController.position.maxScrollExtent));
+  }
+
   // [SingleChildScrollView] est un widget qui permet de scroller dans une direction donnée (vertical ou horizontal)
   // [SingleChildScrollView] il est utile pour afficher un contenu qui ne tient pas dans l'écran (par exemple une liste)
   @override
