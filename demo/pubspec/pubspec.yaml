@@ -24,9 +24,9 @@ environment:
 # Ajouter la section "screenshots" pour fournir des captures d'écran de votre application ou de votre package.
 screenshots:
   # Vous pouvez ajouter plusieurs captures d'écran en utilisant un format similaire.
-  - description: 'Description de la capture d'écran 1'
+  - description: "Description de la capture d'écran 1"
     path: chemin/vers/capture/d'écran/1.png
-  - description: 'Description de la capture d'écran 2'
+  - description: "Description de la capture d'écran 2"
     path: chemin/vers/capture/d'écran/2.png
 # Dans cet exemple, la section "screenshots" vous permet de fournir des vaptures d'écran de votre application ou de votre package sur la page pub.dev
 
