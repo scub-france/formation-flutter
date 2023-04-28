@@ -2,6 +2,7 @@ name: pubspec # Le nom de votre projet.
 
 description: Gestion pubspec # Une courte description de votre projet.
 
+
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # La ligne ci-dessus indique où vous souhaitez publier votre package.
 # Dans ce cas, la valeur est "none", ce qui signifie que vous ne voulez pas publier votre package sur pub.dev.
@@ -9,16 +10,54 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1 # La version actuelle de votre package.
 # Dans ce cas, la version est 1.0.0+1. Le +1 indique qu'il s'agit de la première version de votre package.
 
+# La section 'platforms' vous permet de spécifier les plates-formes cibles sur lesquelles vous voulez que votre package soit exécuté
+platforms:
+  ios: '9.0.0'
+  android: '21'
+# Dans cet exemple, nous avons soécifié que notre package est destiné à être exécuté sur IOS 9.0.0 ou version ultérieure et Android 21 ou ultérieure
+# Vous pouvez également spécifier des contraintes de version plus strictes ou moins strict
+
 environment:
   sdk: '>=2.18.5 <3.0.0' # La version minimale de l'`SDK` (`Software Development Kit`) nécessaire pour exécuter votre package.
   # Dans ce cas, la version minimale est 2.18.5 et la version maximale est 3.0.0.
+
+# Ajouter la section "screenshots" pour fournir des captures d'écran de votre application ou de votre package.
+screenshots:
+  # Vous pouvez ajouter plusieurs captures d'écran en utilisant un format similaire.
+  - description: 'Description de la capture d'écran 1'
+    path: chemin/vers/capture/d'écran/1.png
+  - description: 'Description de la capture d'écran 2'
+    path: chemin/vers/capture/d'écran/2.png
+# Dans cet exemple, la section "screenshots" vous permet de fournir des vaptures d'écran de votre application ou de votre package sur la page pub.dev
+
+# Définir la clé "false_secrets" pour exclure certains fichiers ou chemins de fichiers de la vérification des secrets.
+false_secrets:
+  - /lib/secrets.dart # exclure le fichier secrets.dart de la vérification des secrets
+  - /test/localhost_certificates/*.pem # exclure tous les fichiers .pem dans le répertoire test/localhost_certificates de la vérification des secrets
+# Dans cet exemple, nous avons ajouté la clé "false_secrets"  et spécifié deux fichiers à exclure de la vérification des secrets
+
+
 
 dependencies:
   flutter:
     sdk: flutter # Les dépendances sont les packages externes nécessaires à l'exécution de votre projet.
     # Dans ce cas, la dépendance est flutter.
 
+# Informations sur les moyens de financement du projet
+funding:
+  patreon: https://www.patreon.com/my_project
+  open_collective: https://opencollective.com/my_project
+# Funding vous permet de fournir des informations sur le moyens que les utilisateurs peuvent utiliser pour soutenir votre projet
+# Vous pouvez ajouter des liens vers des plateformes de finacement participatif. Ici, nous avons un lien vers Patreon et OpenCollective
+
   cupertino_icons: ^1.0.2 # La dépendance pour l'utilisation des icônes Cupertino.
+
+  # Ajout des packages couramment utilisés en développement Flutter :
+  provider: ^6.0.1 # Un package de gestion d'état de premier plan pour Flutter.
+  http: ^0.13.4 # Un package pour effectuer des requêtes HTTP en Flutter.
+  intl: ^0.17.0 # Un package pour la gestion des traductions et de la localisation dans Flutter.
+  shared_preferences: ^2.0.11 # Un package pour stocker des données simples dans Flutter.
+  google_fonts: ^4.0.4 # Un package qui permet d'utiliser et de changer la police en utilisant la poilice de Google
 
 dev_dependencies:
   flutter_test:
@@ -30,3 +69,23 @@ dev_dependencies:
 flutter:
   uses-material-design: true # Paramètres pour la configuration de votre application Flutter.
   # Dans ce cas, il utilise le design Material.
+
+# Déclaration d'un exécutable
+executables:
+  my_executable:
+    # Chemin vers le script d'entrée pour l'exécutable
+    # Ce script doit être dans le répertoire racine du package
+    # et être exécutable
+    path: bin/my_executable.dart
+
+    # Options de personnalisation pour la création d'un lien symbolique global
+    # qui pointe vers l'exécutable. Cette option n'est pas obligatoire.
+    # Consultez la documentation pour plus d'informations.
+    # Cette option doit être utilisée avec précaution car elle modifie le système de l'utilisateur.
+    # Voir https://dart.dev/tools/pub/cmd/pub-global
+    script: my_executable
+
+  # Ajout d'autres packages optionnels pour des fonctionnalités supplémentaires :
+  flutter_svg: ^1.0.0 # Un package pour afficher des images SVG dans Flutter.
+  url_launcher: ^6.0.9 # Un package pour ouvrir des URL dans une application externe.
+  firebase_core: ^1.6.0 # Un package pour ajouter la prise en charge de Firebase dans Flutter.
