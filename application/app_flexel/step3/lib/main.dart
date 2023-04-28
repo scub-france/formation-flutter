@@ -6,17 +6,14 @@ import 'package:pluto_grid/pluto_grid.dart';
 /// Dans ce step, on verra comment ajouter dynamiquement des lignes,
 /// formater le contenu des colonnes et la gestion des évènements.
 void main() => runApp(MaterialApp(
-      title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const PlutoGridPage(title: 'Flutter Demo Home Page'),
+      home: const PlutoGridPage(),
     ));
 
 class PlutoGridPage extends StatefulWidget {
-  const PlutoGridPage({super.key, required this.title});
-
-  final String title;
+  const PlutoGridPage({super.key});
 
   @override
   State<PlutoGridPage> createState() => _PlutoGridPageState();
