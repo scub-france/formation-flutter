@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(SliverGridApp());
 
+/// Cette démo illustre l'intégration du SliverGrid dans un CustomScrollView.
+/// SliverGrid est un silver qui permet de construire une liste de widget scrollable, disposés en grille.
 class SliverGridApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

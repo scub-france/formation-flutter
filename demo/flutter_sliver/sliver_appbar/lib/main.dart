@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
-/// Cette démo illustre l'intégration du SliverAppBar dans un CustomScrollView.
-/// SliverAppBar est à comparer avec SliverPersistentHeader.
-void main() => runApp(SliverAppbarApp());
+/// Cette démo illustre l'intégration d'une SliverAppBar dans un CustomScrollView, où elle est souvent utilisée comme premier enfant.
+/// C'est une barre d'application qui peut varier en fonction du défilement de la CustomScrollView.
+/// Elle peut varier en hauteur et/ou juste flotter au dessus du contenu.
+/// SliverAppBar est à comparer à SliverPersistentHeader.
+void main() => runApp(SliverAppBarApp());
 
-class SliverAppbarApp extends StatelessWidget {
-  const SliverAppbarApp({super.key});
+class SliverAppBarApp extends StatelessWidget {
+  const SliverAppBarApp({super.key});
 
   @override
   Widget build(BuildContext context) {
