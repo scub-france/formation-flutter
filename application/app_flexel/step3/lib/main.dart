@@ -5,26 +5,21 @@ import 'package:pluto_grid/pluto_grid.dart';
 
 /// Dans ce step, on verra comment ajouter dynamiquement des lignes,
 /// formater le contenu des colonnes et la gestion des évènements.
-void main() {
-  runApp(MaterialApp(
-    title: 'Flutter Demo',
-    theme: ThemeData(
-      primarySwatch: Colors.blue,
-    ),
-    home: const MyHomePage(title: 'Flutter Demo Home Page'),
-  ));
-}
+void main() => runApp(MaterialApp(
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const PlutoGridPage(),
+    ));
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+class PlutoGridPage extends StatefulWidget {
+  const PlutoGridPage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<PlutoGridPage> createState() => _PlutoGridPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _PlutoGridPageState extends State<PlutoGridPage> {
   late int compRow;
   final int totalJourHomme = 0;
 
@@ -44,17 +39,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     // définir les colonnes du tableau excel
     // Le constructeur du plutoGrid a besoin d'un paramètre column qui prend
     // une liste de PlutoColumn.
     List<PlutoColumn> columns = [
       PlutoColumn(
+        width: 80,
         title: 'Sprint',
         field: 'sprint',
         type: PlutoColumnType.text(),
       ),
       PlutoColumn(
+          width: 90,
           title: 'Nbr_dev',
           field: 'nbrDev',
           type: PlutoColumnType.text(),
@@ -65,6 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
               return v;
           }),
       PlutoColumn(
+        width: 90,
           title: 'Nbr_jour',
           field: 'nbrJour',
           type: PlutoColumnType.text(),
@@ -75,20 +72,21 @@ class _MyHomePageState extends State<MyHomePage> {
               return v;
           }),
       PlutoColumn(
-          title: 'jours/homme',
-          field: 'jourHomme',
-          // Une autre manière de formatage consiste a modifier le comportement
-          // du type en utilisant les paramètres de son constructeur. Cette
-          // méthode peut s'avérer tres pratique quand on a plusieurs colonnes
-          // qui partagent le meme comportement.
-          // On commence par construire notre propre type:
-          // final monNumberType= PlutoColumnType.number(.........);
-          // Ensuite ,il suffit d'utiliser "monNumberType" dans le constructeur des colonne:
-          // PlutoColumn(type: monNumberType, title:........)
-          type:  PlutoColumnType.number(
-            defaultValue: 0,
-            format: "###,###.### j/h",
-          ),
+        width: 130,
+        title: 'Jours/Homme',
+        field: 'jourHomme',
+        // Une autre manière de formatage consiste a modifier le comportement
+        // du type en utilisant les paramètres de son constructeur. Cette
+        // méthode peut s'avérer tres pratique quand on a plusieurs colonnes
+        // qui partagent le meme comportement.
+        // On commence par construire notre propre type:
+        // final monNumberType= PlutoColumnType.number(.........);
+        // Ensuite ,il suffit d'utiliser "monNumberType" dans le constructeur des colonne:
+        // PlutoColumn(type: monNumberType, title:........)
+        type: PlutoColumnType.number(
+          defaultValue: 0,
+          format: "###,###.### j/h",
+        ),
       )
     ];
 
@@ -106,8 +104,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
     PlutoRow totalRow = PlutoRow(
       cells: {
-        'sprint': PlutoCell(value: "*****"),
-        'nbrDev': PlutoCell(value: "*****"),
+        'sprint': PlutoCell(value: ""),
+        'nbrDev': PlutoCell(value: ""),
         'nbrJour': PlutoCell(value: "TOTAL"),
         'jourHomme': PlutoCell(),
       },
@@ -134,7 +132,6 @@ class _MyHomePageState extends State<MyHomePage> {
         // onChanged est appelé quand la valeur de l'une des cellules du tableau
         // change.
         onChanged: (PlutoGridOnChangedEvent event) {
-
           // Grace a cette condition, seul les changement qui affectent les
           // cellules qui n'appartiennent pas a la dernière ligne (totalRow)
           // seront traités
@@ -168,7 +165,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // leurs valeur, on remet ainsi les anciennes valeurs en cas de
           // changement.
           else {
-            stateManager.rows[event.rowIdx].cells['nbrDev']?.value = '*****';
+            stateManager.rows[event.rowIdx].cells['nbrDev']?.value = '';
             stateManager.rows[event.rowIdx].cells['nbrJour']?.value = 'TOTAL';
           }
         });
@@ -189,9 +186,7 @@ class _MyHomePageState extends State<MyHomePage> {
           onPressed: () {
             // Permet d'ajouter une ligne a notre tableau
             stateManager.insertRows(compRow, [voidRow(compRow + 1)]);
-            setState(() {
-              compRow = compRow + 1;
-            });
+            setState(() => compRow = compRow + 1);
           },
           child: const Icon(Icons.add),
         ));
