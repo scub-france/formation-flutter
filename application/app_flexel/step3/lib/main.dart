@@ -91,6 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
       )
     ];
+
     // On ajoute les lignes qui seront affichées au démarrage de l'applications.
     PlutoRow voidRow(int numberSprint) {
       return PlutoRow(
