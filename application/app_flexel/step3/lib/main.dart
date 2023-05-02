@@ -3,192 +3,168 @@ import 'dart:js' as js;
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 
-/// Dans ce step, on verra comment ajouter dynamiquement des lignes,
-/// formater le contenu des colonnes et la gestion des évènements.
-void main() => runApp(MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const PlutoGridPage(),
-    ));
+/*
 
-class PlutoGridPage extends StatefulWidget {
-  const PlutoGridPage({super.key});
+  Flexel simule un gestionnaire de projets.
+  Des responsables en charge d'une partie d'un projet
+  indique le nombre de jours requis.
+
+  Nous nous appuyons sur PlutoGrid et JS pour afficher
+  la grille de calcul.
+
+ */
+
+class FlexelApp extends StatefulWidget {
+  const FlexelApp({Key? key}) : super(key: key);
 
   @override
-  State<PlutoGridPage> createState() => _PlutoGridPageState();
+  State<FlexelApp> createState() => _FlexelAppState();
 }
 
-class _PlutoGridPageState extends State<PlutoGridPage> {
-  late int compRow;
-  final int totalJourHomme = 0;
-
-  // A l'instar de la méthode setState() qui permet de changer l'état d'un
-  // statefulWidget, une instance de PlutoGridStateManager permets de consulter
-  // et changer l'état d'un plutoGridWidget.
-  // Notre plutoGrid n'est pas encore initialisé, c'est pour cette raison qu'on
-  // utilise late pour dire au framework que notre stateManager sera initialisé
-  // plus tard...
+class _FlexelAppState extends State<FlexelApp> {
+  // Gestionnaire d'état de notre instance PlutoGrid
   late final PlutoGridStateManager stateManager;
 
-  @override
-  void initState() {
-    super.initState();
-    compRow = 1;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // définir les colonnes du tableau excel
-    // Le constructeur du plutoGrid a besoin d'un paramètre column qui prend
-    // une liste de PlutoColumn.
-    List<PlutoColumn> columns = [
-      PlutoColumn(
-        width: 80,
-        title: 'Sprint',
-        field: 'sprint',
-        type: PlutoColumnType.text(),
-      ),
-      PlutoColumn(
-          width: 90,
-          title: 'Nbr_dev',
-          field: 'nbrDev',
-          type: PlutoColumnType.text(),
-          formatter: (v) {
-            if (double.tryParse(v) != null)
-              return "$v devs";
-            else
-              return v;
-          }),
-      PlutoColumn(
-        width: 90,
-          title: 'Nbr_jour',
-          field: 'nbrJour',
-          type: PlutoColumnType.text(),
-          formatter: (v) {
-            if (double.tryParse(v) != null)
-              return "$v j";
-            else
-              return v;
-          }),
-      PlutoColumn(
-        width: 130,
-        title: 'Jours/Homme',
-        field: 'jourHomme',
-        // Une autre manière de formatage consiste a modifier le comportement
-        // du type en utilisant les paramètres de son constructeur. Cette
-        // méthode peut s'avérer tres pratique quand on a plusieurs colonnes
-        // qui partagent le meme comportement.
-        // On commence par construire notre propre type:
-        // final monNumberType= PlutoColumnType.number(.........);
-        // Ensuite ,il suffit d'utiliser "monNumberType" dans le constructeur des colonne:
-        // PlutoColumn(type: monNumberType, title:........)
-        type: PlutoColumnType.number(
-          defaultValue: 0,
-          format: "###,###.### j/h",
-        ),
-      )
-    ];
-
-    // On ajoute les lignes qui seront affichées au démarrage de l'applications.
-    PlutoRow voidRow(int numberSprint) {
-      return PlutoRow(
-        cells: {
-          'sprint': PlutoCell(value: "Sprint$numberSprint"),
-          'nbrDev': PlutoCell(value: "0"),
-          'nbrJour': PlutoCell(value: "0"),
-          'jourHomme': PlutoCell(),
-        },
-      );
-    }
-
-    PlutoRow totalRow = PlutoRow(
-      cells: {
-        'sprint': PlutoCell(value: ""),
-        'nbrDev': PlutoCell(value: ""),
-        'nbrJour': PlutoCell(value: "TOTAL"),
-        'jourHomme': PlutoCell(),
-      },
-    );
-
-    // Le constructeur du plutoGrid a besoin d'un paramètre Row qui prend
-    // une liste de PlutoRow.
-    List<PlutoRow> rows = [voidRow(compRow), totalRow];
-
-    // Le constructeur PlutoGrid, prends aussi en paramètres des méthodes pour
-    // gérer les évènement
-    PlutoGrid maGrille = PlutoGrid(
-        columns: columns,
-        rows: rows,
-        // onLoaded nous permet de faire des actions quand le widget et chargé
-        // Il nous permet ici d'initialiser notre stateManager
-        onLoaded: (PlutoGridOnLoadedEvent event) {
-          stateManager = event.stateManager;
-          // On indique ici au stateManager d'empêcher l'utilisateur d'éditer
-          // et donc de changer les colones sprint et jours/hommes
-          stateManager.columns[0].enableEditingMode = false;
-          stateManager.columns[3].enableEditingMode = false;
-        },
-        // onChanged est appelé quand la valeur de l'une des cellules du tableau
-        // change.
-        onChanged: (PlutoGridOnChangedEvent event) {
-          // Grace a cette condition, seul les changement qui affectent les
-          // cellules qui n'appartiennent pas a la dernière ligne (totalRow)
-          // seront traités
-          if (event.rowIdx != stateManager.rows.length - 1) {
-            final nbrDev =
-                stateManager.rows[event.rowIdx].cells['nbrDev']?.value;
-            final nbrJour =
-                stateManager.rows[event.rowIdx].cells['nbrJour']?.value;
-            // formula.js fera les calcul pour nous.
-            final totalRow = js.context
-                .callMethod('eval', ['formulajs.PRODUCT([$nbrDev, $nbrJour])']);
-            stateManager.rows[event.rowIdx].cells['jourHomme']?.value =
-                "$totalRow";
-            // totaux contiendra une liste des valeurs de la colonne jour_homme
-            // sauf la dernière cellule.
-            List totaux = [];
-            for (int i = 0; i < stateManager.rows.length - 1; i++) {
-              final jourHommeRow =
-                  stateManager.rows[i].cells['jourHomme']?.value;
-              totaux.add(jourHommeRow);
-            }
-            // On fourni la liste totaux a formula.js pour qu'il applique
-            // la methode SUM().
-            stateManager.rows[stateManager.rows.length - 1].cells['jourHomme']
-                    ?.value =
-                js.context.callMethod('eval', ['formulajs.SUM([$totaux])']);
-          }
-
-          // La valeur des cellules nbr_dev et nbr_jour de la dernière ligne,
-          // peuvent changer on traite ici le cas si l'user change
-          // leurs valeur, on remet ainsi les anciennes valeurs en cas de
-          // changement.
-          else {
-            stateManager.rows[event.rowIdx].cells['nbrDev']?.value = '';
-            stateManager.rows[event.rowIdx].cells['nbrJour']?.value = 'TOTAL';
-          }
-        });
-
-    return Scaffold(
-        appBar: AppBar(
-          title: const Center(
-              child: Text(
-            'Flexel',
-            style: TextStyle(fontSize: 40),
-          )),
-        ),
-        body: Container(
-          padding: const EdgeInsets.all(15),
-          child: maGrille,
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // Permet d'ajouter une ligne a notre tableau
-            stateManager.insertRows(compRow, [voidRow(compRow + 1)]);
-            setState(() => compRow = compRow + 1);
+  // 1. Définition de nos colonnes
+  static final columns = [
+    PlutoColumn(
+      width: 80,
+      // Titre de la Colonne
+      title: 'Responsable',
+      // Nom fonctionnel du champs
+      field: 'people',
+      // Type de cellule
+      type: PlutoColumnType.text(),
+      // non-éditable
+      enableEditingMode: false,
+    ),
+    PlutoColumn(
+      width: 90,
+      title: 'Section',
+      field: 'section',
+      type: PlutoColumnType.text(),
+      // non-éditable
+      enableEditingMode: false,
+    ),
+    PlutoColumn(
+        width: 50,
+        title: 'Jours',
+        field: 'jours',
+        // Un nombre
+        type: PlutoColumnType.number(defaultValue: 0)),
+    PlutoColumn(
+      width: 110,
+      title: 'Taux',
+      field: 'tjm',
+      type: PlutoColumnType.currency(defaultValue: .0, locale: 'fr'),
+      // non-éditable
+      enableEditingMode: true,
+    ),
+    PlutoColumn(
+      width: 110,
+      title: 'Frais',
+      field: 'fees',
+      type: PlutoColumnType.currency(defaultValue: .0, locale: 'fr'),
+      // non-éditable car calculé
+      enableEditingMode: false,
+      footerRenderer: (rendererContext) => PlutoAggregateColumnFooter(
+          rendererContext: rendererContext,
+          type: PlutoAggregateColumnType.sum,
+          format: '####€',
+          filter: (cell) {
+            print(cell.value.runtimeType);
+            return true;
           },
-          child: const Icon(Icons.add),
-        ));
-  }
+          formatAsCurrency: true,
+          alignment: Alignment.center,
+          titleSpanBuilder: (data) => [
+                const TextSpan(text: 'Total', style: TextStyle(color: Colors.blueGrey)),
+                const TextSpan(text: ': '),
+                TextSpan(text: data),
+              ]),
+    ),
+  ];
+
+  // 2. Déclaration de nos cellules et leurs valeurs.
+  final rows = [
+    PlutoRow(
+      cells: {
+        'people': PlutoCell(value: "Dayan"),
+        'section': PlutoCell(value: "Conception"),
+        'jours': PlutoCell(),
+        'tjm': PlutoCell(value: 600),
+        'fees': PlutoCell(),
+      },
+    ),
+    PlutoRow(
+      cells: {
+        'people': PlutoCell(value: "Nicolas"),
+        'section': PlutoCell(value: "UX"),
+        'jours': PlutoCell(),
+        'tjm': PlutoCell(value: 520),
+        'fees': PlutoCell(),
+      },
+    ),
+    PlutoRow(
+      cells: {
+        'people': PlutoCell(value: "Hicham"),
+        'section': PlutoCell(value: "Design"),
+        'jours': PlutoCell(),
+        'tjm': PlutoCell(value: 560),
+        'fees': PlutoCell(),
+      },
+    ),
+    PlutoRow(
+      cells: {
+        'people': PlutoCell(value: "Florient"),
+        'section': PlutoCell(value: "DevOps"),
+        'jours': PlutoCell(),
+        'tjm': PlutoCell(value: 700),
+        'fees': PlutoCell(),
+      },
+    ),
+  ];
+
+  @override
+  build(context) => Container(
+      padding: const EdgeInsets.all(15),
+      child: PlutoGrid(
+          columns: columns,
+          rows: rows,
+          // Premier chargement du widget
+          // Nous interception le gestionnaire d'état pour commander
+          // les futures MAJ de la grille
+          onLoaded: (load) => stateManager = load.stateManager,
+          // Une mise à jour de cellule a eu lieu
+          onChanged: (change) {
+            final row = change.rowIdx;
+
+            final jours = stateManager.refRows[row].cells['jours']?.value;
+            final tjm = stateManager.refRows[row].cells['tjm']?.value;
+
+            // Appel de la librairie FormulaJS pour effectuer le calcul de formule
+            final totalRow = js.context.callMethod('eval', ['formulajs.PRODUCT([$jours, $tjm])']);
+            stateManager.refRows[row].cells['fees']?.value = "$totalRow";
+            stateManager.notifyListeners();
+          }));
 }
+
+void main() => runApp(MaterialApp(
+        home: Scaffold(
+      appBar: AppBar(title: const Center(child: Text('Gestion de Projet'))),
+      body: Column(
+        children: [
+          Card(
+              child: ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    minHeight: 90,
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Text("Vous pouvez modifier les valeurs des colonnes jours et taux "
+                        "pour mettre à jour les calculs."),
+                  ))),
+          const Expanded(child: FlexelApp()),
+        ],
+      ),
+    )));
