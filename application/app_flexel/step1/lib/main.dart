@@ -3,8 +3,12 @@ import 'package:pluto_grid/pluto_grid.dart';
 
 /*
 
-  PlutoGrid est un Widget complexe qui permet de créer des tableaux
-  configurable sur tous les aspects.
+  PlutoGrid est un Widget riche qui permet de créer des tableaux
+  configurables sur tous les aspects.
+
+  La procédure la plus simple consiste à déclarer les colonnes
+  et leurs options (Titre, type et fonctionnalités) puis les
+  cellules et leurs valeurs et enfin instancier la grille.
 
  */
 
@@ -17,7 +21,7 @@ class PlutoGridDemo extends StatelessWidget {
       width: 80,
       // Titre de la Colonne
       title: 'Saison',
-      // Nom du champs
+      // Nom fonctionnel du champs
       field: 'season',
       // Type de cellule
       type: PlutoColumnType.text(),
@@ -32,19 +36,23 @@ class PlutoGridDemo extends StatelessWidget {
         width: 90,
         title: 'Score',
         field: 'score',
+        // Un nombre
         type: PlutoColumnType.number(),
+        // Ajout d'un footer qui calcul automatiquement la moyenne des points
         footerRenderer: (rendererContext) => PlutoAggregateColumnFooter(
             rendererContext: rendererContext,
-            type: PlutoAggregateColumnType.sum,
+            // D'autres options sont disponibles
+            type: PlutoAggregateColumnType.average,
             format: '#,###',
             alignment: Alignment.center,
             titleSpanBuilder: (text) => [
-                  const TextSpan(text: 'Total', style: TextStyle(color: Colors.red)),
+                  const TextSpan(text: 'Moyenne', style: TextStyle(color: Colors.red)),
                   const TextSpan(text: ' : '),
                   TextSpan(text: text),
                 ]))
   ];
 
+  // 2. Déclaration de nos cellules et leurs valeurs.
   final rows = [
     PlutoRow(
       cells: {
@@ -82,6 +90,7 @@ class PlutoGridDemo extends StatelessWidget {
         child: PlutoGrid(
             columns: columns,
             rows: rows,
+            // Ajouter une option de coloration en fonction de la valeur de la cellule
             rowColorCallback: (rowColorContext) => rowColorContext.row.cells.entries.elementAt(2).value.value > 9
                 ? Colors.blueAccent
                 : Colors.transparent),
