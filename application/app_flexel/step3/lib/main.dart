@@ -25,6 +25,9 @@ class _FlexelAppState extends State<FlexelApp> {
   // Gestionnaire d'état de notre instance PlutoGrid
   late final PlutoGridStateManager stateManager;
 
+  // Résultat de notre tableau
+  double total = .0;
+
   // 1. Définition de nos colonnes
   static final columns = [
     PlutoColumn(
@@ -67,21 +70,6 @@ class _FlexelAppState extends State<FlexelApp> {
       type: PlutoColumnType.currency(defaultValue: .0, locale: 'fr'),
       // non-éditable car calculé
       enableEditingMode: false,
-      footerRenderer: (rendererContext) => PlutoAggregateColumnFooter(
-          rendererContext: rendererContext,
-          type: PlutoAggregateColumnType.sum,
-          format: '####€',
-          filter: (cell) {
-            print(cell.value.runtimeType);
-            return true;
-          },
-          formatAsCurrency: true,
-          alignment: Alignment.center,
-          titleSpanBuilder: (data) => [
-                const TextSpan(text: 'Total', style: TextStyle(color: Colors.blueGrey)),
-                const TextSpan(text: ': '),
-                TextSpan(text: data),
-              ]),
     ),
   ];
 
@@ -128,43 +116,82 @@ class _FlexelAppState extends State<FlexelApp> {
   @override
   build(context) => Container(
       padding: const EdgeInsets.all(15),
-      child: PlutoGrid(
-          columns: columns,
-          rows: rows,
-          // Premier chargement du widget
-          // Nous interception le gestionnaire d'état pour commander
-          // les futures MAJ de la grille
-          onLoaded: (load) => stateManager = load.stateManager,
-          // Une mise à jour de cellule a eu lieu
-          onChanged: (change) {
-            final row = change.rowIdx;
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Flexible(
+              flex: 2,
+              child: PlutoGrid(
+                  columns: columns,
+                  rows: rows,
+                  // Premier chargement du widget
+                  // Nous interception le gestionnaire d'état pour commander
+                  // les futures MAJ de la grille
+                  onLoaded: (load) => stateManager = load.stateManager,
+                  // Une mise à jour de cellule a eu lieu
+                  onChanged: (change) {
+                    // Récupérer la ligne active après une sélection de cellule
+                    final row = change.rowIdx;
 
-            final jours = stateManager.refRows[row].cells['jours']?.value;
-            final tjm = stateManager.refRows[row].cells['tjm']?.value;
+                    // Les valeurs jours et tjm sur cette ligne sont extraites
+                    final jours = stateManager.refRows[row].cells['jours']?.value;
+                    final tjm = stateManager.refRows[row].cells['tjm']?.value;
 
-            // Appel de la librairie FormulaJS pour effectuer le calcul de formule
-            final totalRow = js.context.callMethod('eval', ['formulajs.PRODUCT([$jours, $tjm])']);
-            stateManager.refRows[row].cells['fees']?.value = "$totalRow";
-            stateManager.notifyListeners();
-          }));
+                    // Appel de la librairie FormulaJS pour effectuer le calcul de formule
+                    final formula = 'formulajs.PRODUCT([$jours, $tjm])';
+                    print("Estimation de la formule: [$formula]");
+                    final totalRow = js.context.callMethod('eval', [formula]);
+
+                    // La colonne de frais est mise à jour avec la valeur renvoyée par JS
+                    stateManager.refRows[row].cells['fees']?.value = "$totalRow";
+
+                    try {
+                      // Mettre à jour notre total sur le projet
+                      setState(() {
+                        // Addition l'ensemble de la colonne fees
+                        // On récupère la valeur de chaque cellule de la colonne fees
+                        // dans une liste qui `Fold()` par addition
+                        total = stateManager.refRows.originalList.map<double>((row) {
+                          final content = row.cells['fees']?.value;
+                          return content is double ? content : double.parse(content);
+                        }).fold(.0, (p, e) => p + e);
+                      });
+                    } catch (e, s) {
+                      print('Exception $e');
+                    }
+                  })),
+          Flexible(
+            child: Text(
+              "Total: $total €",
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+            ),
+          )
+        ],
+      ));
 }
 
 void main() => runApp(MaterialApp(
         home: Scaffold(
       appBar: AppBar(title: const Center(child: Text('Gestion de Projet'))),
       body: Column(
-        children: [
-          Card(
-              child: ConstrainedBox(
-                  constraints: const BoxConstraints(
-                    minHeight: 90,
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(16),
-                    child: Text("Vous pouvez modifier les valeurs des colonnes jours et taux "
-                        "pour mettre à jour les calculs."),
-                  ))),
-          const Expanded(child: FlexelApp()),
+        children: const [
+          Explications(),
+          Expanded(child: FlexelApp()),
         ],
       ),
     )));
+
+/// Message sur le fonctionnement
+class Explications extends StatelessWidget {
+  const Explications({super.key});
+
+  @override
+  build(context) => Card(
+      child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 90),
+          child: const Padding(
+            padding: EdgeInsets.all(16),
+            child: Text("Vous pouvez modifier les valeurs des colonnes jours et taux "
+                "pour mettre à jour les calculs."),
+          )));
+}
