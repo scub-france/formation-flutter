@@ -1,5 +1,6 @@
 import 'package:logging/logging.dart';
 
+/// Dans cet exemple, nous allons créer des micro-services qui généreront des logs
 void main() {
   // Configuration du root logger pour affichage des messages
   // du niveaux souhaité et supérieur à ce niveau rappel les
