@@ -34,9 +34,9 @@ void main() {
 }
 
 void logMessage() {
-  log.warning('message d\' log différent');
-  log.info('message d\' log différent');
-  log.info('message d\' log différent');
+  log.warning('message d\'un log différent');
+  log.info('message d\'un log différent');
+  log.info('message d\'un log différent');
 }
 
 
