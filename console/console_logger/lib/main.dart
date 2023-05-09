@@ -51,7 +51,7 @@ void main() {
 class Person {
   final String name;
   final int age;
-  final Logger log = Logger('Person');
+  final log = Logger('Person');
 
   Person(this.name, this.age){
     log.config("Création de $runtimeType");
@@ -64,7 +64,7 @@ class Person {
 
 class Student extends Person {
   final String school;
-  final Logger log = Logger('Student');
+  final log = Logger('Student');
 
   Student(String name, int age, this.school) : super(name, age);
 
@@ -75,7 +75,7 @@ class Student extends Person {
 
 class Teacher extends Person {
   final String subject;
-  final Logger log = Logger('Teacher');
+  final log = Logger('Teacher');
 
   Teacher(String name, int age, this.subject) : super(name, age);
 
@@ -86,7 +86,7 @@ class Teacher extends Person {
 
 class Employee extends Person {
   final String company;
-  final Logger log = Logger('Employee');
+  final log = Logger('Employee');
 
   Employee(String name, int age, this.company) : super(name, age);
 
