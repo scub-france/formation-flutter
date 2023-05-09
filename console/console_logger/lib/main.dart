@@ -45,7 +45,6 @@ void main() {
 class Person {
   String name;
   int age;
-  static final tab = [1, 2, 3];
   static Logger log = Logger('Person');
 
   Person(this.name, this.age);
