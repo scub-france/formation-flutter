@@ -6,17 +6,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /*
 
-    Provider
+    === State: Riverpod ===
 
-    L'exemple précédent bien que fonctionnel peut
-    rapidement devenir trop verbeux dans le cadre
-    d'un vrai projet.
-
-    La librairie provider permet de conserver sa
-    mécanique tout en simplifiant sa syntaxe.
-
-    Refactorons notre code précédent avec une
-    meilleure modélisation.
+    Riverpod externalise la gestion des états hors 
+    de Flutter.
 
  */
 
